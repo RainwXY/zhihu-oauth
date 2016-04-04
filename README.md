@@ -4,6 +4,8 @@
 
 尝试解析出知乎官方未开放的 OAuth2 接口，并提供优雅的使用方式，作为 [zhihu-py3][zhihu-py3-github] 项目的替代者，目前还在实验阶段。
 
+这一新库与 zhihu-py3 相比更加稳定，而且速度更快，有关速度对比的详细信息请点击[这里][]
+
 由于现在使用的 CLIENT_ID 和 SECRET 的获取方法并不正当，所以暂时不要大规模宣传， Thanks。
 
 ## 使用
@@ -182,10 +184,11 @@ Python 代码的可阅读性很强，我想应该不用解释吧……看代码�
 - [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
 - [ ] 用户消息
 - [ ] Me 类的各种操作，比如评论，点赞，私信……etc
-- [ ] 添加与 zhihu-py3 的速度对比
+- [x] 添加与 zhihu-py3 的速度对比
 - [ ] 文档
 - [x] 规范化，`__init__` 函数，`__all__` 变量，import 方式
 - [ ] 打包成模块
 
 [zhihu-py3-github]: https://github.com/7sDream/zhihu-py3
 [zhihu-info-image]: http://ww2.sinaimg.cn/mw690/88e401f0jw1f2l5my58zxj20xc1hc45z.jpg
+[speed-compare]: https://github.com/7sDream/zhihu-oauth/blob/master/compare.md
