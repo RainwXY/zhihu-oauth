@@ -175,7 +175,7 @@ Python 代码的可阅读性很强，我想应该不用解释吧……看代码�
 
 - [ ] 增加从 web URL 构建相应类的方法
 - [ ] CLIENT_ID 和 SECRET 可自定义，为知乎开放 API 申请做准备
-- [ ] 将 oauth2.setting 中的 API URL 放到其他合适的地方
+- [x] 将 oauth2.setting 中的 API URL 放到其他合适的地方
 - [ ] people.activities 用户动态
 - [ ] topic.activities 话题动态
 - [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
@@ -183,7 +183,8 @@ Python 代码的可阅读性很强，我想应该不用解释吧……看代码�
 - [ ] 用户消息
 - [ ] Me 类的各种操作，比如评论，点赞，私信……etc
 - [ ] 文档
-- [ ] 规范化接口，`__init__` 函数，import 方式，并打包成模块
+- [x] 规范化，`__init__` 函数，`__all__` 变量，import 方式
+- [ ] 打包成模块
 
 [zhihu-py3-github]: https://github.com/7sDream/zhihu-py3
 [zhihu-info-image]: http://ww3.sinaimg.cn/large/88e401f0jw1f2l12775jhj20xc1hc45z.jpg
