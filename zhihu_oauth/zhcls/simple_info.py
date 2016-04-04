@@ -20,6 +20,10 @@ def simple_info(name_in_cache=None):
             elif self._cache and _can_get_from(name, self._cache):
                 return self._cache[name]
             else:
+                # id is important, when there is no data, _build_url need it,
+                # so, just return the function result
+                if name == 'id':
+                    return func(self, *args, **kwargs)
                 self._get_data()
                 if _can_get_from(name, self._data):
                     return self._data[name]

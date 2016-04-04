@@ -134,3 +134,9 @@ class ZhihuClient:
         from .zhcls import Me
 
         return Me(self._token.user_id, None, self._session)
+
+    # ----- get zhihu classes from ids -----
+
+    def people(self, id):
+        from .zhcls.people import People
+        return People(id, None, self._session)
