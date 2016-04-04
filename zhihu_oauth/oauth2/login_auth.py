@@ -1,7 +1,6 @@
 from .android_auth import ImZhihuAndroidClient
 from .setting import CLIENT_ID
 
-
 __all__ = ['LoginAuth']
 
 

@@ -1,6 +1,5 @@
 import requests
 
-
 __all__ = [
     "UnexpectedResponseException",
     "NeedCaptchaException",

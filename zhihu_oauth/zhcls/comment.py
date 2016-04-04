@@ -3,9 +3,11 @@ from .simple_info import simple_info
 from .generator import generator_of
 
 from ..oauth2.setting import (
-    COMMENT_REPLIES_URL,
     COMMENT_CONVERSION_URL,
+    COMMENT_REPLIES_URL,
 )
+
+__all__ = ['Comment']
 
 
 class Comment(Base):

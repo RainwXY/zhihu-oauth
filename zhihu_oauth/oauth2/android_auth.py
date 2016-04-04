@@ -2,7 +2,6 @@ from requests.auth import AuthBase
 
 from .setting import API_VERSION, APP_VERSION, APP_BUILD, APP_ZA
 
-
 __all__ = ['ImZhihuAndroidClient']
 
 

@@ -18,18 +18,17 @@ from ..oauth2.setting import (
     PEOPLE_QUESTIONS_URL,
 )
 
-
 __all__ = ['ANONYMOUS', 'People']
 
 
 class Anonymous:
     pass
 
+
 ANONYMOUS = Anonymous()
 
 
 class People(Base):
-
     def __init__(self, id, cache, session):
         super(People, self).__init__(id, cache, session)
 

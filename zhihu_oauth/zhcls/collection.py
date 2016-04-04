@@ -6,8 +6,8 @@ from .generator import generator_of
 from ..oauth2.setting import (
     COLLECTION_DETAIL_URL,
     COLLECTION_ANSWERS_URL,
-    COLLECTION_FOLLOWERS_URL,
     COLLECTION_COMMENTS_URL,
+    COLLECTION_FOLLOWERS_URL,
 )
 
 

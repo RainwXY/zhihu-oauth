@@ -2,7 +2,6 @@ from requests.auth import AuthBase
 
 from .token import ZhihuToken
 
-
 __all__ = ['ZhihuOAuth2']
 
 

@@ -1,11 +1,9 @@
 import urllib.parse
 
-
 # ------- Zhihu OAuth Keys -------
 
 CLIENT_ID = '8d5227e0aaaa4797a763ac64e0c3b8'
 APP_SECRET = 'ecbefbf6b17e47ecb9035107866380'
-
 
 # ------- Zhihu Client Info -------
 
@@ -22,7 +20,6 @@ APP_ZA = urllib.parse.urlencode({
     'Height': '1824',
     'Installer': '知乎',
 })
-
 
 # ------- Zhihu API URLs --------
 
@@ -59,7 +56,6 @@ LOGIN_DATA = {
     'username': '',
     'password': '',
 }
-
 
 # ----- 用户相关 -----
 
@@ -115,7 +111,6 @@ PEOPLE_FOLLOWINGS_URL = PEOPLE_DETAIL_URL + '/followees'
 
 PEOPLE_QUESTIONS_URL = PEOPLE_DETAIL_URL + '/questions'
 
-
 # ----- 答案相关 -----
 
 # answer - GET - 详情
@@ -133,7 +128,6 @@ ANSWER_COMMENTS_URL = ANSWER_DETAIL_URL + '/comments'
 # answer.voters - GET - 点赞用户
 
 ANSWER_VOTERS_URL = ANSWER_DETAIL_URL + '/voters'
-
 
 # ----- 问题相关 -----
 
@@ -156,7 +150,6 @@ QUESTION_FOLLOWERS_URL = QUESTION_DETAIL_URL + '/followers'
 # question.topics - GET - 所属话题
 
 QUESTION_TOPICS_URL = QUESTION_DETAIL_URL + '/topics'
-
 
 # ----- 话题相关 -----
 
@@ -188,7 +181,6 @@ TOPIC_PARENTS_URL = TOPIC_DETAIL_URL + '/parent'
 
 TOPIC_UNANSWERED_QUESTION = TOPIC_DETAIL_URL + '/unanswered_questions'
 
-
 # ----- 收藏夹相关 -----
 
 # collection - GET - 详情
@@ -207,7 +199,6 @@ COLLECTION_COMMENTS_URL = COLLECTION_DETAIL_URL + '/comments'
 
 COLLECTION_FOLLOWERS_URL = COLLECTION_DETAIL_URL + '/followers?offset=0'
 
-
 # ----- 专栏相关 -----
 
 # column - GET - 详情
@@ -222,7 +213,6 @@ COLUMN_ARTICLES_URL = COLUMN_DETAIL_URL + '/articles'
 
 COLUMN_FOLLOWERS_URL = COLUMN_DETAIL_URL + '/followers'
 
-
 # ----- 文章相关 -----
 
 # article - GET - 详情
@@ -236,7 +226,6 @@ ARTICLE_VOTE_URL = ARTICLE_DETAIL_URL + '/voters'
 # article.comments - GET - 评论
 
 ARTICLE_COMMENTS_URL = ARTICLE_DETAIL_URL + '/comments'
-
 
 # ----- 评论相关 -----
 

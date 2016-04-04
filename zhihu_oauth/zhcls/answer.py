@@ -5,13 +5,13 @@ from .generator import generator_of
 from .other_obj import other_obj
 
 from ..oauth2.setting import (
-    ANSWER_VOTERS_URL,
+    ANSWER_DETAIL_URL,
     ANSWER_COLLECTIONS_URL,
     ANSWER_COMMENTS_URL,
+    ANSWER_VOTERS_URL,
 )
 
-
-__all__ = ["ANONYMOUS", "Answer"]
+__all__ = ["Answer"]
 
 
 class Answer(Base):
@@ -19,7 +19,6 @@ class Answer(Base):
         super(Answer, self).__init__(id, cache, session)
 
     def _build_url(self):
-        from ..oauth2.setting import ANSWER_DETAIL_URL
         return ANSWER_DETAIL_URL.format(self.id)
 
     # ----- simple info -----

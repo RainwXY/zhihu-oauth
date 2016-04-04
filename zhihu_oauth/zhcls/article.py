@@ -9,6 +9,8 @@ from ..oauth2.setting import (
     ARTICLE_COMMENTS_URL,
 )
 
+__all__ = ['Article']
+
 
 class Article(Base):
     def __init__(self, id, cache, session):
@@ -91,5 +93,4 @@ class Article(Base):
     def comments(self):
         return None
 
-    # TODO: article.voters, API 接口未知
-
+        # TODO: article.voters, API 接口未知

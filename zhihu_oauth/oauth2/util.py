@@ -4,7 +4,6 @@ import time
 
 from .setting import APP_SECRET
 
-
 __all__ = ['login_signature']
 
 

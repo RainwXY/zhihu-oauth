@@ -1,6 +1,8 @@
 import functools
 import importlib
 
+__all__ = ['other_obj']
+
 
 def other_obj(class_name=None, name_in_json=None):
     def wrappers_wrapper(func):
@@ -19,5 +21,7 @@ def other_obj(class_name=None, name_in_json=None):
                 self._get_data()
                 cache = self._data[name_in_j]
             return cls(cache['id'], cache, self._session)
+
         return wrapper
+
     return wrappers_wrapper

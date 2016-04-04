@@ -1,11 +1,9 @@
 import json
 
-
 __all__ = ['Base']
 
 
 class Base:
-
     def __init__(self, id, cache, session):
         self._id = id
         self._cache = cache
@@ -40,6 +38,7 @@ class Base:
     def refresh(self):
         self._data = self._cache = None
 
+    @property
     def pure_data(self):
         return {
             'cache': self._cache,

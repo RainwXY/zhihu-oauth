@@ -4,16 +4,14 @@ import sys
 import time
 import importlib
 
-
 from ..exception import UnexpectedResponseException
 
-
-__all__ = ['AnswerGenerator', 'PeopleGenerator', 'QuestionGenerator',
-           'generator_of']
+__all__ = ['BaseGenerator', 'AnswerGenerator', 'ArticleGenerator',
+           'CollectionGenerator', 'ColumnGenerator', 'CommentGenerator',
+           'PeopleGenerator', 'QuestionGenerator', 'TopicGenerator']
 
 
 class BaseGenerator:
-
     def __init__(self, url, session):
         self._url = url
         self._session = session
@@ -89,7 +87,6 @@ class BaseGenerator:
 
 
 class AnswerGenerator(BaseGenerator):
-
     def __init__(self, url, session):
         super(AnswerGenerator, self).__init__(url, session)
 
@@ -99,7 +96,6 @@ class AnswerGenerator(BaseGenerator):
 
 
 class ArticleGenerator(BaseGenerator):
-
     def __init__(self, url, session):
         super(ArticleGenerator, self).__init__(url, session)
 
@@ -109,7 +105,6 @@ class ArticleGenerator(BaseGenerator):
 
 
 class CollectionGenerator(BaseGenerator):
-
     def __init__(self, url, session):
         super(CollectionGenerator, self).__init__(url, session)
 
@@ -119,7 +114,6 @@ class CollectionGenerator(BaseGenerator):
 
 
 class ColumnGenerator(BaseGenerator):
-
     def __init__(self, url, session):
         super(ColumnGenerator, self).__init__(url, session)
 
@@ -129,7 +123,6 @@ class ColumnGenerator(BaseGenerator):
 
 
 class CommentGenerator(BaseGenerator):
-
     def __init__(self, url, session):
         super(CommentGenerator, self).__init__(url, session)
 
@@ -139,7 +132,6 @@ class CommentGenerator(BaseGenerator):
 
 
 class PeopleGenerator(BaseGenerator):
-
     def __init__(self, url, session):
         super(PeopleGenerator, self).__init__(url, session)
 
@@ -149,7 +141,6 @@ class PeopleGenerator(BaseGenerator):
 
 
 class QuestionGenerator(BaseGenerator):
-
     def __init__(self, url, session):
         super(QuestionGenerator, self).__init__(url, session)
 
@@ -198,5 +189,7 @@ def generator_of(url_pattern, class_name=None, name_in_json=None):
             gen_cls_name = cls_name + 'Generator'
             gen_cls = getattr(sys.modules[__name__], gen_cls_name)
             return gen_cls(url_pattern.format(self.id), self._session)
+
         return wrapper
+
     return wrappers_wrapper

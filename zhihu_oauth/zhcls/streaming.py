@@ -1,5 +1,7 @@
 import functools
 
+__all__ = ['StreamingJSON', 'streaming']
+
 
 class StreamingJSON:
     def __init__(self, json_data):
@@ -54,5 +56,7 @@ def streaming(name_in_cache=None):
                 self._get_data()
                 cache = self._data[name]
             return StreamingJSON(cache)
+
         return wrapper
+
     return wrappers_wrapper

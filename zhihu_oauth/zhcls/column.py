@@ -5,14 +5,16 @@ from .generator import generator_of
 
 from ..oauth2.setting import (
     COLUMN_DETAIL_URL,
-    COLUMN_FOLLOWERS_URL,
     COLUMN_ARTICLES_URL,
+    COLUMN_FOLLOWERS_URL,
 )
+
+__all__ = ['Column']
 
 
 class Column(Base):
     def __init__(self, id, cache, session):
-        super(Column, self).__init__(id, cache,session)
+        super(Column, self).__init__(id, cache, session)
 
     def _build_url(self):
         return COLUMN_DETAIL_URL.format(self.id)

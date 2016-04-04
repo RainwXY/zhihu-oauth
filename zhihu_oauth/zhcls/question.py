@@ -11,7 +11,6 @@ from ..oauth2.setting import (
     QUESTION_TOPICS_URL,
 )
 
-
 __all__ = ['Question']
 
 

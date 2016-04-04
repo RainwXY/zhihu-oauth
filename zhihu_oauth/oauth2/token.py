@@ -2,7 +2,6 @@ import json
 import pickle
 import time
 
-
 __all__ = ['ZhihuToken']
 
 

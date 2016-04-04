@@ -11,6 +11,8 @@ from ..oauth2.setting import (
     TOPIC_UNANSWERED_QUESTION,
 )
 
+__all__ = ['Topic']
+
 
 class Topic(Base):
     def __init__(self, id, cache, session):

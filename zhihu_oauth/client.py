@@ -1,7 +1,6 @@
 import base64
 import getpass
 import json
-import logging
 import os
 
 import requests
@@ -15,11 +14,7 @@ from .oauth2.token import ZhihuToken
 from .oauth2.util import login_signature
 from .setting import CAPTCHA_FILE
 
-
 __all__ = ['ZhihuClient']
-
-
-log = logging.getLogger(__name__)
 
 
 class ZhihuClient:
@@ -30,7 +25,6 @@ class ZhihuClient:
 
     def need_captcha(self):
         res = self._session.get(CAPTCHA_URL, auth=self._login_auth)
-        log.debug(res.text)
         try:
             j = res.json()
             return j['show_captcha']
@@ -43,7 +37,6 @@ class ZhihuClient:
     def get_captcha(self):
         self.need_captcha()
         res = self._session.put(CAPTCHA_URL, auth=self._login_auth)
-        log.debug(res.text)
         try:
             j = res.json()
             return base64.decodebytes(bytes(j['img_base64'], 'utf8'))
@@ -54,7 +47,7 @@ class ZhihuClient:
                 'a json string contain a img_base64 item.'
             )
 
-    def login(self, username: str, password: str, captcha: str=None):
+    def login(self, username: str, password: str, captcha: str = None):
         """登录知乎的主要方法
 
         :param str username: 用户名，可以为手机或邮箱
@@ -74,7 +67,6 @@ class ZhihuClient:
                 auth=self._login_auth,
                 data={'input_text': captcha}
             )
-            log.debug(res.text)
             try:
                 json_dict = res.json()
                 if 'error' in json_dict:
@@ -88,7 +80,6 @@ class ZhihuClient:
 
         login_signature(data)
         res = self._session.post(LOGIN_URL, auth=LoginAuth(), data=data)
-        log.debug(res.text)
         try:
             json_dict = res.json()
             if 'error' in json_dict:
