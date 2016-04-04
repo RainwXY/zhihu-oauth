@@ -1,10 +1,9 @@
 from .base import Base
-from .simple_info import simple_info
-from .other_obj import other_obj
-from .streaming import streaming
 from .generator import generator_of
-
-from ..oauth2.setting import (
+from .other_obj import other_obj
+from .simple_info import simple_info
+from .streaming import streaming
+from .urls import (
     ARTICLE_DETAIL_URL,
     ARTICLE_COMMENTS_URL,
 )

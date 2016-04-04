@@ -1,9 +1,8 @@
 from .base import Base
-from .simple_info import simple_info
-from .other_obj import other_obj
 from .generator import generator_of
-
-from ..oauth2.setting import (
+from .other_obj import other_obj
+from .simple_info import simple_info
+from .urls import (
     COLUMN_DETAIL_URL,
     COLUMN_ARTICLES_URL,
     COLUMN_FOLLOWERS_URL,

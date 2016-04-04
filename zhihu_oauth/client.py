@@ -5,14 +5,14 @@ import os
 
 import requests
 
-from .utils import need_login
 from .exception import UnexpectedResponseException, NeedCaptchaException
-from .oauth2 import LoginAuth
+from .oauth2.login_auth import LoginAuth
 from .oauth2.oauth2_auth import ZhihuOAuth2
-from .oauth2.setting import CAPTCHA_URL, LOGIN_URL, LOGIN_DATA
 from .oauth2.token import ZhihuToken
 from .oauth2.util import login_signature
+from .oauth2.setting import CAPTCHA_URL, LOGIN_URL, LOGIN_DATA
 from .setting import CAPTCHA_FILE
+from .utils import need_login
 
 __all__ = ['ZhihuClient']
 

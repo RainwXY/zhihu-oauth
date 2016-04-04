@@ -1,9 +1,8 @@
 from .base import Base
+from .generator import generator_of
 from .simple_info import simple_info
 from .streaming import streaming
-from .generator import generator_of
-
-from ..oauth2.setting import (
+from zhihu_oauth.zhcls.urls import (
     QUESTION_DETAIL_URL,
     QUESTION_ANSWERS_URL,
     QUESTION_COMMENTS_URL,

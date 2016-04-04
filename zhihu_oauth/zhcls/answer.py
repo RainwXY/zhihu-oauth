@@ -1,10 +1,9 @@
 from .base import Base
-from .simple_info import simple_info
-from .streaming import streaming
 from .generator import generator_of
 from .other_obj import other_obj
-
-from ..oauth2.setting import (
+from .simple_info import simple_info
+from .streaming import streaming
+from .urls import (
     ANSWER_DETAIL_URL,
     ANSWER_COLLECTIONS_URL,
     ANSWER_COMMENTS_URL,

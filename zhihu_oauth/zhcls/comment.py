@@ -1,8 +1,7 @@
 from .base import Base
-from .simple_info import simple_info
 from .generator import generator_of
-
-from ..oauth2.setting import (
+from .simple_info import simple_info
+from zhihu_oauth.zhcls.urls import (
     COMMENT_CONVERSION_URL,
     COMMENT_REPLIES_URL,
 )

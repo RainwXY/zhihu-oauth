@@ -1,9 +1,8 @@
 from .base import Base
+from .generator import generator_of
 from .simple_info import simple_info
 from .streaming import streaming
-from .generator import generator_of
-
-from ..oauth2.setting import (
+from .urls import (
     PEOPLE_DETAIL_URL,
     PEOPLE_ANSWERS_URL,
     PEOPLE_ARTICLES_URL,

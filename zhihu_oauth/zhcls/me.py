@@ -1,5 +1,5 @@
 from .people import People
-from ..oauth2.setting import SELF_DETAIL_URL
+from .urls import SELF_DETAIL_URL
 
 __all__ = ['Me']
 
