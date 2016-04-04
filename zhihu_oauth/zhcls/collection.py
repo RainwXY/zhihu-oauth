@@ -52,7 +52,7 @@ class Collection(Base):
     @property
     @simple_info()
     def id(self):
-        return None
+        return self._id
 
     @property
     @simple_info()

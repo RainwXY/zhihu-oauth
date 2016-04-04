@@ -43,3 +43,11 @@ class NeedLoginException(BaseException):
 
     def __str__(self):
         return 'Need login to use the "{self.what}" method.'.format(self=self)
+
+
+class IdMustBeIntException(BaseException):
+    def __init__(self, func):
+        self.func = func.__name__
+
+    def __str__(self):
+        return "id argument of {self.func} must be int".format(self=self)

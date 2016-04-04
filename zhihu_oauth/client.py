@@ -12,7 +12,7 @@ from .oauth2.token import ZhihuToken
 from .oauth2.util import login_signature
 from .oauth2.setting import CAPTCHA_URL, LOGIN_URL, LOGIN_DATA
 from .setting import CAPTCHA_FILE
-from .utils import need_login
+from .utils import need_login, int_id
 
 __all__ = ['ZhihuClient']
 
@@ -137,6 +137,35 @@ class ZhihuClient:
 
     # ----- get zhihu classes from ids -----
 
+    @int_id
+    def answer(self, id):
+        from .zhcls.answer import Answer
+        return Answer(id, None, self._session)
+
+    @int_id
+    def article(self, id):
+        from .zhcls.article import Article
+        return Article(id, None, self._session)
+
+    @int_id
+    def collection(self, id):
+        from .zhcls.collection import Collection
+        return Collection(id, None, self._session)
+
+    def column(self, id):
+        from .zhcls.column import Column
+        return Column(id, None, self._session)
+
     def people(self, id):
         from .zhcls.people import People
         return People(id, None, self._session)
+
+    @int_id
+    def question(self, id):
+        from .zhcls.question import Question
+        return Question(id, None, self._session)
+
+    @int_id
+    def topic(self, id):
+        from .zhcls.topic import Topic
+        return Topic(id, None, self._session)

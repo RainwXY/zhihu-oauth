@@ -173,7 +173,7 @@ Python 代码的可阅读性很强，我想应该不用解释吧……看代码�
 
 ## TODO
 
-- [ ] 增加从 web URL 构建相应类的方法
+- [x] 增加从 id 构建相应类的方法
 - [ ] CLIENT_ID 和 SECRET 可自定义，为知乎开放 API 申请做准备
 - [x] 将 oauth2.setting 中的 API URL 放到其他合适的地方
 - [ ] people.activities 用户动态
