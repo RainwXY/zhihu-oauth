@@ -2,12 +2,10 @@ import hashlib
 import hmac
 import time
 
-from .setting import APP_SECRET
-
 __all__ = ['login_signature']
 
 
-def login_signature(data: dict) -> dict:
+def login_signature(data: dict, secret: str) -> dict:
     data['timestamp'] = str(int(time.time()))
 
     params = ''.join([
@@ -18,7 +16,7 @@ def login_signature(data: dict) -> dict:
     ])
 
     data['signature'] = hmac.new(
-        bytes(APP_SECRET, 'utf8'),
+        bytes(secret, 'utf8'),
         bytes(params, 'utf8'),
         hashlib.sha1
     ).hexdigest()

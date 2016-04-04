@@ -45,10 +45,11 @@ CAPTCHA_URL = ZHIHU_API_ROOT + '/captcha'
 # sign_in - POST - 用户登录
 
 LOGIN_URL = ZHIHU_API_ROOT + '/sign_in'
+
 LOGIN_DATA = {
-    'client_id': CLIENT_ID,
     'grant_type': 'password',
     'source': 'com.zhihu.android',
+    'client_id': '',
     'signature': '',
     'timestamp': '',
     'username': '',

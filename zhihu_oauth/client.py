@@ -10,7 +10,9 @@ from .oauth2.login_auth import LoginAuth
 from .oauth2.oauth2_auth import ZhihuOAuth2
 from .oauth2.token import ZhihuToken
 from .oauth2.util import login_signature
-from .oauth2.setting import CAPTCHA_URL, LOGIN_URL, LOGIN_DATA
+from .oauth2.setting import (
+    CAPTCHA_URL, LOGIN_URL, LOGIN_DATA, CLIENT_ID, APP_SECRET
+)
 from .setting import CAPTCHA_FILE
 from .utils import need_login, int_id
 
@@ -18,9 +20,13 @@ __all__ = ['ZhihuClient']
 
 
 class ZhihuClient:
-    def __init__(self):
+
+    #  client_id and secret should have default value after zhihu open it's api
+    def __init__(self, client_id=CLIENT_ID, secret=APP_SECRET):
         self._session = requests.session()
-        self._login_auth = LoginAuth()
+        self._client_id = client_id
+        self._secret = secret
+        self._login_auth = LoginAuth(self._client_id)
         self._token = None
 
     def need_captcha(self):
@@ -77,9 +83,10 @@ class ZhihuClient:
         data = dict(LOGIN_DATA)
         data['username'] = email
         data['password'] = password
+        data['client_id'] = self._client_id
 
-        login_signature(data)
-        res = self._session.post(LOGIN_URL, auth=LoginAuth(), data=data)
+        login_signature(data, self._secret)
+        res = self._session.post(LOGIN_URL, auth=self._login_auth, data=data)
         try:
             json_dict = res.json()
             if 'error' in json_dict:

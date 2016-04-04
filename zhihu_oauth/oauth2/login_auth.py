@@ -1,11 +1,10 @@
 from .android_auth import ImZhihuAndroidClient
-from .setting import CLIENT_ID
 
 __all__ = ['LoginAuth']
 
 
 class LoginAuth(ImZhihuAndroidClient):
-    def __init__(self, client_id=CLIENT_ID):
+    def __init__(self, client_id):
         super(LoginAuth, self).__init__()
         self.client_id = client_id
 
