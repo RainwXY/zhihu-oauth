@@ -24,9 +24,6 @@ class Comment(Base):
     @property
     @simple_info()
     def ancestor(self):
-        """ 不知道是干什么的，好像永远是 False
-        """
-        # TODO: 搞清楚 comment.ancestor 是干啥的
         return None
 
     @property

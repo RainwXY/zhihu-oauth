@@ -88,4 +88,5 @@ class Collection(Base):
         知乎的这个 API 有问题，返回一些之后会将 is_end 设置为 True，
         导致无法获取到所有的关注者，并且此问题在知乎官方API上也存在
         """
+        # TODO: collection.followers 这个 API 不稳定
         return None

@@ -182,9 +182,10 @@ Python 代码的可阅读性很强，我想应该不用解释吧……看代码�
 - [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
 - [ ] 用户消息
 - [ ] Me 类的各种操作，比如评论，点赞，私信……etc
+- [ ] 添加与 zhihu-py3 的速度对比
 - [ ] 文档
 - [x] 规范化，`__init__` 函数，`__all__` 变量，import 方式
 - [ ] 打包成模块
 
 [zhihu-py3-github]: https://github.com/7sDream/zhihu-py3
-[zhihu-info-image]: http://ww3.sinaimg.cn/large/88e401f0jw1f2l12775jhj20xc1hc45z.jpg
+[zhihu-info-image]: http://ww2.sinaimg.cn/mw690/88e401f0jw1f2l5my58zxj20xc1hc45z.jpg
