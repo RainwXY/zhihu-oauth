@@ -36,7 +36,7 @@ from zhihu_oauth import ZhihuClient
 
 client = ZhihuClient()
 
-client.login_in_terminal() # or ('email', ;password)
+client.login_in_terminal() # or ('email', 'password')
 ```
 
 第三种方式，载入 token 文件
@@ -129,7 +129,7 @@ print('----------')
 
 # 获取最近提的 5 个问题
 for _, question in zip(range(5), me.questions):
-    print(question.title, question.excerpt)
+    print(question.title, question.answer_count)
 
 print('----------')
 
