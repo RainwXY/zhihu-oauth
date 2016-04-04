@@ -47,10 +47,10 @@ class ZhihuClient:
                 'a json string contain a img_base64 item.'
             )
 
-    def login(self, username: str, password: str, captcha: str = None):
+    def login(self, email: str, password: str, captcha: str = None):
         """登录知乎的主要方法
 
-        :param str username: 用户名，可以为手机或邮箱
+        :param str email: 邮箱
         :param str password: 密码
         :param str captcha: 验证码，可以为空
 
@@ -75,7 +75,7 @@ class ZhihuClient:
                 return False, 'UnexpectedResponse'
 
         data = dict(LOGIN_DATA)
-        data['username'] = username
+        data['username'] = email
         data['password'] = password
 
         login_signature(data)
@@ -91,14 +91,14 @@ class ZhihuClient:
         except (ValueError, json.JSONDecodeError):
             return False, 'UnexpectedResponse'
 
-    def login_in_terminal(self, username=None, password=None):
+    def login_in_terminal(self, email=None, password=None):
 
         print('----- Zhihu OAuth Login -----')
-        username = username or input('username: ')
+        email = email or input('email: ')
         password = password or getpass.getpass('password: ')
 
         try:
-            success, reason = self.login(username, password)
+            success, reason = self.login(email, password)
         except NeedCaptchaException:
             print('Need for a captcha, getting it......')
             captcha_image = self.get_captcha()
@@ -107,7 +107,7 @@ class ZhihuClient:
             print('Please open {0} for captcha'.format(
                 os.path.abspath(CAPTCHA_FILE)))
             captcha = input('captcha: ')
-            success, reason = self.login(username, password, captcha)
+            success, reason = self.login(email, password, captcha)
 
         if success:
             print('Login successful.')
