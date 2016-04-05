@@ -193,6 +193,7 @@ Python 代码的可阅读性很强，我想应该不用解释吧……看代码�
 - [ ] topic.activities 话题动态
 - [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
 - [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
+- [x] answer.save 和 article.save
 - [ ] 用户消息
 - [ ] Me 类的各种操作，比如评论，点赞，私信……etc
 - [x] 添加与 zhihu-py3 的速度对比
