@@ -1,10 +1,22 @@
+# coding=utf-8
+
+from __future__ import unicode_literals, print_function
+
 import functools
 
 __all__ = ['simple_info']
 
+try:
+    # noinspection PyCompatibility,PyUnresolvedReferences,PyUnboundLocalVariable
+    basestring
+except NameError:
+    # noinspection PyShadowingBuiltins
+    basestring = str
+
 
 def _can_get_from(name, data):
-    return data and name in data and isinstance(data[name], (str, int, float))
+    return data and name in data and isinstance(data[name],
+                                                (basestring, int, float))
 
 
 def simple_info(name_in_cache=None):
@@ -25,6 +37,7 @@ def simple_info(name_in_cache=None):
                 if name == 'id':
                     return func(self, *args, **kwargs)
                 self._get_data()
+                # noinspection PyTypeChecker
                 if _can_get_from(name, self._data):
                     return self._data[name]
                 else:

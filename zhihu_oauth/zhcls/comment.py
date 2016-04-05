@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .base import Base
 from .generator import generator_of
 from .simple_info import simple_info
@@ -10,8 +14,8 @@ __all__ = ['Comment']
 
 
 class Comment(Base):
-    def __init__(self, id, cache, session):
-        super(Comment, self).__init__(id, cache, session)
+    def __init__(self, cid, cache, session):
+        super(Comment, self).__init__(cid, cache, session)
 
     def _get_data(self):
         self._data = None

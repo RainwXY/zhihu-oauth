@@ -1,14 +1,22 @@
-import requests
+# coding=utf-8
+
+from __future__ import unicode_literals
+
+try:
+    from json import JSONDecodeError as MyJSONDecodeError
+except ImportError:
+    MyJSONDecodeError = BaseException
 
 __all__ = [
-    "UnexpectedResponseException",
-    "NeedCaptchaException",
-    "NeedLoginException"
+    'UnexpectedResponseException',
+    'NeedCaptchaException',
+    'NeedLoginException',
+    'MyJSONDecodeError',
 ]
 
 
 class UnexpectedResponseException(BaseException):
-    def __init__(self, url: str, res: requests.Response, expect: str):
+    def __init__(self, url, res, expect):
         self.url = url
         self.res = res
         self.expect = expect
@@ -20,7 +28,7 @@ class UnexpectedResponseException(BaseException):
 
 
 class UnimplementedException(BaseException):
-    def __init__(self, what: str):
+    def __init__(self, what):
         self.what = what
 
     def __str__(self):
@@ -38,7 +46,7 @@ class NeedCaptchaException(BaseException):
 
 
 class NeedLoginException(BaseException):
-    def __init__(self, what: str):
+    def __init__(self, what):
         self.what = what
 
     def __str__(self):

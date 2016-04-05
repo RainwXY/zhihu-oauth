@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .base import Base
 from .generator import generator_of
 from .simple_info import simple_info
@@ -14,8 +18,8 @@ __all__ = ['Topic']
 
 
 class Topic(Base):
-    def __init__(self, id, cache, session):
-        super(Topic, self).__init__(id, cache, session)
+    def __init__(self, tid, cache, session):
+        super(Topic, self).__init__(tid, cache, session)
 
     def _build_url(self):
         return TOPIC_DETAIL_URL.format(self.id)

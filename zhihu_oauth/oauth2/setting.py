@@ -1,4 +1,14 @@
-import urllib.parse
+# coding=utf-8
+
+from __future__ import unicode_literals
+
+try:
+    # python2
+    from urllib import urlencode
+except ImportError:
+    # python3
+    # noinspection PyUnresolvedReferences,PyCompatibility
+    from urllib.parse import urlencode
 
 ZHIHU_API_ROOT = 'https://api.zhihu.com'
 
@@ -12,7 +22,7 @@ APP_SECRET = 'ecbefbf6b17e47ecb9035107866380'
 API_VERSION = '3.0.16'
 APP_VERSION = '3.2.0'
 APP_BUILD = 'release'
-APP_ZA = urllib.parse.urlencode({
+APP_ZA = urlencode({
     'OS': 'Android',
     'Release': '6.0.1',
     'Model': 'Nexus 7',
@@ -20,7 +30,7 @@ APP_ZA = urllib.parse.urlencode({
     'VersionCode': '307',
     'Width': '1200',
     'Height': '1824',
-    'Installer': '知乎',
+    'Installer': '知乎'.encode('utf-8'),
 })
 
 # app_config - GET - 获取应用配置信息，一些彩蛋的资料

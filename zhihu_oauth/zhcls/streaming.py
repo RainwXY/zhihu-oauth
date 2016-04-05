@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 import functools
 
 __all__ = ['StreamingJSON', 'streaming']
@@ -47,6 +51,7 @@ class StreamingJSON:
 
 def streaming(name_in_cache=None):
     def wrappers_wrapper(func):
+        # noinspection PyUnusedLocal
         @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
             name = name_in_cache if name_in_cache else func.__name__

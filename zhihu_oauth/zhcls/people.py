@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .base import Base
 from .generator import generator_of
 from .simple_info import simple_info
@@ -20,7 +24,7 @@ from .urls import (
 __all__ = ['ANONYMOUS', 'People']
 
 
-class Anonymous:
+class Anonymous(object):
     pass
 
 
@@ -28,8 +32,8 @@ ANONYMOUS = Anonymous()
 
 
 class People(Base):
-    def __init__(self, id, cache, session):
-        super(People, self).__init__(id, cache, session)
+    def __init__(self, pid, cache, session):
+        super(People, self).__init__(pid, cache, session)
 
     def _build_url(self):
         return PEOPLE_DETAIL_URL.format(self.id)

@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 import functools
 import importlib
 
@@ -6,6 +10,7 @@ __all__ = ['other_obj']
 
 def other_obj(class_name=None, name_in_json=None):
     def wrappers_wrapper(func):
+        # noinspection PyUnusedLocal
         @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
             cls_name = class_name or func.__name__

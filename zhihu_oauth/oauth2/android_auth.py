@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from requests.auth import AuthBase
 
 from .setting import API_VERSION, APP_VERSION, APP_BUILD, APP_ZA

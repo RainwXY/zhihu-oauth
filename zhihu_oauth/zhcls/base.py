@@ -1,11 +1,15 @@
-import json
+# coding=utf-8
+
+from __future__ import unicode_literals
+
+from ..exception import MyJSONDecodeError
 
 __all__ = ['Base']
 
 
-class Base:
-    def __init__(self, id, cache, session):
-        self._id = id
+class Base(object):
+    def __init__(self, zhihu_obj_id, cache, session):
+        self._id = zhihu_obj_id
         self._cache = cache
         self._session = session
         self._data = None
@@ -20,7 +24,7 @@ class Base:
             )
             try:
                 self._data = res.json()
-            except json.JSONDecodeError:
+            except MyJSONDecodeError:
                 self._data = None
 
     def _build_url(self):

@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .people import People
 from .urls import SELF_DETAIL_URL
 
@@ -5,8 +9,8 @@ __all__ = ['Me']
 
 
 class Me(People):
-    def __init__(self, id, cache, session):
-        super(Me, self).__init__(id, cache, session)
+    def __init__(self, pid, cache, session):
+        super(Me, self).__init__(pid, cache, session)
 
     def _build_url(self):
         return SELF_DETAIL_URL

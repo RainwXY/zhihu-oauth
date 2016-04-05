@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 import functools
 
 from .exception import NeedLoginException, IdMustBeIntException
@@ -17,6 +21,7 @@ def need_login(func):
 
 
 def int_id(func):
+    # noinspection PyShadowingBuiltins
     @functools.wraps(func)
     def wrapper(self, id, *args, **kwargs):
         if not isinstance(id, int):

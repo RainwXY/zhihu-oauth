@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .login_auth import LoginAuth
 from .oauth2_auth import ZhihuOAuth2
 from .token import ZhihuToken

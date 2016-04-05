@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .base import Base
 from .generator import generator_of
 from .other_obj import other_obj
@@ -12,8 +16,8 @@ __all__ = ['Column']
 
 
 class Column(Base):
-    def __init__(self, id, cache, session):
-        super(Column, self).__init__(id, cache, session)
+    def __init__(self, cid, cache, session):
+        super(Column, self).__init__(cid, cache, session)
 
     def _build_url(self):
         return COLUMN_DETAIL_URL.format(self.id)

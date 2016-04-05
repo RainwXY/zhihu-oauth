@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .base import Base
 from .generator import generator_of
 from .simple_info import simple_info
@@ -14,8 +18,8 @@ __all__ = ['Question']
 
 
 class Question(Base):
-    def __init__(self, id, cache, session):
-        super(Question, self).__init__(id, cache, session)
+    def __init__(self, qid, cache, session):
+        super(Question, self).__init__(qid, cache, session)
 
     def _build_url(self):
         return QUESTION_DETAIL_URL.format(self._id)

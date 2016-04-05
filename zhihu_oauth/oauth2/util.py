@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 import hashlib
 import hmac
 import time
@@ -5,7 +9,7 @@ import time
 __all__ = ['login_signature']
 
 
-def login_signature(data: dict, secret: str) -> dict:
+def login_signature(data, secret):
     data['timestamp'] = str(int(time.time()))
 
     params = ''.join([
@@ -16,7 +20,7 @@ def login_signature(data: dict, secret: str) -> dict:
     ])
 
     data['signature'] = hmac.new(
-        bytes(secret, 'utf8'),
-        bytes(params, 'utf8'),
+        secret.encode('utf-8'),
+        params.encode('utf-8'),
         hashlib.sha1
     ).hexdigest()

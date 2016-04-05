@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .base import Base
 from .generator import generator_of
 from .other_obj import other_obj
@@ -12,8 +16,8 @@ __all__ = ['Article']
 
 
 class Article(Base):
-    def __init__(self, id, cache, session):
-        super(Article, self).__init__(id, cache, session)
+    def __init__(self, aid, cache, session):
+        super(Article, self).__init__(aid, cache, session)
 
     def _build_url(self):
         return ARTICLE_DETAIL_URL.format(self.id)
@@ -92,4 +96,4 @@ class Article(Base):
     def comments(self):
         return None
 
-        # TODO: article.voters, API 接口未知
+    # TODO: article.voters, API 接口未知

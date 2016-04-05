@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals, print_function
+
 import os
 
 from zhihu_oauth import ZhihuClient

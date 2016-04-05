@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 from .base import Base
 from .generator import generator_of
 from .other_obj import other_obj
@@ -14,8 +18,8 @@ __all__ = ["Answer"]
 
 
 class Answer(Base):
-    def __init__(self, id, cache, session):
-        super(Answer, self).__init__(id, cache, session)
+    def __init__(self, aid, cache, session):
+        super(Answer, self).__init__(aid, cache, session)
 
     def _build_url(self):
         return ANSWER_DETAIL_URL.format(self.id)

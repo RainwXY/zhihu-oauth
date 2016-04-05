@@ -1,17 +1,20 @@
-import json
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 import functools
 import sys
 import time
 import importlib
 
-from ..exception import UnexpectedResponseException
+from ..exception import UnexpectedResponseException, MyJSONDecodeError
 
 __all__ = ['BaseGenerator', 'AnswerGenerator', 'ArticleGenerator',
            'CollectionGenerator', 'ColumnGenerator', 'CommentGenerator',
            'PeopleGenerator', 'QuestionGenerator', 'TopicGenerator']
 
 
-class BaseGenerator:
+class BaseGenerator(object):
     def __init__(self, url, session):
         self._url = url
         self._session = session
@@ -44,7 +47,7 @@ class BaseGenerator:
                 self._next_url = None
             else:
                 self._next_url = json_dict['paging']['next']
-        except (json.JSONDecodeError, AttributeError):
+        except (MyJSONDecodeError, AttributeError):
             raise UnexpectedResponseException(
                 self._next_url,
                 res,
@@ -80,7 +83,7 @@ class BaseGenerator:
         self._index = 0
         self._up = 0
         self._next_url = self._url
-        self._data.clear()
+        del self._data[:]
         return self
 
 
@@ -158,6 +161,7 @@ class TopicGenerator(BaseGenerator):
 
 def generator_of(url_pattern, class_name=None, name_in_json=None):
     def wrappers_wrapper(func):
+        # noinspection PyUnusedLocal
         @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
             cls_name = class_name or func.__name__

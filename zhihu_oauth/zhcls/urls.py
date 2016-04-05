@@ -1,3 +1,7 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 # ------- Zhihu API URLs --------
 
 ZHIHU_API_ROOT = 'https://api.zhihu.com'

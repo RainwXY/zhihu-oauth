@@ -1,14 +1,20 @@
+# coding=utf-8
+
+from __future__ import unicode_literals
+
 import json
 import pickle
 import time
+
+from ..exception import MyJSONDecodeError
 
 __all__ = ['ZhihuToken']
 
 
 class ZhihuToken:
-    def __init__(self, user_id: int, uid: str, access_token: str, lock_in: int,
-                 expires_in: int, token_type: str, unlock_ticket: str,
-                 refresh_token: str, cookie: str):
+    def __init__(self, user_id, uid, access_token, lock_in,
+                 expires_in, token_type, unlock_ticket,
+                 refresh_token, cookie):
         self._create_at = time.time()
         self._user_id = uid
         self._uid = user_id
@@ -22,17 +28,17 @@ class ZhihuToken:
         self._cookie = cookie
 
     @staticmethod
-    def from_str(json_str: str):
+    def from_str(json_str):
         try:
             return ZhihuToken.from_dict(json.loads(json_str))
-        except json.JSONDecodeError:
+        except MyJSONDecodeError:
             raise ValueError(
                 '"{json_str}" is NOT a valid zhihu token json string.'.format(
                     json_str=json_str
                 ))
 
     @staticmethod
-    def from_dict(json_dict: dict):
+    def from_dict(json_dict):
         try:
             return ZhihuToken(**json_dict)
         except TypeError:
@@ -42,11 +48,11 @@ class ZhihuToken:
                 ))
 
     @staticmethod
-    def from_file(filename: str):
+    def from_file(filename):
         with open(filename, 'rb') as f:
             return pickle.load(f)
 
-    def save(self, filename: str):
+    def save(self, filename):
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
 

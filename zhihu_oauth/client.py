@@ -1,26 +1,37 @@
+# coding=utf-8
+
+from __future__ import print_function, unicode_literals
+
 import base64
 import getpass
-import json
 import os
 
 import requests
 
-from .exception import UnexpectedResponseException, NeedCaptchaException
 from .oauth2.login_auth import LoginAuth
 from .oauth2.oauth2_auth import ZhihuOAuth2
 from .oauth2.token import ZhihuToken
 from .oauth2.util import login_signature
+from .setting import CAPTCHA_FILE
+from .utils import need_login, int_id
 from .oauth2.setting import (
     CAPTCHA_URL, LOGIN_URL, LOGIN_DATA, CLIENT_ID, APP_SECRET
 )
-from .setting import CAPTCHA_FILE
-from .utils import need_login, int_id
+from .exception import (
+    UnexpectedResponseException, NeedCaptchaException, MyJSONDecodeError
+)
 
 __all__ = ['ZhihuClient']
 
+try:
+    # noinspection PyShadowingBuiltins,PyUnresolvedReferences
+    input = raw_input
+except NameError:
+    pass
 
+
+# noinspection PyShadowingBuiltins
 class ZhihuClient:
-
     #  client_id and secret shouldn't have default value after zhihu open api
     def __init__(self, client_id=CLIENT_ID, secret=APP_SECRET):
         self._session = requests.session()
@@ -34,7 +45,7 @@ class ZhihuClient:
         try:
             j = res.json()
             return j['show_captcha']
-        except (json.JSONDecodeError, AttributeError):
+        except (MyJSONDecodeError, AttributeError):
             raise UnexpectedResponseException(
                 CAPTCHA_URL, res,
                 'a json data with show_captcha item'
@@ -45,15 +56,16 @@ class ZhihuClient:
         res = self._session.put(CAPTCHA_URL, auth=self._login_auth)
         try:
             j = res.json()
-            return base64.decodebytes(bytes(j['img_base64'], 'utf8'))
-        except json.JSONDecodeError:
+            # noinspection PyDeprecation
+            return base64.decodestring(j['img_base64'].encode('utf-8'))
+        except MyJSONDecodeError:
             raise UnexpectedResponseException(
                 CAPTCHA_URL,
                 res,
                 'a json string contain a img_base64 item.'
             )
 
-    def login(self, email: str, password: str, captcha: str = None):
+    def login(self, email, password, captcha=None):
         """登录知乎的主要方法
 
         :param str email: 邮箱
@@ -76,8 +88,8 @@ class ZhihuClient:
             try:
                 json_dict = res.json()
                 if 'error' in json_dict:
-                    return False, json_dict['error']
-            except json.JSONDecodeError:
+                    return False, json_dict['error']['message']
+            except MyJSONDecodeError:
                 return False, 'UnexpectedResponse'
 
         data = dict(LOGIN_DATA)
@@ -90,12 +102,12 @@ class ZhihuClient:
         try:
             json_dict = res.json()
             if 'error' in json_dict:
-                return False, json_dict['error']
+                return False, json_dict['error']['message']
             else:
                 self._token = ZhihuToken.from_dict(json_dict)
                 self._session.auth = ZhihuOAuth2(self._token)
                 return True, ''
-        except (ValueError, json.JSONDecodeError):
+        except (ValueError, MyJSONDecodeError):
             return False, 'UnexpectedResponse'
 
     def login_in_terminal(self, email=None, password=None):
@@ -114,6 +126,7 @@ class ZhihuClient:
             print('Please open {0} for captcha'.format(
                 os.path.abspath(CAPTCHA_FILE)))
             captcha = input('captcha: ')
+            os.remove(os.path.abspath(CAPTCHA_FILE))
             success, reason = self.login(email, password, captcha)
 
         if success:
@@ -140,7 +153,7 @@ class ZhihuClient:
     def save_token(self, filename):
         self._token.save(filename)
 
-    def is_login(self) -> bool:
+    def is_login(self):
         return self._token is not None
 
     @need_login
