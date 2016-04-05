@@ -186,21 +186,21 @@ Python 代码的可阅读性很强，我想应该不用解释吧……看代码�
 
 ## TODO
 
-- [x] 增加从 id 构建相应类的方法
-- [x] CLIENT_ID 和 SECRET 可自定义，为知乎开放 API 申请做准备
 - [x] 将 oauth2.setting 中的 API URL 放到其他合适的地方
+- [x] 规范化，`__init__` 函数，`__all__` 变量，import 方式
+- [x] CLIENT_ID 和 SECRET 可自定义，为知乎开放 API 申请做准备
+- [x] 增加从 id 构建相应类的方法
+- [x] 添加与 zhihu-py3 的速度对比
+- [x] answer.save 和 article.save
+- [ ] 文档
+- [ ] 打包成模块
+- [ ] 规范的测试
 - [ ] people.activities 用户动态
 - [ ] topic.activities 话题动态
 - [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
 - [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
-- [x] answer.save 和 article.save
-- [ ] 用户消息
+- [ ] 获取用户消息。新关注者，新评论，关注的回答有新问题，有私信等。
 - [ ] Me 类的各种操作，比如评论，点赞，私信……etc
-- [x] 添加与 zhihu-py3 的速度对比
-- [ ] 文档
-- [ ] 规范的测试
-- [x] 规范化，`__init__` 函数，`__all__` 变量，import 方式
-- [ ] 打包成模块
 - [ ] 保证对 Python 2 和 3 的兼容性
 
 [zhihu-py3-github]: https://github.com/7sDream/zhihu-py3
