@@ -117,9 +117,20 @@ class ZhihuClient:
             success, reason = self.login(email, password, captcha)
 
         if success:
-            print('Login successful.')
+            print('Login success.')
         else:
             print('Login failed, reason: ', reason)
+
+        return success, reason
+
+    def create_token(self, filename, email=None, password=None):
+        success, reason = self.login_in_terminal(email, password)
+        if success:
+            self.save_token(filename)
+            print('Token file created success.')
+        else:
+            print('Token file created failed.')
+        return success, reason
 
     def load_token(self, filename):
         self._token = ZhihuToken.from_file(filename)
@@ -136,43 +147,50 @@ class ZhihuClient:
     def test_api(self, method, url, params=None, data=None):
         return self._session.request(method, url, params, data)
 
+    # ----- get zhihu classes from ids -----
+
+    @int_id
+    @need_login
+    def answer(self, id):
+        from .zhcls.answer import Answer
+        return Answer(id, None, self._session)
+
+    @int_id
+    @need_login
+    def article(self, id):
+        from .zhcls.article import Article
+        return Article(id, None, self._session)
+
+    @int_id
+    @need_login
+    def collection(self, id):
+        from .zhcls.collection import Collection
+        return Collection(id, None, self._session)
+
+    @need_login
+    def column(self, id):
+        from .zhcls.column import Column
+        return Column(id, None, self._session)
+
     @need_login
     def me(self):
         from .zhcls import Me
 
         return Me(self._token.user_id, None, self._session)
 
-    # ----- get zhihu classes from ids -----
-
-    @int_id
-    def answer(self, id):
-        from .zhcls.answer import Answer
-        return Answer(id, None, self._session)
-
-    @int_id
-    def article(self, id):
-        from .zhcls.article import Article
-        return Article(id, None, self._session)
-
-    @int_id
-    def collection(self, id):
-        from .zhcls.collection import Collection
-        return Collection(id, None, self._session)
-
-    def column(self, id):
-        from .zhcls.column import Column
-        return Column(id, None, self._session)
-
+    @need_login
     def people(self, id):
         from .zhcls.people import People
         return People(id, None, self._session)
 
     @int_id
+    @need_login
     def question(self, id):
         from .zhcls.question import Question
         return Question(id, None, self._session)
 
     @int_id
+    @need_login
     def topic(self, id):
         from .zhcls.topic import Topic
         return Topic(id, None, self._session)
