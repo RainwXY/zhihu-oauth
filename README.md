@@ -200,6 +200,7 @@ Python 代码的可阅读性很强，我想应该不用解释吧……看代码�
 - [ ] 规范的测试
 - [x] 规范化，`__init__` 函数，`__all__` 变量，import 方式
 - [ ] 打包成模块
+- [ ] 保证对 Python 2 和 3 的兼容性
 
 [zhihu-py3-github]: https://github.com/7sDream/zhihu-py3
 [zhihu-info-image]: http://ww2.sinaimg.cn/mw690/88e401f0jw1f2l5my58zxj20xc1hc45z.jpg
