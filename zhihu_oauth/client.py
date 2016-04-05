@@ -30,17 +30,32 @@ except NameError:
     pass
 
 
-# noinspection PyShadowingBuiltins
 class ZhihuClient:
-    #  client_id and secret shouldn't have default value after zhihu open api
-    def __init__(self, client_id=CLIENT_ID, secret=APP_SECRET):
+    def __init__(self, client_id=None, secret=None):
+        """
+        知乎客户端，这是获取所有类的入口。
+
+        :param str client_id: 客户端 ID。
+        :param str secret: 客户端 ID 对应的 SECRET KEY。
+        :rtype: ZhihuClient
+        """
         self._session = requests.session()
-        self._client_id = client_id
-        self._secret = secret
+        # client_id and secret shouldn't have default value
+        # after zhihu open api
+        self._client_id = client_id or CLIENT_ID
+        self._secret = secret or APP_SECRET
         self._login_auth = LoginAuth(self._client_id)
         self._token = None
 
     def need_captcha(self):
+        """
+        一般来说此方法不需要手动调用，
+        在调用 :meth:`.login` 时捕获 :class:`NeedCaptchaException` 即可。
+        而 :meth:`.login_in_terminal` 会自动处理需要验证码的情况。
+
+        :return: 下次登录是否需要验证码。
+        :rtype: bool
+        """
         res = self._session.get(CAPTCHA_URL, auth=self._login_auth)
         try:
             j = res.json()
@@ -52,28 +67,34 @@ class ZhihuClient:
             )
 
     def get_captcha(self):
-        self.need_captcha()
-        res = self._session.put(CAPTCHA_URL, auth=self._login_auth)
-        try:
-            j = res.json()
-            # noinspection PyDeprecation
-            return base64.decodestring(j['img_base64'].encode('utf-8'))
-        except MyJSONDecodeError:
-            raise UnexpectedResponseException(
-                CAPTCHA_URL,
-                res,
-                'a json string contain a img_base64 item.'
-            )
+        """
+        :return: 如果需要验证码，则返回 bytes 型验证码，不需要则返回 None。
+        :rtype: None | bytes
+        """
+        if self.need_captcha():
+            res = self._session.put(CAPTCHA_URL, auth=self._login_auth)
+            try:
+                j = res.json()
+                # noinspection PyDeprecation
+                return base64.decodestring(j['img_base64'].encode('utf-8'))
+            except MyJSONDecodeError:
+                raise UnexpectedResponseException(
+                    CAPTCHA_URL,
+                    res,
+                    'a json string contain a img_base64 item.'
+                )
+        return None
 
     def login(self, email, password, captcha=None):
-        """登录知乎的主要方法
+        """
+        登录知乎的主要方法。
 
-        :param str email: 邮箱
-        :param str password: 密码
-        :param str captcha: 验证码，可以为空
+        :param str email: 邮箱。
+        :param str password: 密码。
+        :param str captcha: 验证码，可以为空。
 
+        :return: 二元元组，第一个元素表示是否成功，第二个元素表示失败原因。
         :rtype: tuple(bool, str)
-        :return: 二元元组，第一个元素表示是否成功，第二个元素表示失败原因
         """
 
         if captcha is None:
@@ -111,7 +132,16 @@ class ZhihuClient:
             return False, 'UnexpectedResponse'
 
     def login_in_terminal(self, email=None, password=None):
+        """
+        为在命令行模式下使用本库的用户提供的快捷登录方法。
+        在未提供 email 或 password 参数时会在终端中请求输入。
+        会自动处理验证码需要验证码情况。
 
+        :param str email: 邮箱，可能手机号也可以吧，我没测试。
+        :param str password: 密码咯。
+        :return: 同 :meth:`.login` 。
+        :rtype: (bool, str)
+        """
         print('----- Zhihu OAuth Login -----')
         email = email or input('email: ')
         password = password or getpass.getpass('password: ')
@@ -137,6 +167,16 @@ class ZhihuClient:
         return success, reason
 
     def create_token(self, filename, email=None, password=None):
+        """
+        另一个快捷方法，作用为调用 :meth:`.login_in_terminal`
+        如果成功则将 token 储存文件中。
+
+        :param str filename: token 保存的文件名
+        :param str email: 邮箱，手机不知道可不可以
+        :param str password: 密码
+        :return: 同 :meth:`.login`
+        :rtype: tuple(bool, str)
+        """
         success, reason = self.login_in_terminal(email, password)
         if success:
             self.save_token(filename)
@@ -146,64 +186,164 @@ class ZhihuClient:
         return success, reason
 
     def load_token(self, filename):
+        """
+        通过载入 token 文件来达到登录状态。
+
+        :param str filename: token 文件名。
+        :return: 无返回值，也就是说其实不知道是否登录成功。
+        """
         self._token = ZhihuToken.from_file(filename)
         self._session.auth = ZhihuOAuth2(self._token)
 
     @need_login
     def save_token(self, filename):
+        """
+        将通过登录获取到的 token 保存为文件，必须是已登录状态才能调用。
+
+        :param str filename: 将 token 储存为文件。
+        :return: 无返回值。
+        """
         self._token.save(filename)
 
     def is_login(self):
+        """
+        :return: 是否已登录。但其实只是检查内部的 token 是否是 None。
+        :rtype: bool
+        """
         return self._token is not None
 
     @need_login
     def test_api(self, method, url, params=None, data=None):
+        """
+        开发时用的测试某个 API 返回的 JSON 用的便捷接口。
+        就是用内部 session 发送请求。
+
+        :param str method: HTTP 方式， GET or POST or OPTION, etc。
+        :param str url: API 地址。
+        :param dict params: GET 参数。
+        :param dict data: POST 参数。
+        :return: 访问结果。
+        :rtype: request.Response
+        """
         return self._session.request(method, url, params, data)
 
     # ----- get zhihu classes from ids -----
 
     @int_id
     @need_login
-    def answer(self, id):
+    def answer(self, aid):
+        """
+        获取答案对象，需要 Client 是登录状态。
+
+        答案 ID 的获取方法是查看知乎答案所在网址的 URL。
+        举例：https://www.zhihu.com/question/xxxxxx/answer/1234567
+        的答案 ID 是 1234567。
+
+        :param int aid: 答案 ID。
+        :rtype: :class:`Answer`
+        """
         from .zhcls.answer import Answer
-        return Answer(id, None, self._session)
+        return Answer(aid, None, self._session)
 
     @int_id
     @need_login
-    def article(self, id):
+    def article(self, aid):
+        """
+        获取文章对象，需要 Client 是登录状态。
+
+        文章 ID 的获取方法是查看知乎文章所在网址的 URL。
+        举例：http://zhuanlan.zhihu.com/p/1234567 的文章 ID 是 1234567。
+
+        :param int aid: 文章 ID。
+        :rtype: :class:`Article`
+        """
         from .zhcls.article import Article
-        return Article(id, None, self._session)
+        return Article(aid, None, self._session)
 
     @int_id
     @need_login
-    def collection(self, id):
+    def collection(self, cid):
+        """
+        获取收藏夹对象，需要 Client 是登录状态。
+
+        收藏夹的 ID 的获取方法是查看知乎收藏夹所在网址的 URL。
+        举例：https://www.zhihu.com/collection/1234567 的收藏夹 ID 是 1234567。
+
+        :param int cid: 收藏夹 ID
+        :rtype: :class:`Collection`
+        """
         from .zhcls.collection import Collection
-        return Collection(id, None, self._session)
+        return Collection(cid, None, self._session)
 
     @need_login
-    def column(self, id):
+    def column(self, cid):
+        """
+        获取专栏对象，需要 Client 是登录状态。
+
+        专栏 ID 的获取方法是查看知乎收藏夹所在网址的 URL。
+        举例：http://zhuanlan.zhihu.com/abcdefg 的专栏 ID 是 abcdefg。
+
+        :param str cid: 专栏 ID，注意，类型是字符串。
+        :rtype: :class:`Column`
+        """
         from .zhcls.column import Column
-        return Column(id, None, self._session)
+        return Column(cid, None, self._session)
 
     @need_login
     def me(self):
-        from .zhcls import Me
+        """
+        获取当前登录的用户，需要 Client 是登录状态。
 
+        :class:`Me` 类继承于 :class:`People`，是一个不同于其他用户的类。设想中
+        这个类用于提供各种操作，比如点赞，评论，私信等。但是现在还未实现。
+
+        :rtype: :class:`Me`
+        """
+        # TODO: me 类各种操作实现后记得更新 docstring
+
+        from .zhcls import Me
         return Me(self._token.user_id, None, self._session)
 
     @need_login
-    def people(self, id):
+    def people(self, pid):
+        """
+        获取用户对象，需要 Client 是登录状态。
+
+        用户 ID 的获取方法是查看知乎用户个人主页的 URL。
+        举例：http://www.zhihu.com/people/abcdefg 的用户 ID 是 abcdefg。
+
+        :param str pid: 用户 ID，注意，类型是字符串。
+        :rtype: :class:`Column`
+        """
         from .zhcls.people import People
-        return People(id, None, self._session)
+        return People(pid, None, self._session)
 
     @int_id
     @need_login
-    def question(self, id):
+    def question(self, qid):
+        """
+        获取问题对象，需要 Client 是登录状态。
+
+        问题 ID 的获取方法是查看知乎问题的 URL。
+        举例：http://www.zhihu.com/question/1234567 的问题 ID 是 1234567。
+
+        :param str qid: 问题 ID。
+        :rtype: :class:`Question`
+        """
         from .zhcls.question import Question
-        return Question(id, None, self._session)
+        return Question(qid, None, self._session)
 
     @int_id
     @need_login
-    def topic(self, id):
+    def topic(self, tid):
+        """
+        获取话题对象，需要 Client 是登录状态。
+
+        话题 ID 的获取方法是查看知乎话题的 URL。
+        举例：http://www.zhihu.com/tipoc/1234567 的话题 ID 是 1234567。
+
+        :param str tid: 话题 ID。
+        :rtype: :class:`Topic`
+        """
         from .zhcls.topic import Topic
-        return Topic(id, None, self._session)
+        return Topic(tid, None, self._session)
