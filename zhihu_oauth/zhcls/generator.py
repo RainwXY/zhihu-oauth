@@ -36,8 +36,6 @@ class BaseGenerator:
 
                 self._need_sleep *= 2
                 time.sleep(self._need_sleep)
-                print(res.url)
-                print(json_dict)
                 return
             self._need_sleep = 0.5
             self._up += len(json_dict['data'])
@@ -173,6 +171,10 @@ def generator_of(url_pattern, class_name=None, name_in_json=None):
             module = importlib.import_module(file_name, 'zhihu_oauth.zhcls')
             cls = getattr(module, cls_name)
 
+            # ---- the following code may cause a bug ---
+
+            # TODO: figure out if there is a bug in this code
+
             if self._cache and name_in_j in self._cache and \
                     isinstance(self._cache[name_in_j], list):
                 cache_list = self._cache[name_in_j]
@@ -180,10 +182,6 @@ def generator_of(url_pattern, class_name=None, name_in_json=None):
                         for cache in cache_list)
 
             self._get_data()
-
-            # ---- the following code may cause a bug ---
-
-            # TODO: figure out if there is a bug in this code
 
             if self._data and name_in_j in self._data and \
                     isinstance(self._data[name_in_j], list):

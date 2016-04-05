@@ -21,7 +21,7 @@ __all__ = ['ZhihuClient']
 
 class ZhihuClient:
 
-    #  client_id and secret should have default value after zhihu open it's api
+    #  client_id and secret shouldn't have default value after zhihu open api
     def __init__(self, client_id=CLIENT_ID, secret=APP_SECRET):
         self._session = requests.session()
         self._client_id = client_id

@@ -142,7 +142,7 @@ COLLECTION_COMMENTS_URL = COLLECTION_DETAIL_URL + '/comments'
 
 # collection.followers - GET - 粉丝
 
-COLLECTION_FOLLOWERS_URL = COLLECTION_DETAIL_URL + '/followers?offset=0'
+COLLECTION_FOLLOWERS_URL = COLLECTION_DETAIL_URL + '/followers'
 
 # ----- 专栏相关 -----
 
