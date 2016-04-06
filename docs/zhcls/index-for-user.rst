@@ -8,3 +8,4 @@ Zhihu Classes - 知乎相关类
     article
     collection
     column
+    comment

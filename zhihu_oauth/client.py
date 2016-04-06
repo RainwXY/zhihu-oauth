@@ -252,7 +252,7 @@ class ZhihuClient:
         :举例:
             https://www.zhihu.com/question/xxxxxx/answer/1234567
             的答案 ID 是 1234567。
-        :rtype: :class:`Answer`
+        :rtype: Answer
         """
         from .zhcls.answer import Answer
         return Answer(aid, None, self._session)
