@@ -65,7 +65,7 @@ class ZhihuClient:
         try:
             j = res.json()
             return j['show_captcha']
-        except (MyJSONDecodeError, AttributeError):
+        except (MyJSONDecodeError, KeyError):
             raise UnexpectedResponseException(
                 CAPTCHA_URL, res,
                 'a json data with show_captcha item'
@@ -83,7 +83,7 @@ class ZhihuClient:
                 j = res.json()
                 # noinspection PyDeprecation
                 return base64.decodestring(j['img_base64'].encode('utf-8'))
-            except (MyJSONDecodeError, ValueError, AttributeError):
+            except (MyJSONDecodeError, ValueError, KeyError):
                 raise UnexpectedResponseException(
                     CAPTCHA_URL,
                     res,
@@ -120,7 +120,7 @@ class ZhihuClient:
                 json_dict = res.json()
                 if 'error' in json_dict:
                     return False, json_dict['error']['message']
-            except (MyJSONDecodeError, ValueError, AttributeError):
+            except (MyJSONDecodeError, ValueError, KeyError):
                 return False, 'UnexpectedResponse'
 
         data = dict(LOGIN_DATA)
@@ -138,7 +138,7 @@ class ZhihuClient:
                 self._token = ZhihuToken.from_dict(json_dict)
                 self._session.auth = ZhihuOAuth(self._token)
                 return True, ''
-        except (MyJSONDecodeError, ValueError, AttributeError):
+        except (MyJSONDecodeError, ValueError, KeyError):
             return False, 'UnexpectedResponse'
 
     def login_in_terminal(self, email=None, password=None):

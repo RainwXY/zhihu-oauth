@@ -14,6 +14,7 @@ except ImportError:
 
 __all__ = [
     'UnexpectedResponseException',
+    'GetDataErrorException',
     'NeedCaptchaException',
     'NeedLoginException',
     'IdMustBeIntException',
@@ -40,6 +41,8 @@ class UnexpectedResponseException(BaseException):
                '"{self.url}", we expect "{self.expect}", ' \
                'but the response body is "{self.res.text}"'.format(self=self)
 
+    __str__ = __repr__
+
 
 class UnimplementedException(BaseException):
     def __init__(self, what):
@@ -55,6 +58,32 @@ class UnimplementedException(BaseException):
     def __repr__(self):
         return 'Meet a unimplemented station: {self.what}'.format(self=self)
 
+    __str__ = __repr__
+
+
+class GetDataErrorException(UnexpectedResponseException):
+    def __init__(self, url, res, expect):
+        """
+        :class:`UnexpectedResponseException` 的子类，
+        尝试获取服务器给出的错误信息。如果获取失败则显示父类的出错信息。
+
+        ..  seealso:: :class:`UnexpectedResponseException`
+        """
+        super(GetDataErrorException, self).__init__(url, res, expect)
+        try:
+            self._reason = res.json()['error']['message']
+        except (MyJSONDecodeError, KeyError):
+            self._reason = None
+
+    def __repr__(self):
+        if self._reason:
+            return 'A error happened when get data: {0}'.format(self._reason)
+        else:
+            base = super(GetDataErrorException, self).__repr__()
+            return "Unknown error! " + base
+
+    __str__ = __repr__
+
 
 class NeedCaptchaException(BaseException):
     def __init__(self):
@@ -67,6 +96,8 @@ class NeedCaptchaException(BaseException):
         return "Need a captcha to login, " \
                "please catch this exception and " \
                "use client.get_captcha() to get it."
+
+    __str__ = __repr__
 
 
 class NeedLoginException(BaseException):
@@ -81,6 +112,8 @@ class NeedLoginException(BaseException):
     def __repr__(self):
         return 'Need login to use the "{self.what}" method.'.format(self=self)
 
+    __str__ = __repr__
+
 
 class IdMustBeIntException(BaseException):
     def __init__(self, func):
@@ -93,3 +126,5 @@ class IdMustBeIntException(BaseException):
 
     def __repr__(self):
         return "id argument of {self.func} must be int".format(self=self)
+
+    __str__ = __repr__

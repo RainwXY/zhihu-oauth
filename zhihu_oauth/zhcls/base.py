@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from ..exception import MyJSONDecodeError
+from ..exception import MyJSONDecodeError, GetDataErrorException
 
 __all__ = ['Base']
 
@@ -16,17 +16,25 @@ class Base(object):
 
     def _get_data(self):
         if self._data is None:
+            url = self._build_url()
             res = self._session.request(
                 self._method(),
-                url=self._build_url(),
+                url=url,
                 params=self._build_params(),
                 data=self._build_data()
             )
+            e = GetDataErrorException(
+                url,
+                res,
+                'a valid Zhihu {0} JSON data'.format(self.__class__.__name__)
+            )
             try:
                 json_dict = res.json()
-                self._data = json_dict if 'error' not in json_dict else None
+                if 'error' in json_dict:
+                    raise e
+                self._data = json_dict
             except MyJSONDecodeError:
-                self._data = None
+                raise e
 
     def _build_url(self):
         return ''
