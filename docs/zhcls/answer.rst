@@ -9,4 +9,3 @@ Answer - 答案
 ..  automodule:: zhihu_oauth.zhcls.answer
     :members:
     :undoc-members:
-    :special-members: __init__

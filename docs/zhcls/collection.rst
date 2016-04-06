@@ -9,4 +9,3 @@ Collection - 收藏夹
 ..  automodule:: zhihu_oauth.zhcls.collection
     :members:
     :undoc-members:
-    :special-members: __init__

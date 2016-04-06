@@ -4,6 +4,19 @@ Intro - 知乎类文档阅读说明
 ..  py:module:: zhihu_oauth.zhcls.answer.Answer
     :noindex:
 
+..  note:: 使用
+
+    所有知乎类都不建议手动构建，而应该使用 :any:`ZhihuClient` 提供的相应的
+    生成方法来创建。
+
+    如想得到一个答案对象，请使用 :any:`ZhihuClient.answer` 方法。
+
+    每个类所需要的 ID 参数如何获取请参考 :any:`ZhihuClient` 类对应方法的文档。
+
+    ..  seealso::
+
+        :any:`ZhihuClient`
+
 ..  note:: 常见属性
 
     如果一个属性没有说明，则表示：

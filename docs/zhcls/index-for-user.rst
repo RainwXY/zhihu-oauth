@@ -9,3 +9,4 @@ Zhihu Classes - 知乎相关类
     collection
     column
     comment
+    me

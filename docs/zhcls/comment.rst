@@ -9,4 +9,3 @@ Comment - 评论
 ..  automodule:: zhihu_oauth.zhcls.comment
     :members:
     :undoc-members:
-    :special-members: __init__

@@ -9,4 +9,3 @@ Article - 文章
 ..  automodule:: zhihu_oauth.zhcls.article
     :members:
     :undoc-members:
-    :special-members: __init__
