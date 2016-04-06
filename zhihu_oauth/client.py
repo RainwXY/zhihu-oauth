@@ -9,7 +9,7 @@ import os
 import requests
 
 from .oauth2.login_auth import LoginAuth
-from .oauth2.oauth2_auth import ZhihuOAuth2
+from .oauth2.zhihu_oauth2 import ZhihuOAuth2
 from .oauth2.token import ZhihuToken
 from .oauth2.util import login_signature
 from .setting import CAPTCHA_FILE
