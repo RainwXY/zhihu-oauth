@@ -1,5 +1,5 @@
-自定义异常
-==========
+Exception - 异常
+================
 
 ..  automodule:: zhihu_oauth.exception
     :members:

@@ -1,9 +1,9 @@
-Utils & Setting - 工具和默认配置
-================================
+Utils & Setting - 辅助函数和默认配置
+====================================
 
 
-utils - 工具函数
-----------------
+utils - 工具
+------------
 
 ..  automodule:: zhihu_oauth.oauth.utils
     :members:

@@ -10,6 +10,10 @@ __all__ = ['need_login', 'int_id']
 
 
 def need_login(func):
+    """
+    装饰器。作用于 :class:`.ZhihuClient` 中的某些方法，
+    强制它们必须在登录状态下才能被使用。
+    """
     @functools.wraps(func)
     def wrapper(self, *args, **kwargs):
         if self.is_login():
@@ -21,6 +25,12 @@ def need_login(func):
 
 
 def int_id(func):
+    """
+    装饰器。作用于 :class:`.ZhihuClient` 中需要整型 ID 来构建对应知乎类的方法。
+    作用就是个强制类型检查。
+
+    :raise: :class:`.IdMustBeIntException` 当传过来的 ID 不是整型的时候
+    """
     @functools.wraps(func)
     def wrapper(self, some_id, *args, **kwargs):
         if not isinstance(some_id, int):
