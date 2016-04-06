@@ -9,3 +9,5 @@ Me - 当前用户
 ..  automodule:: zhihu_oauth.zhcls.me
     :members:
     :undoc-members:
+    :special-members: __init__
+    
