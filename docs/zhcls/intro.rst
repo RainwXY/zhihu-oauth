@@ -52,6 +52,8 @@ Intro - 知乎类文档阅读说明
 
     这个库遵循一下原则：
 
+    - 点赞一律用 vote，点赞者用 voter
+    - 收藏夹用 collection，收藏用 collect
     - 某某某的数量一律用 ``xxx_count``，``xxx`` 使用单数形式
     - 某某某的生成器一律用 ``xxxs``，即 ``xxx`` 的复数形式
 
@@ -64,8 +66,17 @@ Intro - 知乎类文档阅读说明
 
     但是就是有那么几个不合群。
 
-    如果你看到某个类有两个差不多的属性，他们俩就差一个 s
-    （比如 :any:`Column.article_count` 和 :any:`Column.articles_count`），
-    那么，有 s 的版本是我为了兼容知乎的原始数据加上的别名，
-    只是为了方便用惯了原始数据的同学们，和没有 s 的版本
+    如果你看到某个类有两个差不多的属性，他们的差别只是
+
+    - 某一个属性多了个 s
+      （比如 :any:`Column.article_count` 和 :any:`Column.articles_count`）
+    - 两个属性意思相同
+      （比如 :any:`People.favorited_count` 和 :any:`People.collected_count`）
+
+    那么：
+
+    - 有 s 的版本是我为了兼容知乎的原始数据加上的别名。
+    - 其中一个属性是我强行修改成符合我自己规范的名字。
+
+    这种做法只是为了方便用惯了原始数据的同学们，其实两个方法
     无任何区别（当然，除了名字）。
