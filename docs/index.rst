@@ -12,7 +12,7 @@ Contents:
     :maxdepth: 2
 
     zhihu_class
-
+    exception
 
 
 Indices and tables
