@@ -6,19 +6,9 @@ import functools
 
 __all__ = ['simple_info']
 
-try:
-    # Py2
-    # noinspection PyCompatibility,PyUnresolvedReferences,PyUnboundLocalVariable
-    basestring
-except NameError:
-    # Py3
-    # noinspection PyShadowingBuiltins
-    basestring = str
-
 
 def _can_get_from(name, data):
-    return data and name in data and isinstance(data[name],
-                                                (basestring, int, float))
+    return data and name in data and not isinstance(data[name], (dict, list))
 
 
 def simple_info(name_in_cache=None):

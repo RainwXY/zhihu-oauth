@@ -52,12 +52,12 @@ class StreamingJSON:
         return repr(self._json)
 
 
-def streaming(name_in_cache=None):
+def streaming(name_in_cache=None, use_cache=True):
     def wrappers_wrapper(func):
         @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
             name = name_in_cache if name_in_cache else func.__name__
-            if self._cache and name in self._cache:
+            if use_cache and self._cache and name in self._cache:
                 cache = self._cache[name]
             else:
                 self._get_data()

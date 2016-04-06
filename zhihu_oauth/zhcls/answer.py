@@ -37,6 +37,18 @@ class Answer(Base):
     @property
     @streaming()
     def can_comment(self):
+        """
+        大概表示允不允许当前用户评论吧。
+
+        常见返回值：
+
+        .. code-block:: python
+
+            {
+                'status': True,
+                'reason': ''
+            }
+        """
         return None
 
     @property
@@ -47,6 +59,17 @@ class Answer(Base):
     @property
     @simple_info()
     def comment_permission(self):
+        """
+        评论权限，现在已知有：
+
+        ==========  ========================
+        值(str)     说明
+        ==========  ========================
+        all         允许所有人评论
+        followee    允许答主关注的人评论
+        nobody      关闭评论
+        ==========  ========================
+        """
         return None
 
     @property
@@ -70,11 +93,6 @@ class Answer(Base):
         return self._id
 
     @property
-    @streaming('relationship')
-    def if_i(self):
-        return None
-
-    @property
     @simple_info()
     def is_copyable(self):
         return None
@@ -90,8 +108,24 @@ class Answer(Base):
         return None
 
     @property
-    @streaming()
+    @streaming(use_cache=False)
     def suggest_edit(self):
+        """
+        答案是否处于「被建议修改」状态，常见返回值为：
+
+        ..  code-block:: python
+
+            {'status': False, 'title': '', 'reason': '', 'tip': '', 'url': ''}
+
+            {
+                'status': True,
+                'title': '为什么回答会被建议修改',
+                'tip': '作者修改内容通过后，回答会重新显示。如果一周内未得到有效修改，回答会自动折叠',
+                'reason': '回答被建议修改：\\n不宜公开讨论的政治内容',
+                'url': 'zhihu://questions/24752645'
+            }
+
+        """
         return None
 
     @property
@@ -128,7 +162,43 @@ class Answer(Base):
 
     # ----- other operate -----
 
-    def save(self, path='.', filename=None, invalid_char=None):
+    def save(self, path='', filename=None, invalid_char=None):
+        """
+        保存答案到当前文件夹。
+
+        :param str path: 目录名，可选。不提供的话会保存到当前目录。
+        :param str filename: 文件名，可选。
+            不提供的话会使用答主名。注意不要带后缀名
+        :param list[char] invalid_char: 非法字符传列表。
+            目录名和文件名都会使用这个列表过滤一遍。
+            如果不提供则会使用内置的列表。
+        :return: 无返回值
+
+        .. note:: TIPS
+
+            建议的使用方法：
+
+            ..  code-block:: python
+
+                # 对于保存问题的所有答案
+                for answer in question.answers:
+                    print(answer.author.name)
+                    answer.save(xxx.title)
+
+                # 对于保存收藏夹的所有答案
+                for answer in collection.answers:
+                    name = answer.question.title + ' - ' + answer.author.name
+                    print(name)
+                    answer.save(collection.title, name)
+
+            因为这样会将答案保存在以问题标题（或者收藏夹名字）命名的文件夹里。
+
+        ..  note:: TIPS
+
+            对于一个问题下有多个匿名用户的情况，不要担心，会被自动命名为
+            匿名用户 - 001.html，匿名用户 - 002.html……
+
+        """
         if self._cache is None:
             self._get_data()
         if filename is None:

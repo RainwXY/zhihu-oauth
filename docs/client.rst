@@ -1,5 +1,5 @@
-ZhihuClient - 知乎客户端类
-==========================
+ZhihuClient - 知乎客户端
+========================
 
 ..  automodule:: zhihu_oauth.client
     :members:
