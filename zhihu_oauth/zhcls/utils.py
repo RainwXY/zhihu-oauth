@@ -19,10 +19,11 @@ __all__ = ["INVALID_CHARS", "remove_invalid_char", 'add_serial_number',
 INVALID_CHARS = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
 
 
-def remove_invalid_char(dirty):
+def remove_invalid_char(dirty, invalid_chars=None):
+    invalid_chars = invalid_chars or INVALID_CHARS
     clean = []
     for c in dirty:
-        if c not in INVALID_CHARS:
+        if c not in invalid_chars:
             clean.append(c)
     return ''.join(clean)
 
@@ -35,11 +36,11 @@ def add_serial_number(file_path, postfix):
     while os.path.isfile(full_path):
         # noinspection PyUnboundLocalVariable
         try:
-            # noinspection PyCompatibility
+            # noinspection PyCompatibility,PyUnresolvedReferences
             serial_str = unicode(str(serial))
         except NameError:
             serial_str = str(serial)
-        full_path = file_path + ' - ' + serial_str + '.' + postfix
+        full_path = file_path + ' - ' + serial_str.rjust(3, '0') + '.' + postfix
         serial += 1
     return full_path
 

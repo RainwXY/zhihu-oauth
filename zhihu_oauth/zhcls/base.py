@@ -23,19 +23,23 @@ class Base(object):
                 data=self._build_data()
             )
             try:
-                self._data = res.json()
+                json_dict = res.json()
+                self._data = json_dict if 'error' not in json_dict else None
             except MyJSONDecodeError:
                 self._data = None
 
     def _build_url(self):
         return ''
 
+    # noinspection PyMethodMayBeStatic
     def _build_params(self):
         return None
 
+    # noinspection PyMethodMayBeStatic
     def _build_data(self):
         return None
 
+    # noinspection PyMethodMayBeStatic
     def _method(self):
         return 'GET'
 

@@ -10,12 +10,12 @@ __all__ = ['ImZhihuAndroidClient']
 
 
 class ImZhihuAndroidClient(AuthBase):
-    def __init__(self, api_version=API_VERSION, app_version=APP_VERSION,
-                 app_build=APP_BUILD, app_za=APP_ZA):
-        self._api_version = api_version
-        self._app_version = app_version
-        self._app_build = app_build
-        self._app_za = app_za
+    def __init__(self, api_version=None, app_version=None,
+                 app_build=None, app_za=None):
+        self._api_version = api_version or API_VERSION
+        self._app_version = app_version or APP_VERSION
+        self._app_build = app_build or APP_BUILD
+        self._app_za = app_za or APP_ZA
 
     def __call__(self, r):
         r.headers['x-api-version'] = self._api_version

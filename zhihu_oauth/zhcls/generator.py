@@ -14,6 +14,9 @@ __all__ = ['BaseGenerator', 'AnswerGenerator', 'ArticleGenerator',
            'PeopleGenerator', 'QuestionGenerator', 'TopicGenerator']
 
 
+MAX_WAIT_TIME = 8
+
+
 class BaseGenerator(object):
     def __init__(self, url, session):
         self._url = url
@@ -37,9 +40,16 @@ class BaseGenerator(object):
                 if json_dict['error']['name'] == 'ERR_CONVERSATION_NOT_FOUND':
                     self._next_url = None
 
+                # auto retry
                 self._need_sleep *= 2
-                time.sleep(self._need_sleep)
+                if self._need_sleep > MAX_WAIT_TIME:
+                    # meet max retry time, stop fetch
+                    self._next_url = None
+                else:
+                    time.sleep(self._need_sleep)
+
                 return
+
             self._need_sleep = 0.5
             self._up += len(json_dict['data'])
             self._data.extend(json_dict['data'])
@@ -75,11 +85,8 @@ class BaseGenerator(object):
         self._index += 1
         return obj
 
-    def order_by(self, what='created'):
-        if what is None:
-            del self._extra_params['order_by']
-        else:
-            self._extra_params['order_by'] = what
+    def order_by(self, what):
+        self._extra_params['order_by'] = what
         self._index = 0
         self._up = 0
         self._next_url = self._url
@@ -161,7 +168,6 @@ class TopicGenerator(BaseGenerator):
 
 def generator_of(url_pattern, class_name=None, name_in_json=None):
     def wrappers_wrapper(func):
-        # noinspection PyUnusedLocal
         @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
             cls_name = class_name or func.__name__
@@ -172,8 +178,12 @@ def generator_of(url_pattern, class_name=None, name_in_json=None):
             cls_name = cls_name.capitalize()
 
             file_name = '.' + cls_name.lower()
-            module = importlib.import_module(file_name, 'zhihu_oauth.zhcls')
-            cls = getattr(module, cls_name)
+
+            try:
+                module = importlib.import_module(file_name, 'zhihu_oauth.zhcls')
+                cls = getattr(module, cls_name)
+            except (ImportError, AttributeError):
+                return func(*args, **kwargs)
 
             # ---- the following code may cause a bug ---
 
@@ -196,7 +206,11 @@ def generator_of(url_pattern, class_name=None, name_in_json=None):
             # -----------------------------------------
 
             gen_cls_name = cls_name + 'Generator'
-            gen_cls = getattr(sys.modules[__name__], gen_cls_name)
+            try:
+                gen_cls = getattr(sys.modules[__name__], gen_cls_name)
+            except AttributeError:
+                return func(*args, **kwargs)
+
             return gen_cls(url_pattern.format(self.id), self._session)
 
         return wrapper

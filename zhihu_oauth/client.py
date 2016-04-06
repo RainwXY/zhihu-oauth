@@ -55,6 +55,7 @@ class ZhihuClient:
 
         :return: 下次登录是否需要验证码。
         :rtype: bool
+        :raise UnexpectedResponseException: 知乎返回的数据和预期格式不符
         """
         res = self._session.get(CAPTCHA_URL, auth=self._login_auth)
         try:
@@ -70,6 +71,7 @@ class ZhihuClient:
         """
         :return: 如果需要验证码，则返回 bytes 型验证码，不需要则返回 None。
         :rtype: None | bytes
+        :raise UnexpectedResponseException: 知乎返回的数据和预期格式不符
         """
         if self.need_captcha():
             res = self._session.put(CAPTCHA_URL, auth=self._login_auth)
@@ -77,7 +79,7 @@ class ZhihuClient:
                 j = res.json()
                 # noinspection PyDeprecation
                 return base64.decodestring(j['img_base64'].encode('utf-8'))
-            except MyJSONDecodeError:
+            except (MyJSONDecodeError, ValueError, AttributeError):
                 raise UnexpectedResponseException(
                     CAPTCHA_URL,
                     res,
@@ -95,11 +97,15 @@ class ZhihuClient:
 
         :return: 二元元组，第一个元素表示是否成功，第二个元素表示失败原因。
         :rtype: tuple(bool, str)
+        :raise: NeedCaptchaException: 此次登录需要验证码
         """
 
         if captcha is None:
-            if self.need_captcha():
-                raise NeedCaptchaException
+            try:
+                if self.need_captcha():
+                    raise NeedCaptchaException
+            except UnexpectedResponseException:
+                return False, 'UnexpectedResponse'
         else:
             res = self._session.post(
                 CAPTCHA_URL,
@@ -110,7 +116,7 @@ class ZhihuClient:
                 json_dict = res.json()
                 if 'error' in json_dict:
                     return False, json_dict['error']['message']
-            except MyJSONDecodeError:
+            except (MyJSONDecodeError, ValueError, AttributeError):
                 return False, 'UnexpectedResponse'
 
         data = dict(LOGIN_DATA)
@@ -128,7 +134,7 @@ class ZhihuClient:
                 self._token = ZhihuToken.from_dict(json_dict)
                 self._session.auth = ZhihuOAuth2(self._token)
                 return True, ''
-        except (ValueError, MyJSONDecodeError):
+        except (MyJSONDecodeError, ValueError, AttributeError):
             return False, 'UnexpectedResponse'
 
     def login_in_terminal(self, email=None, password=None):
@@ -158,7 +164,6 @@ class ZhihuClient:
             captcha = input('captcha: ')
             os.remove(os.path.abspath(CAPTCHA_FILE))
             success, reason = self.login(email, password, captcha)
-
         if success:
             print('Login success.')
         else:
@@ -327,7 +332,7 @@ class ZhihuClient:
         问题 ID 的获取方法是查看知乎问题的 URL。
         举例：http://www.zhihu.com/question/1234567 的问题 ID 是 1234567。
 
-        :param str qid: 问题 ID。
+        :param int qid: 问题 ID。
         :rtype: :class:`Question`
         """
         from .zhcls.question import Question
@@ -342,7 +347,7 @@ class ZhihuClient:
         话题 ID 的获取方法是查看知乎话题的 URL。
         举例：http://www.zhihu.com/tipoc/1234567 的话题 ID 是 1234567。
 
-        :param str tid: 话题 ID。
+        :param int tid: 话题 ID。
         :rtype: :class:`Topic`
         """
         from .zhcls.topic import Topic

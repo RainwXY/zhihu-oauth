@@ -7,9 +7,11 @@ import functools
 __all__ = ['simple_info']
 
 try:
+    # Py2
     # noinspection PyCompatibility,PyUnresolvedReferences,PyUnboundLocalVariable
     basestring
 except NameError:
+    # Py3
     # noinspection PyShadowingBuiltins
     basestring = str
 
@@ -36,7 +38,9 @@ def simple_info(name_in_cache=None):
                 # so, just return the function result
                 if name == 'id':
                     return func(self, *args, **kwargs)
+
                 self._get_data()
+
                 # noinspection PyTypeChecker
                 if _can_get_from(name, self._data):
                     return self._data[name]

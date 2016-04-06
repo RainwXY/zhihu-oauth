@@ -103,12 +103,12 @@ class Article(Base):
 
     # ----- other operate -----
 
-    def save(self, path='.', filename=None):
+    def save(self, path='.', filename=None, invalid_char=None):
         if self._cache is None:
             self._get_data()
         if filename is None:
-            filename = remove_invalid_char(self.author.name)
-        path = remove_invalid_char(path)
+            filename = remove_invalid_char(self.author.name, invalid_char)
+        path = remove_invalid_char(path, invalid_char)
         if not os.path.isdir(path):
             os.makedirs(path)
         full_path = os.path.join(path, filename)

@@ -7,8 +7,8 @@ from .zhcls import (
     Answer, Article, Comment, Column, Collection, People, Question, Topic,
     ANONYMOUS
 )
-from .exception import NeedCaptchaException
+from .exception import NeedCaptchaException, UnexpectedResponseException
 
 __all__ = ['ZhihuClient', 'ANONYMOUS', 'Article', 'Answer', 'Collection',
            'Column', 'Comment', 'People', 'Question', 'Topic',
-           'NeedCaptchaException']
+           'NeedCaptchaException', 'UnexpectedResponseException']

@@ -24,14 +24,29 @@ from .urls import (
 __all__ = ['ANONYMOUS', 'People']
 
 
-class Anonymous(object):
-    pass
+class _Anonymous(object):
+    def __init__(self):
+        self.id = 0
+        self.name = '匿名用户'
+
+    def __getattr__(self, _):
+        # 匿名用户除了姓名以外所有属性均为 None
+        return None
 
 
-ANONYMOUS = Anonymous()
+ANONYMOUS = _Anonymous()
+"""
+统一的匿名用户对象，可以使用 people is ANONYMOUS 判断是否是匿名用户
+"""
 
 
 class People(Base):
+    def __new__(cls, pid, cache, session):
+        if pid == '0':
+            return ANONYMOUS
+        else:
+            return super(People, cls).__new__(cls)
+
     def __init__(self, pid, cache, session):
         super(People, self).__init__(pid, cache, session)
 
