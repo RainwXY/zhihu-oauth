@@ -41,7 +41,7 @@ Intro - 知乎类文档阅读说明
 
     :any:`Answer.suggest_edit` 的常见返回值是
 
-    .. code-block:: python
+    ..  code-block:: python
 
         {
             'status': True,
@@ -55,6 +55,31 @@ Intro - 知乎类文档阅读说明
 
     - 通过 ``answer.suggest_edit.status`` 取到 ``True``
     - 通过 ``answer.suggest_edit.reason`` 取到 ``'回答被建议修改：\n不宜公开讨论的政治内容'``
+
+..  note:: 再举例
+
+    :any:`People.locations` 的常见返回值是
+
+    ..  code-block:: python
+
+        [
+            {
+                'introduction': '天津，简称津，地处华北平原，balabala,
+                'url': 'https://api.zhihu.com/topics/19577238',
+                'avatar_url': 'http://pic4.zhimg.com/acad405e7_s.jpg',
+                'excerpt': '天津，简称津，地处华北平原 balabalabala',
+                'type': 'topic',
+                'name': '天津',
+                'id': '19577238',
+            },
+        ],
+
+    最外面是一个列表表示我们可以迭代它：
+
+    ..  code-block:: python
+
+        for location in people.locations:
+            print(location.name, location.excerpt)
 
 ..  note:: 坑爹的知乎
 

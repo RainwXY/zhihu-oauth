@@ -10,3 +10,4 @@ Zhihu Classes - 知乎相关类
     column
     comment
     me
+    people

@@ -56,6 +56,8 @@ class Base(object):
 
     @property
     def pure_data(self):
+        if not self._cache:
+            self._get_data()
         return {
             'cache': self._cache,
             'data': self._data,

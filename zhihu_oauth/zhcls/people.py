@@ -36,7 +36,10 @@ class _Anonymous(object):
 
 ANONYMOUS = _Anonymous()
 """
-统一的匿名用户对象，可以使用 people is ANONYMOUS 判断是否是匿名用户
+.. role:: pycode(code)
+   :language: python
+
+统一的匿名用户对象，可以使用 :pycode:`if people is ANONYMOUS:` 判断是否是匿名用户
 """
 
 
@@ -73,6 +76,23 @@ class People(Base):
     @property
     @streaming()
     def business(self):
+        """
+        用户所在行业。
+
+        常见返回值：
+
+        ..  code-block:: python
+
+            {
+                'introduction': '',
+                'id': '19619368',
+                'url': 'https://api.zhihu.com/topics/19619368',
+                'type': 'topic',
+                'avatar_url': 'http://pic1.zhimg.com/e82bab09c_s.jpg',
+                'name': '计算机软件',
+                'excerpt': '',
+            }
+        """
         return None
 
     @property
@@ -111,7 +131,73 @@ class People(Base):
 
     @property
     @streaming()
-    def education(self):
+    def educations(self):
+        """
+        教育信息。
+
+        常见返回值：
+
+        ..  code-block:: python
+
+            [
+                {
+                    'major': {
+                        'introduction': '计算机专业。<br>大众认为会是唯一会“修电脑”的专业。',
+                        'id': '19639658',
+                        'url': 'https://api.zhihu.com/topics/19639658',
+                        'type': 'topic',
+                        'avatar_url': 'http://pic2.zhimg.com/7e2fe4615_s.jpg',
+                        'name': '计算机科学与技术',
+                        'excerpt': '计算机专业。大众认为会是唯一会“修电脑”的专业。',
+                    },
+                    'school': {
+                        'introduction': '',
+                        'id': '1234567',
+                        'url': 'https://api.zhihu.com/topics/1234567',
+                        'type': 'topic',
+                        'avatar_url': 'http://pic4.zhimg.com/8e6y3xd47_s.jpg',
+                        'name': 'XX 大学',
+                        'excerpt': '',
+                    },
+                },
+            ]
+        """
+        return None
+
+    @property
+    @streaming()
+    def employments(self):
+        """
+        职业信息。
+
+        常见返回值：
+
+        ..  code-block:: python
+
+            [
+                {
+                    'job': {
+                        'introduction': '',
+                        'url': 'https://api.zhihu.com/topics/19551336',
+                        'avatar_url': 'http://pic3.zhimg.com/4eac47b76_s.jpg',
+                        'excerpt': '',
+                        'type': 'topic',
+                        'name': '测试',
+                        'id': '19551336',
+                    },
+                    'company': {
+                        'excerpt': '',
+                        'url': '',
+                        'avatar_url': 'http://pic1.zhimg.com/e82bab09c_s.jpg',
+                        'introduction': '',
+                        'type': 'topic',
+                        'name': 'Gayhub',
+                        'experience ': '',
+                        'id': '',
+                    },
+                },
+            ],
+        """
         return None
 
     @property
@@ -160,6 +246,18 @@ class People(Base):
     @property
     @simple_info()
     def gender(self):
+        """
+        性别。
+
+        =======  ==========
+        值(int)  说明
+        =======  ==========
+        0        女
+        1        男
+        =======  ==========
+
+        我该如何吐槽……
+        """
         return None
 
     @property
@@ -170,6 +268,9 @@ class People(Base):
     @property
     @simple_info()
     def headline(self):
+        """
+        就是那个显示在名字后面的，和签名类似的东西。
+        """
         return None
 
     @property
@@ -200,11 +301,31 @@ class People(Base):
     @property
     @simple_info()
     def is_moments_user(self):
+        """
+        不知道是啥。
+        """
         return None
 
     @property
     @streaming()
-    def location(self):
+    def locations(self):
+        """
+        常见返回值。
+
+        ..  code-block:: python
+
+            [
+                {
+                    'introduction': '天津，简称津，地处华北平原，balabala,
+                    'url': 'https://api.zhihu.com/topics/19577238',
+                    'avatar_url': 'http://pic4.zhimg.com/acad405e7_s.jpg',
+                    'excerpt': '天津，简称津，地处华北平原 balabalabala',
+                    'type': 'topic',
+                    'name': '天津',
+                    'id': '19577238',
+                },
+            ],
+        """
         return None
 
     @property
@@ -240,6 +361,9 @@ class People(Base):
     @property
     @simple_info()
     def uid(self):
+        """
+        没什么用的东西。
+        """
         return None
 
     @property

@@ -40,7 +40,14 @@ class StreamingJSON:
                          "please use XX.xxx.".format(self._json))
 
     def __iter__(self):
-        return iter(self._json)
+        def _iter():
+            for x in self._json:
+                if isinstance(x, (dict, list)):
+                    yield StreamingJSON(x)
+                else:
+                    yield x
+
+        return _iter()
 
     def __len__(self):
         return len(self._json)
