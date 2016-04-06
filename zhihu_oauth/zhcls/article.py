@@ -35,6 +35,9 @@ class Article(Base):
     @property
     @streaming()
     def can_comment(self):
+        """
+        ..  seealso:: :any:`Answer.can_comment`
+        """
         return None
 
     @property
@@ -50,6 +53,9 @@ class Article(Base):
     @property
     @simple_info()
     def comment_permission(self):
+        """
+        ..  seealso:: :any:`Answer.comment_permission`
+        """
         return None
 
     @property
@@ -73,8 +79,11 @@ class Article(Base):
         return None
 
     @property
-    @streaming()
+    @streaming(use_cache=False)
     def suggest_edit(self):
+        """
+        ..  seealso:: :any:`Answer.suggest_edit`
+        """
         return None
 
     @property
@@ -104,10 +113,27 @@ class Article(Base):
     # ----- other operate -----
 
     def save(self, path='.', filename=None, invalid_char=None):
+        """
+        除了默认文件名是文章标题外，和 :any:`Answer.save` 完全一致。
+
+        ..  seealso:: :any:`Answer.save`
+
+        ..  note:: TIPS
+
+            建议的使用方法：
+
+            ..  code-block:: python
+
+                for article in column.articles:
+                    print(article.title)
+                    article.save(column.title)
+
+        """
         if self._cache is None:
             self._get_data()
         if filename is None:
-            filename = remove_invalid_char(self.author.name, invalid_char)
+            filename = remove_invalid_char(self.title, invalid_char)
+            filename = filename or '没有标题'
         path = remove_invalid_char(path, invalid_char)
         if not os.path.isdir(path):
             os.makedirs(path)

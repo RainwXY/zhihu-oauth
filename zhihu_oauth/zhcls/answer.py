@@ -198,6 +198,8 @@ class Answer(Base):
             对于一个问题下有多个匿名用户的情况，不要担心，会被自动命名为
             匿名用户 - 001.html，匿名用户 - 002.html……
 
+        ..  todo:: 优化存在重复文件时的算法……
+
         """
         if self._cache is None:
             self._get_data()
