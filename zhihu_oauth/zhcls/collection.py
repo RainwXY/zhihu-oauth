@@ -89,8 +89,21 @@ class Collection(Base):
     @generator_of(COLLECTION_FOLLOWERS_URL, 'people')
     def followers(self):
         """
-        知乎的这个 API 有问题，返回一些之后会将 is_end 设置为 True，
-        导致无法获取到所有的关注者，并且此问题在知乎官方API上也存在
+        ..  warning:: 注意！
+
+            知乎的这个 API 有问题，返回一些之后会将 is_end 设置为 True，
+            导致无法获取到所有的关注者。
+
+            并且此问题在知乎官方 Android APP 上也存在。你可以试着
+            找个很多人关注的收藏夹，然后查看关注者，一直往下拉。
+            大概加载 100 - 200 之后就没法往下刷了。
+
+        ..  note:: 更新
+
+            2016.04.07 测试
+
+            现在连一个用户都加载不出来了…………什么鬼
+
         """
         # TODO: collection.followers 这个 API 不稳定
         return None

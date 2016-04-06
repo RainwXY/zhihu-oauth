@@ -9,7 +9,7 @@ Contents:
     :maxdepth: 2
 
     client
-    zhcls/index
+    zhcls/index-for-user
 
 
 ..  toctree::
@@ -20,6 +20,7 @@ Contents:
     exception
     utils
     oauth/index
+    zhcls/index-for-dev
 
 
 索引
