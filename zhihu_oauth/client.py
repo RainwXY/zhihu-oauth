@@ -8,13 +8,13 @@ import os
 
 import requests
 
-from .oauth2.login_auth import LoginAuth
-from .oauth2.zhihu_oauth2 import ZhihuOAuth2
-from .oauth2.token import ZhihuToken
-from .oauth2.util import login_signature
+from .oauth.login_auth import LoginAuth
+from .oauth.zhihu_oauth import ZhihuOAuth
+from .oauth.token import ZhihuToken
+from .oauth.util import login_signature
 from .setting import CAPTCHA_FILE
 from .utils import need_login, int_id
-from .oauth2.setting import (
+from .oauth.setting import (
     CAPTCHA_URL, LOGIN_URL, LOGIN_DATA, CLIENT_ID, APP_SECRET
 )
 from .exception import (
@@ -136,7 +136,7 @@ class ZhihuClient:
                 return False, json_dict['error']['message']
             else:
                 self._token = ZhihuToken.from_dict(json_dict)
-                self._session.auth = ZhihuOAuth2(self._token)
+                self._session.auth = ZhihuOAuth(self._token)
                 return True, ''
         except (MyJSONDecodeError, ValueError, AttributeError):
             return False, 'UnexpectedResponse'
@@ -205,7 +205,7 @@ class ZhihuClient:
         :return: 无返回值，也就是说其实不知道是否登录成功。
         """
         self._token = ZhihuToken.from_file(filename)
-        self._session.auth = ZhihuOAuth2(self._token)
+        self._session.auth = ZhihuOAuth(self._token)
 
     @need_login
     def save_token(self, filename):

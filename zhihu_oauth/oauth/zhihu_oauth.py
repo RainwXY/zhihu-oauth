@@ -5,14 +5,14 @@ from __future__ import unicode_literals
 from .im_android import ImZhihuAndroidClient
 from .token import ZhihuToken
 
-__all__ = ['ZhihuOAuth2']
+__all__ = ['ZhihuOAuth']
 
 
-class ZhihuOAuth2(ImZhihuAndroidClient):
+class ZhihuOAuth(ImZhihuAndroidClient):
     def __init__(self, token, api_version=None, app_version=None,
                  app_build=None, app_za=None):
         """
-        ..  inheritance-diagram:: ZhihuOAuth2
+        ..  inheritance-diagram:: ZhihuOAuth
 
         这个 Auth 在 :class:`.ImZhihuAndroidClient`
         的基础上加上了发送 token 的功能。
@@ -28,7 +28,7 @@ class ZhihuOAuth2(ImZhihuAndroidClient):
         :param app_za:
         """
         assert isinstance(token, ZhihuToken)
-        super(ZhihuOAuth2, self).__init__(
+        super(ZhihuOAuth, self).__init__(
             api_version, app_version, app_build, app_za)
         self._token = token
 
@@ -45,7 +45,7 @@ class ZhihuOAuth2(ImZhihuAndroidClient):
         ..  seealso::
             :meth:`.ImZhihuAndroidClient.__call__`
         """
-        r = super(ZhihuOAuth2, self).__call__(r)
+        r = super(ZhihuOAuth, self).__call__(r)
         r.headers['Authorization'] = '{type} {token}'.format(
             type=self._token.type, token=self._token.token)
         return r
