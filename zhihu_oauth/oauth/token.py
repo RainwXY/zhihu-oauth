@@ -15,6 +15,27 @@ class ZhihuToken:
     def __init__(self, user_id, uid, access_token, lock_in,
                  expires_in, token_type, unlock_ticket,
                  refresh_token, cookie):
+        """
+        知乎令牌。
+
+        尽量不要直接使用这个类，而是用 :meth:`ZhihuToken.from_str` 或
+        :meth:`ZhihuToken.form_dict` 或
+        :meth:`ZhihuToken.from_file` 方法来构造。
+
+        ..  note::
+
+            本类仅在 :class:`.ZhihuClient` 类内使用，一般用户不需要了解。
+
+        :param str user_id: 用户 ID
+        :param int uid: 某个数字型用户 ID，貌似没啥用
+        :param str access_token: 最重要的访问令牌
+        :param int lock_in: 不知道用处
+        :param int expires_in: 过期时间
+        :param str token_type: 令牌类型
+        :param str unlock_ticket: 不知道用处
+        :param str refresh_token: 刷新令牌
+        :param str cookie: 登录成功后需要加上这段 Cookies
+        """
         self._create_at = time.time()
         self._user_id = uid
         self._uid = user_id
@@ -29,9 +50,16 @@ class ZhihuToken:
 
     @staticmethod
     def from_str(json_str):
+        """
+        从字符串读取 token。
+
+        :param str json_str: 一个合法的代表知乎 Token 的 JSON 字符串
+        :rtype: :class:`ZhihuToken`
+        :raise ValueError: 提供的参数不合法时
+        """
         try:
             return ZhihuToken.from_dict(json.loads(json_str))
-        except MyJSONDecodeError:
+        except (MyJSONDecodeError, ValueError):
             raise ValueError(
                 '"{json_str}" is NOT a valid zhihu token json string.'.format(
                     json_str=json_str
@@ -39,6 +67,13 @@ class ZhihuToken:
 
     @staticmethod
     def from_dict(json_dict):
+        """
+        从字典读取 token。
+
+        :param dict json_dict: 一个代表知乎 Token 的字典
+        :rtype: :class:`ZhihuToken`
+        :raise ValueError: 提供的参数不合法时
+        """
         try:
             return ZhihuToken(**json_dict)
         except TypeError:
@@ -49,21 +84,45 @@ class ZhihuToken:
 
     @staticmethod
     def from_file(filename):
+        """
+        从文件读取 token。
+
+        :param str filename: 文件名
+        :rtype: :class:`ZhihuToken`
+        """
         with open(filename, 'rb') as f:
             return pickle.load(f)
 
     def save(self, filename):
+        """
+        将 token 保存成文件。
+
+        :param str filename: 文件名
+        :return: 无返回值
+        """
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
 
     @property
     def user_id(self):
+        """
+        :return: 获取用户 ID
+        :rtype: str
+        """
         return self._user_id
 
     @property
     def type(self):
+        """
+        :return: 获取验证类型
+        :rtype: str
+        """
         return self._token_type
 
     @property
     def token(self):
+        """
+        :return: 获取访问令牌
+        :rtype: str
+        """
         return self._access_token

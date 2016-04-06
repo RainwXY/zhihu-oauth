@@ -11,7 +11,7 @@ import requests
 from .oauth.login_auth import LoginAuth
 from .oauth.zhihu_oauth import ZhihuOAuth
 from .oauth.token import ZhihuToken
-from .oauth.util import login_signature
+from .oauth.utils import login_signature
 from .setting import CAPTCHA_FILE
 from .utils import need_login, int_id
 from .oauth.setting import (

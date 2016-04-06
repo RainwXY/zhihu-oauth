@@ -10,6 +10,13 @@ __all__ = ['login_signature']
 
 
 def login_signature(data, secret):
+    """
+    为登录请求附加签名。
+
+    :param dict data: POST 数据
+    :param str secret: APP SECRET
+    :return: 经过签名后的 dict， 增加了 timestamp 和 signature 两项
+    """
     data['timestamp'] = str(int(time.time()))
 
     params = ''.join([

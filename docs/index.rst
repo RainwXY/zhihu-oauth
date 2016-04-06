@@ -9,11 +9,10 @@ Welcome to Zhihu-OAuth's documentation!
 Contents:
 
 ..  toctree::
-    :maxdepth: 2
 
     zhihu_class
     exception
-    oauth2/summary
+    oauth/summary
 
 
 Indices and tables
