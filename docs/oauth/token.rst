@@ -1,5 +1,5 @@
-ZhihuToken - 登录令牌
-=====================
+ZhihuToken - OAuth 令牌
+=======================
 
 ..  automodule:: zhihu_oauth.oauth.token
     :members:

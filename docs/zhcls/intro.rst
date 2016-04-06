@@ -46,3 +46,26 @@ Intro - 知乎类文档阅读说明
 
         - 通过 ``answer.suggest_edit.status`` 取到 ``True``
         - 通过 ``answer.suggest_edit.reason`` 取到 ``'回答被建议修改：\n不宜公开讨论的政治内容'``
+
+
+..  note:: 坑爹的知乎
+
+    这个库遵循一下原则：
+
+    - 某某某的数量一律用 ``xxx_count``，``xxx`` 使用单数形式
+    - 某某某的生成器一律用 ``xxxs``，即 ``xxx`` 的复数形式
+
+    例： :any:`Column.article_count` 专栏的文章数
+
+    例： :any:`Column.articles` 专栏所有文章的生成器
+
+    知乎返回的 JSON 大部分都很统一，比如用词的单复数，
+    用 vote 还是 like 表示点赞，等等这些。
+
+    但是就是有那么几个不合群。
+
+    如果你看到某个类有两个差不多的属性，他们俩就差一个 s
+    （比如 :any:`Column.article_count` 和 :any:`Column.articles_count`），
+    那么，有 s 的版本是我为了兼容知乎的原始数据加上的别名，
+    只是为了方便用惯了原始数据的同学们，和没有 s 的版本
+    无任何区别（当然，除了名字）。

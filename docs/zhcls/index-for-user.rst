@@ -7,3 +7,4 @@ Zhihu Classes - 知乎相关类
     answer
     article
     collection
+    column
