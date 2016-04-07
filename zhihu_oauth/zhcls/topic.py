@@ -99,21 +99,35 @@ class Topic(Base):
     @property
     @generator_of(TOPIC_BEST_ANSWERS_URL, 'answer')
     def best_answers(self):
+        """
+        精华回答
+        """
         return None
 
     @property
     @generator_of(TOPIC_BEST_ANSWERERS_URL, 'people')
     def best_answerers(self):
+        """
+        好像叫，最佳回答者吧……
+
+        best_answerers……知乎真会起名字……
+        """
         return None
 
     @property
     @generator_of(TOPIC_CHILDREN_URL, 'topic')
     def children(self):
+        """
+        子话题
+        """
         return None
 
     @property
     @generator_of(TOPIC_PARENTS_URL, 'topic')
     def parents(self):
+        """
+        父话题
+        """
         return None
 
     @property

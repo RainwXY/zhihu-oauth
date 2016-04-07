@@ -12,3 +12,4 @@ Zhihu Classes - 知乎相关类
     me
     people
     question
+    topic
