@@ -5,3 +5,4 @@
 
     install
     login
+    use

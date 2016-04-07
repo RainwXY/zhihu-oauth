@@ -1,6 +1,8 @@
 Zhihu Classes - 知乎相关类
 ==========================
 
+..  _for_user_zhcls:
+
 ..  toctree::
 
     intro

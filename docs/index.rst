@@ -5,6 +5,7 @@ Install & Usage - 安装与使用
 ----------------------------
 
 ..  toctree::
+    :maxdepth: 2
 
     guide/index
 
@@ -12,7 +13,7 @@ Classes references - 类详细文档
 -------------------------------
 
 ..  toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     for-user/index
 

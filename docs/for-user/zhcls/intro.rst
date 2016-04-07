@@ -15,7 +15,7 @@ Usage - 使用方法
 
     :any:`ZhihuClient`
 
-Normal Attr - 常规属性
+Normal attr - 常规属性
 ----------------------
 
 如果一个属性没有说明，则表示：
@@ -32,9 +32,10 @@ Normal Attr - 常规属性
     - :any:`Answer.author` 表示答案的作者（很明显应该是 :class:`.People` 类）。
     - :any:`Answer.voters` 表示答案的点赞者（:class:`.People` 对象的生成器）。
 
+..  _inrto_streaming_json:
 
-JSON Object Attr - JSON 对象属性
---------------------------------
+StreamingJSON attr - StreamingJSON 属性
+---------------------------------------
 
 如果我说明了一个属性的常见返回值，则表示
 
