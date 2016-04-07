@@ -1,5 +1,7 @@
 # Zhihu-OAuth
 
+![author][badge-author] ![docs][badge-docs] ![version][badge-version] ![py-version][badge-py-version] ![license][badge-license]
+
 ## 简介
 
 最近在尝试解析出知乎官方未开放的 OAuth2 接口，顺便提供优雅的使用方式，作为 [zhihu-py3][zhihu-py3-github] 项目的继任者。
@@ -121,3 +123,9 @@ MIT
 [rtds-install]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/install.html
 [rtds-login]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/login.html
 [rtds-usage]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/use.html
+
+[brdge-author]: https://img.shields.io/badge/Author-7sDream-blue.svg
+[badge-docs]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/?badge=latest
+[badge-version]: https://img.shields.io/pypi/v/zhihu_oauth.svg
+[badge-py-version]: https://img.shields.io/pypi/pyversions/zhihu_oauth_.svg
+[badge-license]: https://img.shields.io/pypi/l/zhihu_oauth.svg
