@@ -9,6 +9,7 @@ Install & Usage - 安装与使用
     :maxdepth: 1
 
     install
+    login
 
 Classes references - 类详细文档
 -------------------------------
