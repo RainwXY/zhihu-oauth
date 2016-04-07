@@ -86,8 +86,8 @@ Save login session - 保存登录会话
     # 必须在 client 已经处于登录状态时才能使用
     client.save_token('token.pkl')
 
-Recommended way - 建议的方法
---------------------------------
+Recommended way - 建议的用法
+----------------------------
 
 综上所述，如果你的代码运行在终端环境下，我建议这样处理登录环节
 
