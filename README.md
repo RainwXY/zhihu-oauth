@@ -1,6 +1,6 @@
 # Zhihu-OAuth
 
-[![author][badge-author]][my-zhihu] [![docs][badge-docs]][rtds-home] [![version][badge-version]][pypi] [![py-version][badge-py-version]][pypi] [![license][badge-license]][license] [![state][badge-state]][pypi]
+[![author][badge-author]][my-zhihu] [![docs][badge-docs]][rtds-home] [![version][badge-version]][pypi] [![py-version][badge-py-version]][pypi] [![state][badge-state]][pypi] [![license][badge-license]][license]
 
 ## 简介
 
