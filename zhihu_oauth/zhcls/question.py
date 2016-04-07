@@ -96,6 +96,9 @@ class Question(Base):
                     }
                 ]
             }
+
+        在使用 from 属性时遇到语法错误？请看 :ref:`说明 <tips-for-conflict-with-keyword>`
+
         """
         return None
 

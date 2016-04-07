@@ -85,7 +85,9 @@ JSON Object Attr - JSON 对象属性
         for location in people.locations:
             print(location.name, location.excerpt)
 
-..  warning:: 提示
+..  _tips-for-conflict-with-keyword:
+
+..  note:: 提示
 
     如果某个属性和 Python 的关键字冲突，请在属性名后面加上下划线 ``_`` 即可。
 
