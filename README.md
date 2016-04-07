@@ -1,6 +1,6 @@
 # Zhihu-OAuth
 
-![author][badge-author] ![docs][badge-docs] ![version][badge-version] ![py-version][badge-py-version] ![license][badge-license]
+[![author][badge-author]][my-zhihu] [![docs][badge-docs]][rtds-home] [![version][badge-version]][pypi] [![py-version][badge-py-version]][pypi] [![license][badge-license]][license] [![state][badge-state]][pypi]
 
 ## 简介
 
@@ -128,4 +128,9 @@ MIT
 [badge-docs]: https://readthedocs.org/projects/zhihu-oauth/badge/?version=latest
 [badge-version]: https://img.shields.io/pypi/v/zhihu_oauth.svg
 [badge-py-version]: https://img.shields.io/pypi/pyversions/zhihu_oauth.svg
+[badge-state]: https://img.shields.io/pypi/status/zhihu_oauth.svg
 [badge-license]: https://img.shields.io/pypi/l/zhihu_oauth.svg
+
+[my-zhihu]: https://www.zhihu.com/people/7sdream
+[pypi]: https://pypi.python.org/pypi/zhihu_oauth
+[license]: https://github.com/7sDream/zhihu-oauth/blob/master/LICENSE
