@@ -18,8 +18,8 @@ zhihu_oauth 支持 Python 2 和 Python 3，用对应版本的 pip 安装即可�
 
 如果不报错大概就是安装成功了。
 
-Use git- 使用 git
------------------
+Use git - 使用 git
+------------------
 
 ..  warning:: 别！
 
