@@ -103,6 +103,11 @@ following column count 11
 - [ ] 获取用户消息。新关注者，新评论，关注的回答有新问题，有私信等。
 - [ ] 保证对 Python 2 和 3 的兼容性
 
+## LICENSE
+
+MIT
+
+
 [zhihu-py3-github]: https://github.com/7sDream/zhihu-py3
 [speed-compare]: https://github.com/7sDream/zhihu-oauth/blob/master/compare.md
 
