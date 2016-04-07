@@ -46,7 +46,7 @@ def add_serial_number(file_path, postfix):
 
 
 BASE_HTML_HEADER = """<meta name="referrer" content="no-referrer" />
-<meta name="charset" content="utf-8" />
+<meta charset="utf-8" />
 """
 
 
