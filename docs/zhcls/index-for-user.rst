@@ -11,3 +11,4 @@ Zhihu Classes - 知乎相关类
     comment
     me
     people
+    question

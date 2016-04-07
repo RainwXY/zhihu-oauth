@@ -15,6 +15,10 @@ class StreamingJSON:
 
     def __getattr__(self, item):
         if isinstance(self._json, dict):
+
+            # 防止和 Python 内置关键字冲突
+            if item.endswith('_'):
+                item = item[:-1]
             if item in self._json:
                 obj = self._json[item]
                 if isinstance(obj, (dict, list)):

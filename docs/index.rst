@@ -1,8 +1,6 @@
 Zhihu-OAuth 文档
 ================
 
-Contents:
-
 ..  toctree::
     :name: for-use
     :caption: 如果你只是想使用，看这些就行
@@ -10,7 +8,6 @@ Contents:
 
     client
     zhcls/index-for-user
-
 
 ..  toctree::
     :name: for-dev
@@ -21,7 +18,6 @@ Contents:
     utils
     oauth/index
     zhcls/index-for-dev
-
 
 索引
 ====

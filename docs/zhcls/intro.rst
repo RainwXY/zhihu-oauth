@@ -1,28 +1,30 @@
 Intro - 知乎类文档阅读说明
 ==========================
 
-..  note:: 使用
+Usage - 使用方法
+----------------
 
-    所有知乎类都不建议手动构建，而应该使用 :any:`ZhihuClient` 提供的相应的
-    生成方法来创建。
+所有知乎类都不建议手动构建，而应该使用 :any:`ZhihuClient` 提供的相应的
+生成方法来创建。
 
-    如想得到一个答案对象，请使用 :any:`ZhihuClient.answer` 方法。
+如想得到一个答案对象，请使用 :any:`ZhihuClient.answer` 方法，其余类似。
 
-    每个类所需要的 ID 参数如何获取请参考 :any:`ZhihuClient` 类对应方法的文档。
+每个类所需要的 ID 参数如何获取请参考 :any:`ZhihuClient` 类对应方法的文档。
 
-    ..  seealso::
+..  seealso::
 
-        :any:`ZhihuClient`
+    :any:`ZhihuClient`
 
-..  note:: 常见属性
+Normal Attr - 常规属性
+----------------------
 
-    如果一个属性没有说明，则表示：
+如果一个属性没有说明，则表示：
 
-    - 它的名称已经把自己描述的足够清楚了。
-    - 如果它是个单数，表示直接通过 ``.`` 操作符，
-      能直接获取到基本类型 ``(str, int, float, bool)`` 的数据，或另一个知乎对象。
-    - 如果它是个复数，表示直接通过 ``.`` 操作符，
-      能获取到一个生成器，生成它所表示的知乎对象列表。
+- 它的名称已经把自己描述的足够清楚了。
+- 如果它是个单数，表示直接通过 ``.`` 操作符，
+  能直接获取到基本类型 ``(str, int, float, bool)`` 的数据，或另一个知乎对象。
+- 如果它是个复数，表示直接通过 ``.`` 操作符，
+  能获取到一个生成器，生成它所表示的知乎对象列表。
 
 ..  note:: 举例
 
@@ -30,12 +32,14 @@ Intro - 知乎类文档阅读说明
     - :any:`Answer.author` 表示答案的作者（很明显应该是 :class:`.People` 类）。
     - :any:`Answer.voters` 表示答案的点赞者（:class:`.People` 对象的生成器）。
 
-..  note:: JSON 对象属性
 
-    如果我说明了一个属性的常见返回值，则表示
+JSON Object Attr - JSON 对象属性
+--------------------------------
 
-    - 它返回的是一个 :any:`StreamingJSON` 对象，可以想像成一个 JS Object。
-    - 它的属性可通过 ``.`` 和 ``[]`` 操作符进行遍历。
+如果我说明了一个属性的常见返回值，则表示
+
+- 它返回的是一个 :any:`StreamingJSON` 对象，可以想像成一个 JS Object。
+- 它的属性可通过 ``.`` 和 ``[]`` 操作符进行遍历。
 
 ..  note:: 举例
 
@@ -81,35 +85,40 @@ Intro - 知乎类文档阅读说明
         for location in people.locations:
             print(location.name, location.excerpt)
 
-..  note:: 坑爹的知乎
+..  warning:: 提示
 
-    这个库遵循一下原则：
+    如果某个属性和 Python 的关键字冲突，请在属性名后面加上下划线 ``_`` 即可。
 
-    - 点赞一律用 vote，点赞者用 voter
-    - 收藏夹用 collection，收藏用 collect
-    - 某某某的数量一律用 ``xxx_count``，``xxx`` 使用单数形式
-    - 某某某的生成器一律用 ``xxxs``，即 ``xxx`` 的复数形式
 
-    例： :any:`Column.article_count` 专栏的文章数
+Specification & Compatible - 规范 & 兼容
+----------------------------------------
 
-    例： :any:`Column.articles` 专栏所有文章的生成器
+这个库遵循以下原则：
 
-    知乎返回的 JSON 大部分都很统一，比如用词的单复数，
-    用 vote 还是 like 表示点赞，等等这些。
+- 点赞一律用 vote，点赞者用 voter
+- 收藏夹用 collection，收藏用 collect
+- 某某某的数量一律用 ``xxx_count``，``xxx`` 使用单数形式
+- 某某某的生成器一律用 ``xxxs``，即 ``xxx`` 的复数形式
 
-    但是就是有那么几个不合群。
+例： :any:`Column.article_count` 专栏的文章数
 
-    如果你看到某个类有两个差不多的属性，他们的差别只是
+例： :any:`Column.articles` 专栏所有文章的生成器
 
-    - 某一个属性多了个 s
-      （比如 :any:`Column.article_count` 和 :any:`Column.articles_count`）
-    - 两个属性意思相同
-      （比如 :any:`People.favorited_count` 和 :any:`People.collected_count`）
+知乎返回的 JSON 大部分都很统一，比如用词的单复数，
+用 vote 还是 like 表示点赞，等等这些。
 
-    那么：
+但是就是有那么几个不合群。
 
-    - 有 s 的版本是我为了兼容知乎的原始数据加上的别名。
-    - 其中一个属性是我强行修改成符合我自己规范的名字。
+如果你看到某个类有两个差不多的属性，他们的差别只是
 
-    这种做法只是为了方便用惯了原始数据的同学们，其实两个方法
-    无任何区别（当然，除了名字）。
+- 某一个属性多了个 s
+  （比如 :any:`Column.article_count` 和 :any:`Column.articles_count`）
+- 两个属性意思相同
+  （比如 :any:`People.favorited_count` 和 :any:`People.collected_count`）
+
+那么：
+
+- 有 s 的版本是我为了兼容知乎的原始数据加上的别名。
+- 其中一个属性是我强行修改成符合我自己规范的名字。
+
+这种做法只是为了兼容知乎原始数据，其实两个方法无任何区别（当然，除了名字）。

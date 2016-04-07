@@ -32,9 +32,13 @@ def int_id(func):
     :raise: :class:`.IdMustBeIntException` 当传过来的 ID 不是整型的时候
     """
     @functools.wraps(func)
-    def wrapper(self, some_id, *args, **kwargs):
+    def wrapper(self, *args, **kwargs):
+        try:
+            some_id = args[0]
+        except IndexError:
+            some_id = None
         if not isinstance(some_id, int):
             raise IdMustBeIntException(func)
-        return func(self, some_id, *args, **kwargs)
+        return func(self, *args, **kwargs)
 
     return wrapper

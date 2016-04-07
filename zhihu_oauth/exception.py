@@ -125,6 +125,7 @@ class IdMustBeIntException(BaseException):
         self.func = func.__name__
 
     def __repr__(self):
-        return "id argument of {self.func} must be int".format(self=self)
+        return "You must provide a integer id " \
+               "to use function: {self.func}".format(self=self)
 
     __str__ = __repr__

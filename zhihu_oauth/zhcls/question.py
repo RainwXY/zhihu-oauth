@@ -67,6 +67,36 @@ class Question(Base):
     @property
     @streaming()
     def redirection(self):
+        """
+        常见返回值：
+
+        ..  code-block:: python
+
+            {
+                'to':
+                {
+                    'url': 'https://api.zhihu.com/questions/19570036',
+                    'id': 19570036,
+                    'type': 'question',
+                    'title': '什么是「问题重定向」？如何正确使用该功能解决重复问题？'
+                },
+                'from':
+                [
+                    {
+                        'url': 'https://api.zhihu.com/questions/19772082',
+                        'id': 19772082,
+                        'type': 'question',
+                        'title': '知乎上有重复的问题吗？'
+                    },
+                    {
+                        'url': 'https://api.zhihu.com/questions/20830682',
+                        'id': 20830682,
+                        'type': 'question',
+                        'title': '各位知友以为同一问题重复出现，知乎应如何应对？'
+                    }
+                ]
+            }
+        """
         return None
 
     @property
@@ -75,8 +105,17 @@ class Question(Base):
         return None
 
     @property
-    @streaming()
+    @streaming(use_cache=False)
     def suggest_edit(self):
+        """
+        常见返回值：
+
+        ..  code-block:: python
+
+            {'status': False', reason': ''}
+
+            {'status': True, 'reason': '问题表意不明'}
+        """
         return None
 
     @property
