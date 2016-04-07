@@ -27,7 +27,7 @@
 pip install -U zhihu_oauth
 ```
 
-如果安装问题，请查看文档：[安装][rtds-install]
+如果安装遇到问题，请查看文档：[安装][rtds-install]
 
 ### 登录
 
@@ -92,15 +92,15 @@ following column count 11
 - [x] 增加从 id 构建相应类的方法
 - [x] 添加与 zhihu-py3 的速度对比
 - [x] answer.save 和 article.save
+- [x] 打包成模块，发布到 PyPI
 - [ ] 文档 - 正在写…………好痛苦…………
-- [ ] 打包成模块
 - [ ] 规范的测试
 - [ ] people.activities 用户动态
 - [ ] topic.activities 话题动态
 - [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
 - [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
-- [ ] 获取用户消息。新关注者，新评论，关注的回答有新问题，有私信等。
 - [ ] Me 类的各种操作，比如评论，点赞，私信……etc
+- [ ] 获取用户消息。新关注者，新评论，关注的回答有新问题，有私信等。
 - [ ] 保证对 Python 2 和 3 的兼容性
 
 [zhihu-py3-github]: https://github.com/7sDream/zhihu-py3
