@@ -6,6 +6,7 @@ Zhihu-OAuth 文档
     :caption: 如果你只是想使用，看这些就行
     :maxdepth: 2
 
+    install
     client
     zhcls/index-for-user
 
