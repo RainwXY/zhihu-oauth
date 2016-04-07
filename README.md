@@ -127,5 +127,5 @@ MIT
 [badge-author]: https://img.shields.io/badge/Author-7sDream-blue.svg
 [badge-docs]: https://readthedocs.org/projects/zhihu-oauth/badge/?version=latest
 [badge-version]: https://img.shields.io/pypi/v/zhihu_oauth.svg
-[badge-py-version]: https://img.shields.io/pypi/pyversions/zhihu_oauth_.svg
+[badge-py-version]: https://img.shields.io/pypi/pyversions/zhihu_oauth.svg
 [badge-license]: https://img.shields.io/pypi/l/zhihu_oauth.svg
