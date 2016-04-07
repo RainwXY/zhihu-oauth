@@ -28,13 +28,6 @@ Generic example - 通用示例
 zhihu_oauth 的使用方法很简单，用已登录 :any:`ZhihuClient` 构造想要的对象，
 然后取数据就好。
 
-..  seealso:: 有那些类可以使用？
-
-    请看 :ref:`知乎相关类文档 <for_user_zhcls>`
-
-    用 :any:`ZhihuClient` 的生成这些对象的方法请看 :doc:`这里 <../for-user/client>`
-
-
 这里以 :any:`ZhihuClient.me` 为例，给一些通用的用法
 
 Normal attr - 普通属性
@@ -228,3 +221,14 @@ zhihu_oauth 还提供了简单地备份（保存）答案和文章的功能。�
 
     文章保存功能的详细参数参见 :any:`Article.save`
 
+
+What's Next - 下一步
+--------------------
+
+这里只用 :any:`Me` 类作为示例，其他类的用法其实也类似。
+
+..  seealso:: 有那些类可以使用？
+
+    请看 :ref:`知乎相关类文档 <for_user_zhcls>`
+
+    用 :any:`ZhihuClient` 的生成这些对象的方法请看 :doc:`这里 <../for-user/client>`
