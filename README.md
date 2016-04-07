@@ -84,6 +84,12 @@ following column count 11
 
 更多功能请参见文档：[使用方法][rtds-usage]
 
+## 文档
+
+完整的文档可以在[这里][rtds-home]。
+
+貌似 ReadTheDocs 在伟大的国家访问速度有点慢，建议自备手段。
+
 ## TODO
 
 - [x] 将 oauth2.setting 中的 API URL 放到其他合适的地方
