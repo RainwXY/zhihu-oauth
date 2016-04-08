@@ -27,7 +27,7 @@ Developer references - 开发人员参考
     下一个要写的文档是 StreamingJSON
 
 ..  toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     for-dev/index
 
