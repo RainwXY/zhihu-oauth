@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from .base import Base
 from .generator import generator_of
-from .other_obj import other_obj
+from .other import other_obj
 from .normal import normal_attr
 from .urls import (
     COLUMN_DETAIL_URL,

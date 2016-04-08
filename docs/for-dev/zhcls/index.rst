@@ -5,4 +5,6 @@ Zhihu classes structure - 知乎类结构
 
     base
     normal
+    other
     stream
+    generator
