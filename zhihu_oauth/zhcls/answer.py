@@ -7,7 +7,7 @@ import os
 from .base import Base
 from .generator import generator_of
 from .other_obj import other_obj
-from .normal_attr import normal_attr
+from .normal import normal_attr
 from .streaming import streaming
 from .utils import remove_invalid_char, add_serial_number, SimpleHtmlFormatter
 from .urls import (

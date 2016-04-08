@@ -5,7 +5,7 @@ Normal attr - 常规属性
 
 下面这个装饰器就是各知乎类中用于标明哪些是常规属性的。
 
-..  automodule:: zhihu_oauth.zhcls.normal_attr
+..  automodule:: zhihu_oauth.zhcls.normal
     :members:
     :special-members:
     :undoc-members:

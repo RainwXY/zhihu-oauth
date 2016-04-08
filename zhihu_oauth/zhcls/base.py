@@ -24,7 +24,7 @@ class Base(object):
             :any:`People`）的 ``cache`` 中。这样一来，在执行
             ``answer.author.name`` 时，取出名字的操作可以省去一次网络请求。
 
-            :func:`normal_attr`，:any:`other_obj` 和 :any:`streaming` 装饰器都会
+            :any:`normal_attr`，:any:`other_obj` 和 :any:`streaming` 装饰器都会
             优先使用 ``cache`` 中的数据，当获取失败时才会调用
             :any:`_get_data` 方法请求数据。
 

@@ -37,6 +37,9 @@ print('collection count', me.collection_count)
 print('article count', me.articles_count)
 print('following column count', me.following_column_count)
 
+for location in me.locations:
+    print('location: ', location.name)
+
 # 获取最近 5 个回答
 for _, answer in zip(range(5), me.answers):
     print(answer.question.title, answer.voteup_count)

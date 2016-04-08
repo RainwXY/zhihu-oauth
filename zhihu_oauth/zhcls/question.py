@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from .base import Base
 from .generator import generator_of
-from .normal_attr import normal_attr
+from .normal import normal_attr
 from .streaming import streaming
 from zhihu_oauth.zhcls.urls import (
     QUESTION_DETAIL_URL,
