@@ -1,8 +1,9 @@
-StreamingJSON - 流式JSON
-========================
+Streaming JSON - 流式JSON
+=========================
 
-本类用于处理在 知乎 API 返回的 JSON
-数据里，既不是基本数据类型，又不是另一个知乎对象的数据。
+本模块用于处理在 知乎 API 返回的 JSON数据里的一部分流式 JSON 数据。
+
+流式 JSON 属性的含义请看\ :ref:`这里 <intro_streaming_json>`。
 
 如 :any:`People.locations`，:any:`Question.suggest_edit` 等。
 

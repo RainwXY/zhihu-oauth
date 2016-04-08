@@ -7,7 +7,7 @@ import os
 from .base import Base
 from .generator import generator_of
 from .other_obj import other_obj
-from .simple_info import simple_info
+from .normal_attr import normal_attr
 from .streaming import streaming
 from .utils import remove_invalid_char, add_serial_number, SimpleHtmlFormatter
 from .urls import (
@@ -46,12 +46,12 @@ class Article(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def comment_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def comment_permission(self):
         """
         ..  seealso:: :any:`Answer.comment_permission`
@@ -59,22 +59,22 @@ class Article(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def content(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def excerpt(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def id(self):
         return self._id
 
     @property
-    @simple_info()
+    @normal_attr()
     def image_url(self):
         return None
 
@@ -87,17 +87,17 @@ class Article(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def title(self):
         return None
 
     @property
-    @simple_info('updated')
+    @normal_attr('updated')
     def updated_time(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def voteup_count(self):
         return None
 

@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from .base import Base
 from .generator import generator_of
 from .other_obj import other_obj
-from .simple_info import simple_info
+from .normal_attr import normal_attr
 from .urls import (
     COLUMN_DETAIL_URL,
     COLUMN_ARTICLES_URL,
@@ -25,7 +25,7 @@ class Column(Base):
     # ---- simple info -----
 
     @property
-    @simple_info('articles_count')
+    @normal_attr('articles_count')
     def article_count(self):
         return None
 
@@ -39,37 +39,37 @@ class Column(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def comment_permission(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def description(self):
         return None
 
     @property
-    @simple_info('followers')
+    @normal_attr('followers')
     def follower_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def id(self):
         return self._id
 
     @property
-    @simple_info()
+    @normal_attr()
     def image_url(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def title(self):
         return None
 
     @property
-    @simple_info('updated')
+    @normal_attr('updated')
     def updated_time(self):
         return None
 

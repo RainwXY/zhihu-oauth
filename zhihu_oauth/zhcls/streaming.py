@@ -27,7 +27,7 @@ class StreamingJSON:
            item 与 Python 内置关键字冲突。 参见：:any:`Question.redirection` 的
            ``from`` 数据以及 :ref:`说明 <tips-for-conflict-with-keyword>`。
         2. 取出 ``obj = self._json[item]``，若不存在则抛出异常。
-        3. 如果 ``obj`` 是 ``dict`` 或者 ``list``， 返回 ``StreamJSON(obj)``
+        3. 如果 ``obj`` 是 ``dict`` 或者 ``list``， 返回 ``StreamingJSON(obj)``
         4. 否则直接返回 ``obj``。
         """
         if isinstance(self._json, dict):
@@ -56,7 +56,7 @@ class StreamingJSON:
         如果 ``self._json`` 不是 ``list`` 型，或 ``item`` 不是 ``int`` 型，
         则抛出 ``ValueError``。
 
-        如果取出的 ``obj`` 是 ``dict`` 或 ``list``，返回 ``StreamJSON(obj)``
+        如果取出的 ``obj`` 是 ``dict`` 或 ``list``，返回 ``StreamingJSON(obj)``
         否则直接返回 ``obj``。
         """
         if isinstance(self._json, list) and isinstance(item, int):
@@ -72,7 +72,7 @@ class StreamingJSON:
     def __iter__(self):
         """
         重写迭代行为。如果迭代对象是 ``dict`` 或 ``list``，返回
-        ``StreamJSON(obj)``，否则直接返回。
+        ``StreamingJSON(obj)``，否则直接返回。
         """
         def _iter():
             for x in self._json:
@@ -99,15 +99,17 @@ def streaming(name_in_json=None, use_cache=True):
     本装饰器的作用为：
 
     1. 标识这个属性为流式 JSON 属性。
-    2. 在自动从对象的数据中取出一个属性，构建成 :any:`StreamJSON` 对象。
+    2. 自动从对象的数据中取出对应属性，构建成 :any:`StreamingJSON` 对象。
 
     取数据流程如下：
 
     1. 如果 ``use_cache`` 为真，则尝试从 ``cache`` 中取需要的属性。
-    2. 如果上一步执行失败（不允许使用 ``cache`` 或没有 ``cache`` 或 ``cache``
+    2. 如果上一步取属性失败（不允许使用 ``cache`` 或没有 ``cache`` 或 ``cache``
        中不存在需要的属性）则尝试从 ``data`` 中取。
-    3. 如果上一步又执行失败（请求 ``data`` 失败或 ``data`` 中没有所要属性），
-       则返回被装饰方法的调用结果。
+    3. 如果上一步取属性也失败（请求 ``data`` 失败或 ``data`` 中没有所要属性），
+       则将被装饰方法的调用结果作为取到的属性值。
+    4. 如果以上三步中取出的数据是 ``dict`` 或 ``list`` 类型，则返回使用
+       :any:`StreamingJSON` 包装过的结果。如果不是则抛出 ``ValueError`` 异常。
 
     ..  seealso:: 关于 cache 和 data
 
@@ -117,6 +119,7 @@ def streaming(name_in_json=None, use_cache=True):
       中的名字。可空，默认为使用本装饰器的的方法名。
     :param use_cache: 是否使用缓存的数据。默认为 ``True``。如果为
       ``False`` 则只使用 data。
+    :raise ValueError: 当最终取到的数据不是 ``dict`` 或 ``list`` 类型时。
     """
     def wrappers_wrapper(func):
         @functools.wraps(func)
@@ -129,8 +132,12 @@ def streaming(name_in_json=None, use_cache=True):
                 if self._data and name in self._data:
                     cache = self._data[name]
                 else:
-                    return func(self, *args, **kwargs)
-            return StreamingJSON(cache)
+                    cache = func(self, *args, **kwargs)
+
+            if isinstance(cache, (dict, list)):
+                return StreamingJSON(cache)
+            else:
+                raise TypeError('Only dict and list can be StreamingJSON.')
 
         return wrapper
 

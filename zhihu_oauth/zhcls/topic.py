@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from .base import Base
 from .generator import generator_of
-from .simple_info import simple_info
+from .normal_attr import normal_attr
 from zhihu_oauth.zhcls.urls import (
     TOPIC_DETAIL_URL,
     TOPIC_BEST_ANSWERS_URL,
@@ -27,12 +27,12 @@ class Topic(Base):
     # ---- simple info -----
 
     @property
-    @simple_info()
+    @normal_attr()
     def avatar_url(self):
         return None
 
     @property
-    @simple_info('best_answers_count')
+    @normal_attr('best_answers_count')
     def best_answer_count(self):
         return None
 
@@ -41,17 +41,17 @@ class Topic(Base):
         return self.best_answer_count
 
     @property
-    @simple_info()
+    @normal_attr()
     def id(self):
         return self._id
 
     @property
-    @simple_info()
+    @normal_attr()
     def introduction(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def excerpt(self):
         return None
 
@@ -60,7 +60,7 @@ class Topic(Base):
         return self.parent_count
 
     @property
-    @simple_info('followers_count')
+    @normal_attr('followers_count')
     def follower_count(self):
         return None
 
@@ -69,17 +69,17 @@ class Topic(Base):
         return self.follower_count
 
     @property
-    @simple_info()
+    @normal_attr()
     def name(self):
         return None
 
     @property
-    @simple_info('father_count')
+    @normal_attr('father_count')
     def parent_count(self):
         return None
 
     @property
-    @simple_info('questions_count')
+    @normal_attr('questions_count')
     def question_count(self):
         return None
 
@@ -88,7 +88,7 @@ class Topic(Base):
         return self.question_count
 
     @property
-    @simple_info()
+    @normal_attr()
     def unanswered_count(self):
         return None
 

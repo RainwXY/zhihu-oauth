@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from .base import Base
 from .generator import generator_of
-from .simple_info import simple_info
+from .normal_attr import normal_attr
 from .streaming import streaming
 from zhihu_oauth.zhcls.urls import (
     QUESTION_DETAIL_URL,
@@ -27,22 +27,22 @@ class Question(Base):
     # ----- simple info -----
 
     @property
-    @simple_info()
+    @normal_attr()
     def allow_delete(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def answer_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def comment_count(self):
         return None
 
     @property
-    @simple_info('except')
+    @normal_attr('except')
     def excerpt(self):
         """
         知乎返回的 json 里这一项叫做 except.... 也是醉了
@@ -50,17 +50,17 @@ class Question(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def follower_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def id(self):
         return self._id
 
     @property
-    @simple_info()
+    @normal_attr()
     def detail(self):
         return None
 
@@ -122,12 +122,12 @@ class Question(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def title(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def updated_time(self):
         return None
 

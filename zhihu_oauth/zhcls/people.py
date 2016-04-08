@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from .base import Base
 from .generator import generator_of
-from .simple_info import simple_info
+from .normal_attr import normal_attr
 from .streaming import streaming
 from .urls import (
     PEOPLE_DETAIL_URL,
@@ -59,17 +59,17 @@ class People(Base):
     # ---------- simple info ---------
 
     @property
-    @simple_info()
+    @normal_attr()
     def answer_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def articles_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def avatar_url(self):
         return None
 
@@ -96,17 +96,17 @@ class People(Base):
         return None
 
     @property
-    @simple_info('favorited_count')
+    @normal_attr('favorited_count')
     def collected_count(self):
         return None
 
     @property
-    @simple_info('favorite_count')
+    @normal_attr('favorite_count')
     def collection_count(self):
         return None
 
     @property
-    @simple_info('columns_count')
+    @normal_attr('columns_count')
     def column_count(self):
         return None
 
@@ -115,17 +115,17 @@ class People(Base):
         return self.column_count
 
     @property
-    @simple_info()
+    @normal_attr()
     def created_at(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def description(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def draft_count(self):
         return None
 
@@ -201,7 +201,7 @@ class People(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def email(self):
         return None
 
@@ -214,37 +214,37 @@ class People(Base):
         return self.collected_count
 
     @property
-    @simple_info()
+    @normal_attr()
     def follower_count(self):
         return None
 
     @property
-    @simple_info('following_columns_count')
+    @normal_attr('following_columns_count')
     def following_column_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def following_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def following_question_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def following_topic_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def friendly_score(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def gender(self):
         """
         性别。
@@ -261,12 +261,12 @@ class People(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def has_daily_recommend_permission(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def headline(self):
         """
         就是那个显示在名字后面的，和签名类似的东西。
@@ -274,32 +274,32 @@ class People(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def is_active(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def id(self):
         return self._id
 
     @property
-    @simple_info()
+    @normal_attr()
     def is_baned(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def is_bind_sina(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def is_locked(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def is_moments_user(self):
         """
         不知道是啥。
@@ -329,37 +329,37 @@ class People(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def name(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def question_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def shared_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def sina_weibo_name(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def sina_weibo_url(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def thanked_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def uid(self):
         """
         没什么用的东西。
@@ -367,7 +367,7 @@ class People(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def voteup_count(self):
         return None
 

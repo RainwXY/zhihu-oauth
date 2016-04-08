@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from .base import Base
 from .generator import generator_of
-from .simple_info import simple_info
+from .normal_attr import normal_attr
 from zhihu_oauth.zhcls.urls import (
     COMMENT_CONVERSION_URL,
     COMMENT_REPLIES_URL,
@@ -26,22 +26,22 @@ class Comment(Base):
     # ----- simple info -----
 
     @property
-    @simple_info()
+    @normal_attr()
     def allow_delete(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def allow_like(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def allow_reply(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def ancestor(self):
         """
         不知道是啥，貌似永远都是 False。
@@ -67,22 +67,22 @@ class Comment(Base):
             return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def content(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def created_time(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def id(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def is_author(self):
         """
         是否是 答案/文章/etc 的作者的评论。
@@ -90,7 +90,7 @@ class Comment(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def is_delete(self):
         """
         是否被删除？话说被删除了还能获取到？我没测试……
@@ -98,7 +98,7 @@ class Comment(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def is_parent_author(self):
         """
         也没搞懂这个属性，貌似永远和 :meth:`is_author` 保持一致。
@@ -106,7 +106,7 @@ class Comment(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def resource_type(self):
         """
         是对什么东西的评论。
@@ -123,12 +123,12 @@ class Comment(Base):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def vote_count(self):
         return None
 
     @property
-    @simple_info()
+    @normal_attr()
     def voting(self):
         """
         是否对这条评论点了赞。

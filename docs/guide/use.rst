@@ -177,7 +177,7 @@ Streaming JSON - 流式 JSON
 
 ..  seealso:: 详细
 
-    有关 StreamingJSON 的更多资料请看 :ref:`inrto_streaming_json`
+    有关 StreamingJSON 的更多资料请看 :ref:`intro_streaming_json`
 
 
 Backup & Save - 备份和保存

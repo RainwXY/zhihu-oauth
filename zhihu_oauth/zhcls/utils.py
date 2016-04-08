@@ -16,6 +16,11 @@ except ImportError:
 __all__ = ["INVALID_CHARS", "remove_invalid_char", 'add_serial_number',
            'SimpleHtmlFormatter']
 
+
+def can_get_from(name, data):
+    return name in data and not isinstance(data[name], (dict, list))
+
+
 INVALID_CHARS = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
 
 
