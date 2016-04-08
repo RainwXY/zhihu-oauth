@@ -101,7 +101,9 @@ following column count 11
 - [x] 添加与 zhihu-py3 的速度对比
 - [x] answer.save 和 article.save
 - [x] 打包成模块，发布到 PyPI
-- [ ] 文档 - 正在写…………好痛苦…………
+- [x] 用户文档
+- [ ] 内部实现文档
+- [ ] 提供统一的 from_url 用于构建对象
 - [ ] 规范的测试
 - [ ] people.activities 用户动态
 - [ ] topic.activities 话题动态
