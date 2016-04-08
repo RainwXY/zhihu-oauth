@@ -21,7 +21,7 @@ def other_obj(class_name=None, name_in_json=None):
     1. 尝试导入类名表示的类，如果获取失败则设为 :any:`Base` 类。
     2. 尝试从 ``cache`` 中获取用来建立对象的数据。失败转 3，成功转 5。
     3. 如果当前对象没有 ``data`` 则调用知乎 API 获取。
-    4. 尝试从 ``data`` 中获取数据。失败则将数据设置为 None。
+    4. 尝试从 ``data`` 中获取数据。失败则将数据设置为被装饰函数的返回值。
     5. 将获取到的数据作为 ``cache`` 构建第一步中的导入的知乎类对象。
 
     ..  seealso:: 关于 cache 和 data
@@ -53,7 +53,7 @@ def other_obj(class_name=None, name_in_json=None):
                 if self._data and name_in_j in self._data:
                     cache = self._data[name_in_j]
                 else:
-                    cache = None
+                    cache = func(self, *args, **kwargs)
             return cls(cache['id'], cache, self._session)
 
         return wrapper

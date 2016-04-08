@@ -25,14 +25,11 @@ Normal attr - 常规属性
 - 它的名称已经把自己描述的足够清楚了。
 - 如果它是个单数，表示直接通过 ``.`` 操作符，
   能直接获取到基本类型 ``(str, int, float, bool)`` 的数据，或另一个知乎对象。
-- 如果它是个复数，表示直接通过 ``.`` 操作符，
-  能获取到一个生成器，生成它所表示的知乎对象列表。
 
 ..  note:: 举例
 
     - :any:`Answer.voteup_count` 表示一个答案获得的赞同数（很明显是个 ``int``）。
     - :any:`Answer.author` 表示答案的作者（很明显应该是 :class:`.People` 类）。
-    - :any:`Answer.voters` 表示答案的点赞者（:class:`.People` 对象的生成器）。
 
 ..  _intro_streaming_json:
 
@@ -94,6 +91,30 @@ Streaming JSON attr - 流式 JSON 属性
 
     如果某个属性和 Python 的关键字冲突，请在属性名后面加上下划线 ``_`` 即可。
 
+.. _intro_generator_attr:
+
+Generator attr - 生成器属性
+---------------------------
+
+如果一个属性名是复数，又没有给出常见返回值，那么它是生成器属性。
+
+这表示直接通过 ``.`` 操作符，能获取到一个生成器，生成它所表示的知乎对象列表。
+
+..  note:: 举例
+
+    - :any:`Answer.voters` 表示答案的所有点赞者（:any:`People` 对象的生成器）。
+    - :any:`People.answers` 表示用户的所有答案（:any:`Answer` 对象的生成器）。
+
+可以通过 ``for in loop`` 对它们进行迭代：
+
+..  code-block:: python
+
+    for answer in me.answers:
+        print(answer.question.name, answer.voteup_count
+
+某些属性可以通过 order_by 来指定排序，但是一般用不到。
+
+目前发现的的用法见：:any:`BaseGenerator.order_by`。
 
 Specification & Compatible - 规范 & 兼容
 ----------------------------------------
