@@ -24,6 +24,10 @@ sys.path.insert(0, os.path.abspath('..'))
 
 import zhihu_oauth
 
+inheritance_graph_attrs = {
+    'rankdir': "TB"
+}
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

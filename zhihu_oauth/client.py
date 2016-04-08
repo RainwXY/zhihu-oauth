@@ -348,3 +348,5 @@ class ZhihuClient:
         """
         from .zhcls.topic import Topic
         return Topic(tid, None, self._session)
+
+    # TODO: fromURL
