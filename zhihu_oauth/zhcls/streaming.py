@@ -9,11 +9,27 @@ __all__ = ['StreamingJSON', 'streaming']
 
 class StreamingJSON:
     def __init__(self, json_data):
+        """
+        通过 ``dict`` 或者 ``list`` 来创建对象。
+        """
         if not isinstance(json_data, (dict, list)):
             raise ValueError('Need dict or list to build StreamingJSON object.')
         self._json = json_data
 
     def __getattr__(self, item):
+        """
+        重写 ``.`` 操作符。``item`` 参数为 ``.`` 后要取的属性。也即将 ``obj.xxx``
+        转换为 ``obj._json['xxx']``
+
+        重载后的 ``__getattr__`` 的流程为：
+
+        1. 判断 item 最后一个字符是不是 ``_``，若是则删去。这一步的作用是防止
+           item 与 Python 内置关键字冲突。 参见：:any:`Question.redirection` 的
+           ``from`` 数据以及 :ref:`说明 <tips-for-conflict-with-keyword>`。
+        2. 取出 ``obj = self._json[item]``，若不存在则抛出异常。
+        3. 如果 ``obj`` 是 ``dict`` 或者 ``list``， 返回 ``StreamJSON(obj)``
+        4. 否则直接返回 ``obj``。
+        """
         if isinstance(self._json, dict):
 
             # 防止和 Python 内置关键字冲突
@@ -33,6 +49,16 @@ class StreamingJSON:
                              "please use XX[num].".format(self._json))
 
     def __getitem__(self, item):
+        """
+        重写 ``[]`` 操作符。item 参数为 ``[]`` 内数组下表。也即将 ``obj[0]``
+        转换为 ``obj._json['0]``。
+
+        如果 ``self._json`` 不是 ``list`` 型，或 ``item`` 不是 ``int`` 型，
+        则抛出 ``ValueError``。
+
+        如果取出的 ``obj`` 是 ``dict`` 或 ``list``，返回 ``StreamJSON(obj)``
+        否则直接返回 ``obj``。
+        """
         if isinstance(self._json, list) and isinstance(item, int):
             obj = self._json[item]
             if isinstance(obj, (dict, list)):
@@ -44,6 +70,10 @@ class StreamingJSON:
                          "please use XX.xxx.".format(self._json))
 
     def __iter__(self):
+        """
+        重写迭代行为。如果迭代对象是 ``dict`` 或 ``list``，返回
+        ``StreamJSON(obj)``，否则直接返回。
+        """
         def _iter():
             for x in self._json:
                 if isinstance(x, (dict, list)):
@@ -63,11 +93,35 @@ class StreamingJSON:
         return repr(self._json)
 
 
-def streaming(name_in_cache=None, use_cache=True):
+def streaming(name_in_json=None, use_cache=True):
+    """
+
+    本装饰器的作用为：
+
+    1. 标识这个属性为流式 JSON 属性。
+    2. 在自动从对象的数据中取出一个属性，构建成 :any:`StreamJSON` 对象。
+
+    取数据流程如下：
+
+    1. 如果 ``use_cache`` 为真，则尝试从 ``cache`` 中取需要的属性。
+    2. 如果上一步执行失败（不允许使用 ``cache`` 或没有 ``cache`` 或 ``cache``
+       中不存在需要的属性）则尝试从 ``data`` 中取。
+    3. 如果上一步又执行失败（请求 ``data`` 失败或 ``data`` 中没有所要属性），
+       则返回被装饰方法的调用结果。
+
+    ..  seealso:: 关于 cache 和 data
+
+        请看 :any:`Base` 类中的\ :any:`说明 <Base.__init__>`。
+
+    :param name_in_json: 要取的数据在 JSON
+      中的名字。可空，默认为使用本装饰器的的方法名。
+    :param use_cache: 是否使用缓存的数据。默认为 ``True``。如果为
+      ``False`` 则只使用 data。
+    """
     def wrappers_wrapper(func):
         @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
-            name = name_in_cache if name_in_cache else func.__name__
+            name = name_in_json if name_in_json else func.__name__
             if use_cache and self._cache and name in self._cache:
                 cache = self._cache[name]
             else:

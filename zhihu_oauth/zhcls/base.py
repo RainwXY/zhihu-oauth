@@ -12,6 +12,22 @@ __all__ = ['Base']
 class Base(object):
     def __init__(self, zhihu_obj_id, cache, session):
         """
+
+        ..  note:: Cache 与 Data
+
+            :any:`Base` 类的 ``cache`` 参数表示已知的属性值。一般由另一个对象的
+            JSON 数据中的一个属性充当。
+
+            比如 :any:`Answer.author` 方法，由于在请求 :any:`Answer` 的数据时，
+            原始 JSON 数据中就有关于作者的一些简单信息。比如 name，id，headline。
+            在使用此方法时就会将这些不完整的数据传递到 ``answer`` 对象 （类型为
+            :any:`People`）的 ``cache`` 中。这样一来，在执行
+            ``answer.author.name`` 时，取出名字的操作可以省去一次网络请求。
+
+            :any:`simple_info`，:any:`other_obj` 和 :any:`streaming` 装饰器都会
+            优先使用 ``cache`` 中的数据，当获取失败时才会调用
+            :any:`_get_data` 方法请求数据。
+
         :param zhihu_obj_id: 构建知乎对象所用的 ID
         :param dict cache: 缓存数据，就是已知的这个对象的属性集
         :param session: 网络请求 Session
