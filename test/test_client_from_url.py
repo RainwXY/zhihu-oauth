@@ -10,12 +10,20 @@ from zhihu_oauth import (
 class TestZhihuClientFromURL(unittest.TestCase):
 
     def setUp(self):
-        if os.path.isfile('token.pkl'):
+        if not os.path.isdir('test') and os.path.isfile('token.pkl'):
             os.chdir('..')
+
         if not os.path.isfile('test/token.pkl'):
-            raise Exception('No token file, can\'t start test')
+            print('\nno token file, skip all tests.')
+            self.skipTest('no token file.')
+
         self.client = ZhihuClient()
-        self.client.load_token('test/token.pkl')
+
+        try:
+            self.client.load_token('test/token.pkl')
+        except ValueError:
+            print('\ntoken version not math python version, skip all tests.')
+            self.skipTest('token version not math python version.')
 
     def test_correct_answer_url(self):
         url_list = [

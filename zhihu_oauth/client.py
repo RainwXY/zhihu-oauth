@@ -361,10 +361,9 @@ class ZhihuClient:
 
             本方法也支持省略了开头的 ``https://``，或者结尾有多余的 ``/`` 的 URL。
 
-        :param int url: 知乎对象的网址
+        :param str url: 知乎对象的网址
         :return: 对应的知乎对象
         """
-        assert isinstance(url, str)
         for re, val in RE_FUNC_MAP.items():
             match = re.match(url)
             if match:
@@ -374,3 +373,4 @@ class ZhihuClient:
                     zhihu_obj_id = int(zhihu_obj_id)
                 return getattr(self, func_name)(zhihu_obj_id)
         raise ValueError('Invalid zhihu object url!')
+git
