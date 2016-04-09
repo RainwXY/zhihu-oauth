@@ -373,4 +373,3 @@ class ZhihuClient:
                     zhihu_obj_id = int(zhihu_obj_id)
                 return getattr(self, func_name)(zhihu_obj_id)
         raise ValueError('Invalid zhihu object url!')
-git
