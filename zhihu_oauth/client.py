@@ -8,7 +8,7 @@ import os
 
 import requests
 
-from .oauth.login_auth import LoginAuth
+from .oauth.before_login_auth import BeforeLoginAuth
 from .oauth.zhihu_oauth import ZhihuOAuth
 from .oauth.token import ZhihuToken
 from .oauth.utils import login_signature
@@ -44,7 +44,7 @@ class ZhihuClient:
         # after zhihu open api
         self._client_id = client_id or CLIENT_ID
         self._secret = secret or APP_SECRET
-        self._login_auth = LoginAuth(self._client_id)
+        self._login_auth = BeforeLoginAuth(self._client_id)
         self._token = None
 
     def need_captcha(self):

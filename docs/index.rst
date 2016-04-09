@@ -27,6 +27,7 @@ Developer references - 开发人员参考
     下一个要写的文档是知乎 OAuth 的流程以及我的探寻方法。
 
 ..  toctree::
+    :maxdepth: 3
 
     for-dev/index
 

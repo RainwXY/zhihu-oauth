@@ -4,17 +4,18 @@ from __future__ import unicode_literals
 
 from .im_android import ImZhihuAndroidClient
 
-__all__ = ['LoginAuth']
+__all__ = ['BeforeLoginAuth']
 
 
-class LoginAuth(ImZhihuAndroidClient):
+class BeforeLoginAuth(ImZhihuAndroidClient):
     def __init__(self, client_id, api_version=None, app_version=None,
                  app_build=None, app_za=None):
         """
-        ..  inheritance-diagram:: LoginAuth
+        ..  inheritance-diagram:: BeforeLoginAuth
+            :parts: 1
 
         这个 Auth 在 :class:`.ImZhihuAndroidClient`
-        的基础上加上了发送 client_id 的功能。
+        的基础上加上了发送 ``client_id`` 的功能。表示登录之前的基础验证。
 
         :param str client_id: 客户端 ID
 
@@ -26,7 +27,7 @@ class LoginAuth(ImZhihuAndroidClient):
         :param str app_build:
         :param str app_za:
         """
-        super(LoginAuth, self).__init__(
+        super(BeforeLoginAuth, self).__init__(
             api_version, app_version, app_build, app_za)
         self._client_id = client_id
 
@@ -43,6 +44,6 @@ class LoginAuth(ImZhihuAndroidClient):
         ..  seealso::
             :meth:`.ImZhihuAndroidClient.__call__`
         """
-        r = super(LoginAuth, self).__call__(r)
+        r = super(BeforeLoginAuth, self).__call__(r)
         r.headers['Authorization'] = 'oauth {0}'.format(self._client_id)
         return r

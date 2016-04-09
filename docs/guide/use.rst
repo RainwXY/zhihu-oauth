@@ -213,7 +213,7 @@ zhihu_oauth 还提供了简单地备份（保存）答案和文章的功能。�
 
 结果：
 
-..  figure:: images/save-answer.png
+..  figure:: /images/save-answer.png
 
 .. seealso:: 保存
 
