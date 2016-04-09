@@ -102,7 +102,7 @@ following column count 11
 - [x] answer.save 和 article.save
 - [x] 打包成模块，发布到 PyPI
 - [x] 用户文档
-- [ ] 内部实现文档
+- [x] 内部实现文档（其实就是注释）
 - [ ] 提供统一的 from_url 用于构建对象
 - [ ] 规范的测试
 - [ ] people.activities 用户动态

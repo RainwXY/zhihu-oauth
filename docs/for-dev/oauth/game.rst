@@ -211,6 +211,8 @@ Last hint: Get token - 最后一击：获取令牌
 阿，对了，那个 cookies 里的东西貌似并不是很重要，我没有手动添加进 Session，
 所有的功能也能成功完成。
 
+有关令牌的保存和使用，请看 :any:`ZhihuToken` 类 和 :any:`ZhihuOAuth` 类。
+
 下面是一次登录传成功后的一次 API 请求头：
 
 ..  image:: /images/explore-8.png
