@@ -11,12 +11,12 @@ import requests
 from .oauth.before_login_auth import BeforeLoginAuth
 from .oauth.zhihu_oauth import ZhihuOAuth
 from .oauth.token import ZhihuToken
-from .oauth.utils import login_signature
-from .setting import CAPTCHA_FILE
-from .utils import need_login, int_id
 from .oauth.setting import (
     CAPTCHA_URL, LOGIN_URL, LOGIN_DATA, CLIENT_ID, APP_SECRET
 )
+from .oauth.utils import login_signature
+from .setting import CAPTCHA_FILE, RE_FUNC_MAP
+from .utils import need_login, int_id
 from .exception import (
     UnexpectedResponseException, NeedCaptchaException, MyJSONDecodeError
 )
@@ -349,4 +349,28 @@ class ZhihuClient:
         from .zhcls.topic import Topic
         return Topic(tid, None, self._session)
 
-    # TODO: fromURL
+    @need_login
+    def from_url(self, url):
+        """
+        通过知乎的 URL 创建对象，需要 client 是登录状态。
+
+        对象的 URL 请参见对应方法的描述。如 :any:`Answer` 类的 URL 的描述在
+        :any:`ZhihuClient.answer` 方法的文档里，其余类似。
+
+        ..  note:: 提示
+
+            本方法也支持省略了开头的 ``https://``，或者结尾有多余的 ``/`` 的 URL。
+
+        :param int url: 知乎对象的网址
+        :return: 对应的知乎对象
+        """
+        assert isinstance(url, str)
+        for re, val in RE_FUNC_MAP.items():
+            match = re.match(url)
+            if match:
+                zhihu_obj_id = match.group(1)
+                func_name, need_int_id = val
+                if need_int_id:
+                    zhihu_obj_id = int(zhihu_obj_id)
+                return getattr(self, func_name)(zhihu_obj_id)
+        raise ValueError('Invalid zhihu object url!')
