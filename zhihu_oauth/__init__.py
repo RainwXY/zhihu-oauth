@@ -13,4 +13,4 @@ __all__ = ['ZhihuClient', 'ANONYMOUS', 'Article', 'Answer', 'Collection',
            'Column', 'Comment', 'People', 'Question', 'Topic',
            'NeedCaptchaException', 'UnexpectedResponseException']
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'

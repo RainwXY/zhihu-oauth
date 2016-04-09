@@ -2,7 +2,7 @@
 
 ## 实验阶段
 
-### WIP
+### 0.0.3 - 2016.04.09
 
 - [add] 增加了 `ZhihuClient.from_url` 方法，传入合法的知乎网址，就能生成对应的对象
 - [add] 给 `BaseGenerator` 增加了 `add_params` 和 `set_params`  方法
