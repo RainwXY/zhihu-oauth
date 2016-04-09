@@ -180,6 +180,59 @@ Streaming JSON - 流式 JSON
     有关 StreamingJSON 的更多资料请看 :ref:`intro_streaming_json`
 
 
+Get other object - 获取其他对象
+-------------------------------
+
+除了 :any:`Me` 以外，还有很多类可供使用，比如 :any:`Answer` 可以通过
+:any:`ZhihuClient.answer` 方法获取，并输出答案的一些资料：
+
+..  code-block:: python
+
+    answer = client.answer(94150403)
+
+    print(answer.question.title)
+    print(answer.author.name)
+    print(answer.voteup_count)
+    print(answer.thanks_count)
+    print(answer.created_time)
+    print(answer.updated_time)
+
+    for voter in answer.voters:
+        print(voter.name, voter.headline)
+
+输出如下：
+
+..  code-block:: none
+
+    如何评价南开大学津南校区的建设质量？
+    7sDream
+    4
+    0
+    1460039289
+    1460088371
+    秦承平 莫做开山怪，莫做开山怪！
+    CINDY Warm♥Brave
+    杀马特绅少 懂礼貌的好周绅
+    codefalling https://github.com/CodeFalling
+
+所有可用的类请转到 :ref:`知乎类文档 <for_user_zhcls>` 进行查看，用法均类似。
+
+除了以上的使用方式外，:any:`ZhihuClient` 还提供了一个通用的，通过 URL 的创建知乎类对象的方法。
+
+比如上述代码中的
+
+``answer = client.answer(94150403)``
+
+可以改写成
+
+``answer = client.from_url('https://www.zhihu.com/question/42248369/answer/94150403')``
+
+传递不同的 URL 可以获得不同的对象以供使用。
+
+..  seealso:: 另见
+
+    :any:`ZhihuClient.from_url`
+
 Backup & Save - 备份和保存
 --------------------------
 
