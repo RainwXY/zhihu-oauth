@@ -92,6 +92,15 @@ class StreamingJSON:
     def __repr__(self):
         return repr(self._json)
 
+    def __contains__(self, item):
+        return item in self._json
+
+    def __bool__(self):
+        return True if self._json else False
+
+    def __nonzero__(self):
+        return self.__bool__()
+
 
 def streaming(name_in_json=None, use_cache=True):
     """

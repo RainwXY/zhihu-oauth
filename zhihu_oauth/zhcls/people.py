@@ -92,8 +92,16 @@ class People(Base):
                 'name': '计算机软件',
                 'excerpt': '',
             }
+
+        使用属性时必须先判断是否有效，如
+
+        ..  code-block:: python
+
+            if 'people.business:
+                data = people.business.name
+
         """
-        return None
+        return {}
 
     @property
     @normal_attr('favorited_count')
@@ -161,8 +169,18 @@ class People(Base):
                     },
                 },
             ]
+
+        使用属性时必须先判断存不存在，如:
+
+        ..  code-block:: python
+
+            for education in people.educations:
+                if 'school' in education:
+                    data += education.school.name
+                if 'major' in education:
+                    data += education.major.name'
         """
-        return None
+        return []
 
     @property
     @streaming()
@@ -197,8 +215,18 @@ class People(Base):
                     },
                 },
             ],
+
+        使用属性时必须先判断存不存在，如:
+
+        ..  code-block:: python
+
+            for employment in people.employments:
+                if 'company' in education:
+                    data += employment.company.name
+                if 'job' in education:
+                    data += employment.job.name'
         """
-        return None
+        return []
 
     @property
     @normal_attr()
@@ -325,8 +353,15 @@ class People(Base):
                     'id': '19577238',
                 },
             ],
+
+        使用属性时基本不用判断存不存在，如:
+
+        ..  code-block:: python
+
+            for location in people.locations:
+                data += location.name
         """
-        return None
+        return []
 
     @property
     @normal_attr()

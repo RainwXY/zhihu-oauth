@@ -159,6 +159,8 @@ class BaseGenerator(object):
         self._index += 1
         return obj
 
+    next = __next__
+
     def order_by(self, what):
         """
         有些 API 可以根据 GET 参数来控制数据的排序，只需流式的调用本函数即可。
