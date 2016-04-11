@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 try:
     from json import JSONDecodeError as MyJSONDecodeError
 except ImportError:
-    MyJSONDecodeError = BaseException
+    MyJSONDecodeError = Exception
     """
     在 Py3 下是 json.JSONDecodeError。
 
@@ -23,7 +23,7 @@ __all__ = [
 ]
 
 
-class UnexpectedResponseException(BaseException):
+class UnexpectedResponseException(Exception):
     def __init__(self, url, res, expect):
         """
         服务器回复了和预期格式不符的数据
@@ -44,7 +44,7 @@ class UnexpectedResponseException(BaseException):
     __str__ = __repr__
 
 
-class UnimplementedException(BaseException):
+class UnimplementedException(Exception):
     def __init__(self, what):
         """
         处理当前遇到的情况的代码还未实现，只是开发的时候用于占位
@@ -85,7 +85,7 @@ class GetDataErrorException(UnexpectedResponseException):
     __str__ = __repr__
 
 
-class NeedCaptchaException(BaseException):
+class NeedCaptchaException(Exception):
     def __init__(self):
         """
         登录过程需要验证码
@@ -100,7 +100,7 @@ class NeedCaptchaException(BaseException):
     __str__ = __repr__
 
 
-class NeedLoginException(BaseException):
+class NeedLoginException(Exception):
     def __init__(self, what):
         """
         使用某方法需要登录而当前客户端未登录
@@ -115,7 +115,7 @@ class NeedLoginException(BaseException):
     __str__ = __repr__
 
 
-class IdMustBeIntException(BaseException):
+class IdMustBeIntException(Exception):
     def __init__(self, func):
         """
         获取对应的知乎类时，试图传递不是整数型的 ID

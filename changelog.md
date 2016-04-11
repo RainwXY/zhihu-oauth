@@ -2,6 +2,10 @@
 
 ## 实验阶段
 
+### WIP
+
+- [change] 所有自定义异常修改为继承 `Exception` 类，遵循 Python 文档的要求。[REF](https://docs.python.org/2/library/exceptions.html#exceptions.Exception)
+
 ### 0.0.3 - 2016.04.09
 
 - [add] 增加了 `ZhihuClient.from_url` 方法，传入合法的知乎网址，就能生成对应的对象
