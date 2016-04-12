@@ -5,6 +5,7 @@
 ### WIP
 
 - [change] 所有自定义异常修改为继承 `Exception` 类，遵循 Python 文档的要求。[REF](https://docs.python.org/2/library/exceptions.html#exceptions.Exception)
+- [add] `ZhihuClient` 增加 `set_proxy` 方法，可设置代理
 
 ### 0.0.3 - 2016.04.09
 

@@ -104,14 +104,14 @@ following column count 11
 - [x] 用户文档
 - [x] 内部实现文档（其实就是注释）
 - [x] 提供统一的 from_url 用于构建对象
-- [ ] 规范的测试
 - [ ] people.activities 用户动态
 - [ ] topic.activities 话题动态
-- [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
-- [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
 - [ ] Me 类的各种操作，比如评论，点赞，私信……etc
+- [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
+- [ ] 规范的测试
 - [ ] 获取用户消息。新关注者，新评论，关注的回答有新问题，有私信等。
 - [ ] 保证对 Python 2 和 3 的兼容性
+- [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
 
 ## LICENSE
 
