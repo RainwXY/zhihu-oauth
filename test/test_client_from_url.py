@@ -1,29 +1,11 @@
 from __future__ import unicode_literals
 
-import unittest
-import os
+from zhihu_oauth import (Answer, Article, Collection, Column, People, Question, Topic)
 
-from zhihu_oauth import (
-    ZhihuClient, Answer, Article, Collection, Column, People, Question, Topic)
+from .client_test_base import ZhihuClientClassTest
 
 
-class TestZhihuClientFromURL(unittest.TestCase):
-
-    def setUp(self):
-        if not os.path.isdir('test') and os.path.isfile('token.pkl'):
-            os.chdir('..')
-
-        if not os.path.isfile('test/token.pkl'):
-            print('\nno token file, skip all tests.')
-            self.skipTest('no token file.')
-
-        self.client = ZhihuClient()
-
-        try:
-            self.client.load_token('test/token.pkl')
-        except ValueError:
-            print('\ntoken version not math python version, skip all tests.')
-            self.skipTest('token version not math python version.')
+class TestZhihuClientFromURL(ZhihuClientClassTest):
 
     def test_correct_answer_url(self):
         url_list = [
