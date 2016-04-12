@@ -47,15 +47,6 @@ class ZhihuClient:
         self._login_auth = BeforeLoginAuth(self._client_id)
         self._token = None
 
-    def set_proxy(self, proxy):
-        """ 设置代理
-
-        :param str proxy: 形如 'http://10.10.1.10:3128'
-        :return: None
-        """
-        self._session.proxies.update({'http': proxy, 'https': proxy})
-        self._session.verify = False
-
     def need_captcha(self):
         """
         ..  note::
@@ -248,6 +239,24 @@ class ZhihuClient:
         :rtype: request.Response
         """
         return self._session.request(method, url, params, data)
+
+    def set_proxy(self, proxy):
+        """ 设置 http 和 https 代理（不支持 socks 代理）
+
+        因为由 :any:`ZhihuClient` 生成的知乎类对象和本对象使用同一
+        session，所以设置代理后，对所有由当前对象生成的知乎对象均会
+        使用设置的代理。
+
+        :param str proxy: 形如 '10.10.1.10:3128'，传入 None
+          表示清除代理设置。
+        :return: None
+        """
+        if proxy is None:
+            self._session.proxies.clear()
+            self._session.verify = True
+        else:
+            self._session.proxies.update({'http': proxy, 'https': proxy})
+            self._session.verify = False
 
     # ----- get zhihu classes from ids -----
 
