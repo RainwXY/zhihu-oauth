@@ -47,6 +47,15 @@ class ZhihuClient:
         self._login_auth = BeforeLoginAuth(self._client_id)
         self._token = None
 
+    def set_proxy(self, proxy):
+        """ 设置代理
+
+        :param str proxy: 形如 'http://10.10.1.10:3128'
+        :return: None
+        """
+        self._session.proxies.update({'http': proxy, 'https': proxy})
+        self._session.verify = False
+
     def need_captcha(self):
         """
         ..  note::
