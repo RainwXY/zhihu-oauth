@@ -319,19 +319,19 @@ def generator_of(url_pattern, class_name=None, name_in_json=None):
 
             # TODO: figure out if there is a bug in this code
 
-            if self._cache and name_in_j in self._cache and \
-                    isinstance(self._cache[name_in_j], list):
-                cache_list = self._cache[name_in_j]
-                return (cls(cache['id'], cache, self._session)
-                        for cache in cache_list)
-
-            self._get_data()
-
-            if self._data and name_in_j in self._data and \
-                    isinstance(self._data[name_in_j], list):
-                cache_list = self._data[name_in_j]
-                return (cls(cache['id'], cache, self._session)
-                        for cache in cache_list)
+            # if self._cache and name_in_j in self._cache and \
+            #         isinstance(self._cache[name_in_j], list):
+            #     cache_list = self._cache[name_in_j]
+            #     return (cls(cache['id'], cache, self._session)
+            #             for cache in cache_list)
+            #
+            # self._get_data()
+            #
+            # if self._data and name_in_j in self._data and \
+            #         isinstance(self._data[name_in_j], list):
+            #     cache_list = self._data[name_in_j]
+            #     return (cls(cache['id'], cache, self._session)
+            #             for cache in cache_list)
 
             # -----------------------------------------
 
