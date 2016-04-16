@@ -33,7 +33,7 @@
 
 ### 安装
 
-```base
+```bash
 pip install -U zhihu_oauth
 ```
 
