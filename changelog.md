@@ -2,6 +2,12 @@
 
 ## 实验阶段
 
+### WIP
+
+- [add] `Me` 类增加了给答案点赞/点反对/清除赞和反对的功能
+- [add] `Me` 类增加了给文章点赞//清除赞的功能
+- [add] `Me` 类增加了感谢答案的功能
+
 ### 0.0.4 - 2016.04.16
 
 - [change] 所有自定义异常修改为继承 `Exception` 类，遵循 Python 文档的要求。[REF](https://docs.python.org/2/library/exceptions.html#exceptions.Exception)
