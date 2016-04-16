@@ -79,6 +79,7 @@ ANSWER_COLLECTIONS_URL = ANSWER_DETAIL_URL + '/collections'
 ANSWER_COMMENTS_URL = ANSWER_DETAIL_URL + '/comments'
 
 # answer.voters - GET - 点赞用户
+# me.voteup - POST - 给答案投票
 
 ANSWER_VOTERS_URL = ANSWER_DETAIL_URL + '/voters'
 
@@ -181,6 +182,8 @@ ARTICLE_VOTE_URL = ARTICLE_DETAIL_URL + '/voters'
 ARTICLE_COMMENTS_URL = ARTICLE_DETAIL_URL + '/comments'
 
 # ----- 评论相关 -----
+
+# 没有下面这个 API 的，只是为了方便其他 API 引用
 
 COMMENT_DETAIL_URL = ZHIHU_API_ROOT + '/comments/{0}'
 
