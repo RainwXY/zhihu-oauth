@@ -184,8 +184,13 @@ COLLECTION_ANSWERS_URL = COLLECTION_DETAIL_URL + '/answers'
 COLLECTION_COMMENTS_URL = COLLECTION_DETAIL_URL + '/comments'
 
 # collection.followers - GET - 粉丝
+# me.follow - POST - 关注专栏
 
 COLLECTION_FOLLOWERS_URL = COLLECTION_DETAIL_URL + '/followers'
+
+# me.follow - DELETE - 取消关注
+
+COLLECTION_CANCEL_FOLLOW_URL = COLLECTION_FOLLOWERS_URL + '/{}'
 
 # ----- 专栏相关 -----
 
@@ -198,8 +203,13 @@ COLUMN_DETAIL_URL = ZHIHU_API_ROOT + '/columns/{}'
 COLUMN_ARTICLES_URL = COLUMN_DETAIL_URL + '/articles'
 
 # column.followers - GET - 关注者
+# me.follow - POST - 关注专栏
 
 COLUMN_FOLLOWERS_URL = COLUMN_DETAIL_URL + '/followers'
+
+# me.follow - DELETE - 取消关注
+
+COLUMN_CANCEL_FOLLOW_URL = COLUMN_FOLLOWERS_URL + '/{}'
 
 # ----- 文章相关 -----
 
