@@ -33,8 +33,13 @@ PEOPLE_COLLECTIONS_URL = PEOPLE_DETAIL_URL + '/collections_v2'
 PEOPLE_COLUMNS_URL = PEOPLE_DETAIL_URL + '/columns'
 
 # people.followers - GET - 粉丝
+# me.follow - POST - 关注用户
 
 PEOPLE_FOLLOWERS_URL = PEOPLE_DETAIL_URL + '/followers'
+
+# me.follow - DELETE - 取消关注用户
+
+PEOPLE_CANCEL_FOLLOWERS_URL = PEOPLE_FOLLOWERS_URL + '/{}'
 
 # people.following_collections - GET - 关注的收藏夹
 

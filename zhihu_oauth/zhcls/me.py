@@ -10,6 +10,8 @@ from .urls import (
     ANSWER_UNHELPFUL_URL,
     ANSWER_VOTERS_URL,
     ARTICLE_VOTE_URL,
+    PEOPLE_CANCEL_FOLLOWERS_URL,
+    PEOPLE_FOLLOWERS_URL,
     QUESTION_CANCEL_FOLLOWERS_URL,
     QUESTION_FOLLOWERS_URL,
     SELF_DETAIL_URL,
@@ -121,7 +123,7 @@ class Me(People):
         :param what: 操作对象
         :param follow: 要取消关注的话把这个设置成 False
         """
-        from . import Question, Topic
+        from . import Question, Topic, People
         if isinstance(what, Question):
             return self._common_click(what, not follow,
                                       QUESTION_FOLLOWERS_URL,
@@ -129,17 +131,21 @@ class Me(People):
         elif isinstance(what, Topic):
             return self._common_click(what, not follow, TOPIC_FOLLOWERS_URL,
                                       TOPIC_CANCEL_FOLLOW_URL)
+        elif isinstance(what, People):
+            what._get_data()
+            return self._common_click(what, not follow, PEOPLE_FOLLOWERS_URL,
+                                      PEOPLE_CANCEL_FOLLOWERS_URL)
         else:
             raise TypeError(
                 'Unable to voteup a {0}.'.format(what.__class__.__name__))
 
-    def _common_click(self, answer, cancel, click_url, cancel_url):
+    def _common_click(self, what, cancel, click_url, cancel_url):
         if cancel:
             method = 'DELETE'
-            url = cancel_url.format(answer.id, self.id)
+            url = cancel_url.format(what.id, self.id)
         else:
             method = 'POST'
-            url = click_url.format(answer.id)
+            url = click_url.format(what.id)
         res = self._session.request(method, url)
         return get_result_or_error(url, res)
 
