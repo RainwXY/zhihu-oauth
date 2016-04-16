@@ -113,9 +113,13 @@ QUESTION_ANSWERS_URL = QUESTION_DETAIL_URL + '/answers'
 
 QUESTION_COMMENTS_URL = QUESTION_DETAIL_URL + '/comments'
 
-# question.answers GET - 关注者
+# question.answers - GET - 关注者
+# me.follow - POST - 关注问题
 
 QUESTION_FOLLOWERS_URL = QUESTION_DETAIL_URL + '/followers'
+
+# me.follower - DELETE - 取消关注
+QUESTION_CANCEL_FOLLOWERS_URL = QUESTION_FOLLOWERS_URL + '/{}'
 
 # question.topics - GET - 所属话题
 
