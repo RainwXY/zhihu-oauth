@@ -206,6 +206,16 @@ class Me(People):
         return get_result_or_error(url, res)
 
     def message(self, who, content):
+        """
+        发送私信。
+
+        ..  seealso::
+
+            返回值和可能的异常同 :any:`vote` 方法
+
+        :param  People who: 接收者
+        :param str content: 私信内容
+        """
         from . import People
         if not isinstance(who, People):
             raise TypeError(
