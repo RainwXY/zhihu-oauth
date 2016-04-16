@@ -10,6 +10,8 @@ from .urls import (
     ANSWER_UNHELPFUL_URL,
     ANSWER_VOTERS_URL,
     ARTICLE_VOTE_URL,
+    COLLECTION_CANCEL_FOLLOW_URL,
+    COLLECTION_FOLLOWERS_URL,
     COLUMN_FOLLOWERS_URL,
     COLUMN_CANCEL_FOLLOW_URL,
     PEOPLE_CANCEL_FOLLOWERS_URL,
@@ -125,7 +127,7 @@ class Me(People):
         :param what: 操作对象
         :param follow: 要取消关注的话把这个设置成 False
         """
-        from . import Question, Topic, People, Column
+        from . import Question, Topic, People, Column, Collection
         if isinstance(what, Question):
             return self._common_click(what, not follow,
                                       QUESTION_FOLLOWERS_URL,
@@ -140,6 +142,10 @@ class Me(People):
         elif isinstance(what, Column):
             return self._common_click(what, not follow, COLUMN_FOLLOWERS_URL,
                                       COLUMN_CANCEL_FOLLOW_URL)
+        elif isinstance(what, Collection):
+            return self._common_click(what, not follow,
+                                      COLLECTION_FOLLOWERS_URL,
+                                      COLLECTION_CANCEL_FOLLOW_URL)
         else:
             raise TypeError(
                 'Unable to follow a {0}.'.format(what.__class__.__name__))
