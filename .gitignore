@@ -1,7 +1,10 @@
 # Project
 /test/token.pkl
 /test/zhihu-mytest.py
+
+# Editor
 .idea/
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
