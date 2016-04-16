@@ -7,6 +7,7 @@ from .generator import generator_of
 from .normal import normal_attr
 from .streaming import streaming
 from .urls import (
+    PEOPLE_ACTIVITIES_URL,
     PEOPLE_DETAIL_URL,
     PEOPLE_ANSWERS_URL,
     PEOPLE_ARTICLES_URL,
@@ -409,6 +410,10 @@ class People(Base):
     # ---------- generators ---------
 
     # TODO: people.activities
+    @property
+    @generator_of(PEOPLE_ACTIVITIES_URL, 'activity')
+    def activities(self):
+        return None
 
     @property
     @generator_of(PEOPLE_ANSWERS_URL)

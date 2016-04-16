@@ -65,10 +65,13 @@ class BaseGenerator(object):
             json_dict = res.json()
             if 'error' in json_dict:
 
+                error = json_dict['error']
+
                 # comment conversion hack
-                if json_dict['error']['name'] == 'ERR_CONVERSATION_NOT_FOUND':
-                    self._next_url = None
-                    return
+                if 'name' in error:
+                    if error['name'] == 'ERR_CONVERSATION_NOT_FOUND':
+                        self._next_url = None
+                        return
 
                 # auto retry
                 self._need_sleep *= 2
@@ -296,50 +299,32 @@ class TopicGenerator(BaseGenerator):
         return Topic(data['id'], data, self._session)
 
 
-def generator_of(url_pattern, class_name=None, name_in_json=None):
+class ActivityGenerator(BaseGenerator):
+    def __init__(self, url, session):
+        super(ActivityGenerator, self).__init__(url, session)
+
+    def _build_obj(self, data):
+        from .activity import Activity
+        return Activity(data, self._session)
+
+
+def generator_of(url_pattern, class_name=None):
     def wrappers_wrapper(func):
         @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
             cls_name = class_name or func.__name__
-            name_in_j = name_in_json or func.__name__
 
             if cls_name.endswith('s'):
                 cls_name = cls_name[:-1]
             cls_name = cls_name.capitalize()
-
-            file_name = '.' + cls_name.lower()
-
-            try:
-                module = importlib.import_module(file_name, 'zhihu_oauth.zhcls')
-                cls = getattr(module, cls_name)
-            except (ImportError, AttributeError):
-                return func(*args, **kwargs)
-
-            # ---- the following code may cause a bug ---
-
-            # TODO: figure out if there is a bug in this code
-
-            # if self._cache and name_in_j in self._cache and \
-            #         isinstance(self._cache[name_in_j], list):
-            #     cache_list = self._cache[name_in_j]
-            #     return (cls(cache['id'], cache, self._session)
-            #             for cache in cache_list)
-            #
-            # self._get_data()
-            #
-            # if self._data and name_in_j in self._data and \
-            #         isinstance(self._data[name_in_j], list):
-            #     cache_list = self._data[name_in_j]
-            #     return (cls(cache['id'], cache, self._session)
-            #             for cache in cache_list)
-
-            # -----------------------------------------
 
             gen_cls_name = cls_name + 'Generator'
             try:
                 gen_cls = getattr(sys.modules[__name__], gen_cls_name)
             except AttributeError:
                 return func(*args, **kwargs)
+
+            self._get_data()
 
             return gen_cls(url_pattern.format(self.id), self._session)
 

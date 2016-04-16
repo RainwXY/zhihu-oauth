@@ -1,7 +1,6 @@
 # coding=utf-8
 
-from __future__ import unicode_literals
-
+from .activity import Activity, ActType
 from .answer import Answer
 from .article import Article
 from .collection import Collection
@@ -12,5 +11,5 @@ from .people import People, ANONYMOUS
 from .question import Question
 from .topic import Topic
 
-__all__ = ['Answer', 'Article', 'Collection', 'Column', 'Comment', 'Me',
-           'People', 'ANONYMOUS', 'Question', 'Topic']
+__all__ = ['Activity', 'ActType', 'Answer', 'Article', 'Collection', 'Column',
+           'Comment', 'Me', 'People', 'ANONYMOUS', 'Question', 'Topic']

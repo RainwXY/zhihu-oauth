@@ -123,3 +123,10 @@ class SimpleHtmlFormatter(HTMLParser):
 
     def prettify(self):
         return ''.join(self._prettified)
+
+
+class SimpleEnum(set):
+    def __getattr__(self, item):
+        if item in self:
+            return item
+        raise AttributeError("No {0} in this enum class.".format(item))

@@ -60,6 +60,10 @@ PEOPLE_FOLLOWINGS_URL = PEOPLE_DETAIL_URL + '/followees'
 
 PEOPLE_QUESTIONS_URL = PEOPLE_DETAIL_URL + '/questions'
 
+# people.activities - GET - 用户最近动态
+
+PEOPLE_ACTIVITIES_URL = PEOPLE_DETAIL_URL + '/activities'
+
 # ----- 答案相关 -----
 
 # answer - GET - 详情

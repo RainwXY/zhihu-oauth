@@ -1,7 +1,5 @@
 # coding=utf-8
 
-from __future__ import unicode_literals
-
 from .im_android import ImZhihuAndroidClient
 from .before_login_auth import BeforeLoginAuth
 from .zhihu_oauth import ZhihuOAuth

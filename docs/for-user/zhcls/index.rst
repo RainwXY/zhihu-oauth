@@ -6,6 +6,7 @@ Zhihu Classes - 知乎相关类
 ..  toctree::
 
     intro
+    activity
     answer
     article
     collection
