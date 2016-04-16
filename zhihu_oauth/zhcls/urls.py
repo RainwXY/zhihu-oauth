@@ -91,6 +91,14 @@ ANSWER_THANKS_URL = ANSWER_DETAIL_URL + '/thankers'
 
 ANSWER_CANCEL_THANKS_URL = ANSWER_THANKS_URL + '/{}'
 
+# me.unhelpful - POST - 没有帮助
+
+ANSWER_UNHELPFUL_URL = ANSWER_DETAIL_URL + '/nothelpers'
+
+# me.unhelpful - DELETE - 取消没有帮助
+
+ANSWER_CANCEL_UNHELPFUL_URL = ANSWER_UNHELPFUL_URL + '/{}'
+
 # ----- 问题相关 -----
 
 # question - GET - 详情

@@ -5,7 +5,9 @@ from __future__ import unicode_literals
 from .people import People
 from .urls import (
     ANSWER_CANCEL_THANKS_URL,
+    ANSWER_CANCEL_UNHELPFUL_URL,
     ANSWER_THANKS_URL,
+    ANSWER_UNHELPFUL_URL,
     ANSWER_VOTERS_URL,
     ARTICLE_VOTE_URL,
     SELF_DETAIL_URL,
@@ -60,16 +62,16 @@ class Me(People):
             if op not in {'up', 'down', 'clear'}:
                 raise ValueError(
                     'Operate must be up, down or clear for Answer.')
-            return self._vote(ANSWER_VOTERS_URL, what, op)
+            return self._common_vote(ANSWER_VOTERS_URL, what, op)
         if isinstance(what, Article):
             if op not in {'up', 'clear'}:
                 raise ValueError('Operate must be up or clear for Article')
-            return self._vote(ARTICLE_VOTE_URL, what, op)
+            return self._common_vote(ARTICLE_VOTE_URL, what, op)
         else:
             raise TypeError(
                 'Unable to voteup a {0}.'.format(what.__class__.__name__))
 
-    def _vote(self, url, what, op):
+    def _common_vote(self, url, what, op):
         data = {
             'voteup_count': 0,
             'voting': {'up': 1, 'down': -1, 'clear': 0}[op],
@@ -89,14 +91,24 @@ class Me(People):
         :raise: :any:`UnexpectedResponseException`
           当服务器回复和预期不符，不知道是否成功时。
         """
+        return self._common_click(answer, not thanks,
+                                  ANSWER_THANKS_URL, ANSWER_CANCEL_THANKS_URL)
+
+    def unhelpful(self, answer, unhelpful=True):
+
+        return self._common_click(answer, not unhelpful,
+                                  ANSWER_UNHELPFUL_URL,
+                                  ANSWER_CANCEL_UNHELPFUL_URL)
+
+    def _common_click(self, answer, cancel, click_url, cancel_url):
         from .answer import Answer
         if not isinstance(answer, Answer):
-            raise TypeError('Only Answer object can be thanked.')
-        if thanks:
-            method = 'POST'
-            url = ANSWER_THANKS_URL.format(answer.id)
-        else:
+            raise TypeError('This method only accept Answer object.')
+        if cancel:
             method = 'DELETE'
-            url = ANSWER_CANCEL_THANKS_URL.format(answer.id, self.id)
+            url = cancel_url.format(answer.id, self.id)
+        else:
+            method = 'POST'
+            url = click_url.format(answer.id)
         res = self._session.request(method, url)
         return get_result_or_error(url, res)
