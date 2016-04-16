@@ -2,11 +2,14 @@
 
 ## 实验阶段
 
-### WIP
+### 0.0.4 - 2016.04.16
 
 - [change] 所有自定义异常修改为继承 `Exception` 类，遵循 Python 文档的要求。[REF](https://docs.python.org/2/library/exceptions.html#exceptions.Exception)
 - [add] `ZhihuClient` 增加 `set_proxy` 方法，可设置代理
 - [add] 增加了 `People` 类的 `activities` 属性，可以获取用户动态
+- [fix] 修复 Python 2 下因为 `__init__.py` 文件中的 `__all__` 变量是 unicode 而造成的 `from xxx import *` 报错的 bug
+- [change] 生成器不再尝试使用内类缓存的数据，而是一定会访问 API（改了一下实现，对用户接口没啥影响）
+- [add] 小小的增加了一点没啥用的测试
 
 ### 0.0.3 - 2016.04.09
 

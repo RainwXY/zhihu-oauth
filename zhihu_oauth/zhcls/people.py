@@ -409,7 +409,6 @@ class People(Base):
 
     # ---------- generators ---------
 
-    # TODO: people.activities
     @property
     @generator_of(PEOPLE_ACTIVITIES_URL, 'activity')
     def activities(self):
