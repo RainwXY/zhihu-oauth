@@ -10,10 +10,12 @@ from .urls import (
     ANSWER_UNHELPFUL_URL,
     ANSWER_VOTERS_URL,
     ARTICLE_VOTE_URL,
+    BLOCK_PEOPLE_URL,
+    CANCEL_BLOCK_PEOPLE_URL,
     COLLECTION_CANCEL_FOLLOW_URL,
     COLLECTION_FOLLOWERS_URL,
-    COLUMN_FOLLOWERS_URL,
     COLUMN_CANCEL_FOLLOW_URL,
+    COLUMN_FOLLOWERS_URL,
     PEOPLE_CANCEL_FOLLOWERS_URL,
     PEOPLE_FOLLOWERS_URL,
     QUESTION_CANCEL_FOLLOWERS_URL,
@@ -35,7 +37,7 @@ class Me(People):
 
             <style> .red {color:red} </style>
 
-        是 :class：`People` 的子类，表示当前登录的用户。
+        是 :any:`People` 的子类，表示当前登录的用户。
         设想中准备将用户操作（点赞，评论，收藏，私信等）放在这个类
         里实现，:red:`但是现在还没写！`
 
@@ -85,7 +87,7 @@ class Me(People):
         """
         感谢或者取消感谢答案。
 
-        ..  see-also::
+        ..  seealso::
 
             返回值和可能的异常同 :any:`vote` 方法
 
@@ -102,7 +104,7 @@ class Me(People):
         """
         给答案点没有帮助，或者取消没有帮助。
 
-        ..  see-also::
+        ..  seealso::
 
             返回值和可能的异常同 :any:`vote` 方法
 
@@ -120,7 +122,7 @@ class Me(People):
         """
         关注或者取消关注问题/话题/用户/专栏/收藏夹。
 
-        ..  see-also::
+        ..  seealso::
 
             返回值和可能的异常同 :any:`vote` 方法
 
@@ -150,6 +152,25 @@ class Me(People):
             raise TypeError(
                 'Unable to follow a {0}.'.format(what.__class__.__name__))
 
+    def block(self, what, block=True):
+        """
+        屏蔽用户/话题
+
+        ..  seealso::
+
+            返回值和可能的异常同 :any:`vote` 方法
+
+        :param what: 操作对象，用户或话题
+        :param bool block: 如果要取消屏蔽请设置为 False
+        """
+        from . import People
+        if isinstance(what, People):
+            return self._common_block(what, not block, BLOCK_PEOPLE_URL,
+                                      CANCEL_BLOCK_PEOPLE_URL)
+        else:
+            raise TypeError(
+                'Unable to block a {0}.'.format(what.__class__.__name__))
+
     def _common_click(self, what, cancel, click_url, cancel_url):
         if cancel:
             method = 'DELETE'
@@ -167,4 +188,17 @@ class Me(People):
         }
         url = url.format(what.id)
         res = self._session.post(url, data=data)
+        return get_result_or_error(url, res)
+
+    def _common_block(self, what, cancel, block_url, cancel_url):
+        _ = what.name
+        if cancel:
+            method = 'DELETE'
+            data = None
+            url = cancel_url.format(what.id)
+        else:
+            method = 'POST'
+            data = {'people_id': what.id}
+            url = block_url
+        res = self._session.request(method, url, data=data)
         return get_result_or_error(url, res)

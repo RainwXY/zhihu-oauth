@@ -239,3 +239,13 @@ COMMENT_REPLIES_URL = COMMENT_DETAIL_URL + '/replies'
 # comment.conversation - GET - 评论的对话
 
 COMMENT_CONVERSION_URL = COMMENT_DETAIL_URL + '/conversation'
+
+# ----- 其他操作 -----
+
+# me.block - POST - 屏蔽用户
+
+BLOCK_PEOPLE_URL = ZHIHU_API_ROOT + '/settings/blocked_users'
+
+# me.block - DELETE - 取消屏蔽用户
+
+CANCEL_BLOCK_PEOPLE_URL = BLOCK_PEOPLE_URL + '/{}'
