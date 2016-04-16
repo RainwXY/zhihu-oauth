@@ -55,12 +55,12 @@ class Me(People):
         from .answer import Answer
         from .article import Article
         if isinstance(what, Answer):
-            if op not in {'up', 'down', 'cancel'}:
+            if op not in {'up', 'down', 'clear'}:
                 raise ValueError(
                     'Operate must be up, down or clear for Answer.')
             return self._vote(ANSWER_VOTERS_URL, what, op)
         if isinstance(what, Article):
-            if op not in {'up', 'cancel'}:
+            if op not in {'up', 'clear'}:
                 raise ValueError('Operate must be up or clear for Article')
             return self._vote(ARTICLE_VOTE_URL, what, op)
         else:
