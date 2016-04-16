@@ -13,6 +13,8 @@ from .urls import (
     QUESTION_CANCEL_FOLLOWERS_URL,
     QUESTION_FOLLOWERS_URL,
     SELF_DETAIL_URL,
+    TOPIC_CANCEL_FOLLOW_URL,
+    TOPIC_FOLLOWERS_URL,
 )
 from .utils import get_result_or_error
 
@@ -65,7 +67,7 @@ class Me(People):
                 raise ValueError(
                     'Operate must be up, down or clear for Answer.')
             return self._common_vote(ANSWER_VOTERS_URL, what, op)
-        if isinstance(what, Article):
+        elif isinstance(what, Article):
             if op not in {'up', 'clear'}:
                 raise ValueError('Operate must be up or clear for Article')
             return self._common_vote(ARTICLE_VOTE_URL, what, op)
@@ -119,11 +121,14 @@ class Me(People):
         :param what: 操作对象
         :param follow: 要取消关注的话把这个设置成 False
         """
-        from .question import Question
+        from . import Question, Topic
         if isinstance(what, Question):
             return self._common_click(what, not follow,
                                       QUESTION_FOLLOWERS_URL,
                                       QUESTION_CANCEL_FOLLOWERS_URL)
+        elif isinstance(what, Topic):
+            return self._common_click(what, not follow, TOPIC_FOLLOWERS_URL,
+                                      TOPIC_CANCEL_FOLLOW_URL)
         else:
             raise TypeError(
                 'Unable to voteup a {0}.'.format(what.__class__.__name__))

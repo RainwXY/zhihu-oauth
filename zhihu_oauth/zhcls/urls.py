@@ -162,7 +162,7 @@ TOPIC_FOLLOWERS_URL = TOPIC_DETAIL_URL + '/followers'
 
 # me.follow - DELETE - 取消关注
 
-TOPIC_CANCEL_FOLLOWE_URL = TOPIC_FOLLOWERS_URL + '/{}'
+TOPIC_CANCEL_FOLLOW_URL = TOPIC_FOLLOWERS_URL + '/{}'
 
 # ----- 收藏夹相关 -----
 
