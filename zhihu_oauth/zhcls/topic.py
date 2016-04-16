@@ -94,8 +94,6 @@ class Topic(Base):
 
     # ----- generators -----
 
-    # TODO: topic.activities
-
     @property
     @generator_of(TOPIC_BEST_ANSWERS_URL, 'answer')
     def best_answers(self):

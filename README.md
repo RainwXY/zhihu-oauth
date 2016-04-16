@@ -113,7 +113,6 @@ following column count 11
 - [x] 内部实现文档（其实就是注释）
 - [x] 提供统一的 from_url 用于构建对象
 - [x] people.activities 用户动态
-- [ ] topic.activities 话题动态
 - [ ] Me 类的各种操作，比如评论，点赞，私信……etc
 - [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
 - [ ] 规范的测试
