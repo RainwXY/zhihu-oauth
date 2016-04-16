@@ -10,6 +10,7 @@ from zhihu_oauth.zhcls.urls import (
     TOPIC_BEST_ANSWERS_URL,
     TOPIC_BEST_ANSWERERS_URL,
     TOPIC_CHILDREN_URL,
+    TOPIC_FOLLOWERS_URL,
     TOPIC_PARENTS_URL,
     TOPIC_UNANSWERED_QUESTION,
 )
@@ -118,6 +119,11 @@ class Topic(Base):
         """
         子话题
         """
+        return None
+
+    @property
+    @generator_of(TOPIC_FOLLOWERS_URL, 'people')
+    def followers(self):
         return None
 
     @property

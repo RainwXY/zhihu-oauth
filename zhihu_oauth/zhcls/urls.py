@@ -155,6 +155,15 @@ TOPIC_PARENTS_URL = TOPIC_DETAIL_URL + '/parent'
 
 TOPIC_UNANSWERED_QUESTION = TOPIC_DETAIL_URL + '/unanswered_questions'
 
+# topic.followers - GET - 关注者
+# me.follow - POST - 关注话题
+
+TOPIC_FOLLOWERS_URL = TOPIC_DETAIL_URL + '/followers'
+
+# me.follow - DELETE - 取消关注
+
+TOPIC_CANCEL_FOLLOWE_URL = TOPIC_FOLLOWERS_URL + '/{}'
+
 # ----- 收藏夹相关 -----
 
 # collection - GET - 详情
