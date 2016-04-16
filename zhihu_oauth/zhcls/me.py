@@ -22,6 +22,7 @@ from .urls import (
     QUESTION_CANCEL_FOLLOWERS_URL,
     QUESTION_FOLLOWERS_URL,
     SELF_DETAIL_URL,
+    SEND_MESSAGE_URL,
     TOPIC_CANCEL_FOLLOW_URL,
     TOPIC_FOLLOWERS_URL,
 )
@@ -203,6 +204,19 @@ class Me(People):
         url = ANSWER_COLLECT_URL.format(answer.id)
         res = self._session.put(url, data=data)
         return get_result_or_error(url, res)
+
+    def message(self, who, content):
+        from . import People
+        if not isinstance(who, People):
+            raise TypeError(
+                'Unable to send message to {0}'.format(who.__class__.__name__))
+        _ = who.name
+        data = {
+            'receiver_id': who.id,
+            'content': content,
+        }
+        res = self._session.post(SEND_MESSAGE_URL, data=data)
+        return get_result_or_error(SEND_MESSAGE_URL, res)
 
     def _common_click(self, what, cancel, click_url, cancel_url):
         if cancel:

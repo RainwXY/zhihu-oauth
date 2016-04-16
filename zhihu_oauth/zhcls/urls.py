@@ -253,3 +253,7 @@ BLOCK_PEOPLE_URL = ZHIHU_API_ROOT + '/settings/blocked_users'
 # me.block - DELETE - 取消屏蔽用户
 
 CANCEL_BLOCK_PEOPLE_URL = BLOCK_PEOPLE_URL + '/{}'
+
+# me.message - POST - 发送私信
+
+SEND_MESSAGE_URL = ZHIHU_API_ROOT + '/messages'
