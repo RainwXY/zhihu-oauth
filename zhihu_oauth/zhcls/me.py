@@ -6,6 +6,7 @@ from .people import People
 from .urls import (
     ANSWER_CANCEL_THANKS_URL,
     ANSWER_CANCEL_UNHELPFUL_URL,
+    ANSWER_COLLECT_URL,
     ANSWER_THANKS_URL,
     ANSWER_UNHELPFUL_URL,
     ANSWER_VOTERS_URL,
@@ -170,6 +171,37 @@ class Me(People):
         else:
             raise TypeError(
                 'Unable to block a {0}.'.format(what.__class__.__name__))
+
+    def collect(self, answer, collection, collect=True):
+        """
+        收藏答案进收藏夹。
+
+        ..  warning::
+
+            就算你提供的是别人的收藏夹也会返回成功……但是操作其实是无效的
+
+        ..  seealso::
+
+            返回值和可能的异常同 :any:`vote` 方法
+
+        :param Answer answer: 要收藏的答案
+        :param Collection collection: 要加入哪个收藏夹
+        :param bool collect: 如果想要取消收藏请设置为 False
+        """
+        from . import Answer, Collection
+        if not isinstance(answer, Answer):
+            raise TypeError('Unable to add a {0} to collection.'.format(
+                answer.__class__.__name__))
+        if not isinstance(collection, Collection):
+            raise TypeError('Unable add answer to a {0}.'.format(
+                collection.__class__.__name__))
+        if collect:
+            data = {'add_collections': collection.id}
+        else:
+            data = {'remove_collections': collection.id}
+        url = ANSWER_COLLECT_URL.format(answer.id)
+        res = self._session.put(url, data=data)
+        return get_result_or_error(url, res)
 
     def _common_click(self, what, cancel, click_url, cancel_url):
         if cancel:

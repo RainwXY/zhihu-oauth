@@ -79,6 +79,10 @@ ANSWER_DETAIL_URL = ZHIHU_API_ROOT + '/answers/{}'
 
 ANSWER_COLLECTIONS_URL = ANSWER_DETAIL_URL + '/collections'
 
+# me.collect - PUT - 加入收藏夹
+
+ANSWER_COLLECT_URL = ANSWER_DETAIL_URL + '/collections_v2'
+
 # answer.comment - GET - 评论
 
 ANSWER_COMMENTS_URL = ANSWER_DETAIL_URL + '/comments'
