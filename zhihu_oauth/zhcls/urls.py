@@ -14,7 +14,7 @@ SELF_DETAIL_URL = ZHIHU_API_ROOT + '/people/self'
 
 # people - GET - 详情
 
-PEOPLE_DETAIL_URL = ZHIHU_API_ROOT + '/people/{0}'
+PEOPLE_DETAIL_URL = ZHIHU_API_ROOT + '/people/{}'
 
 # people.answers - GET - 回答
 
@@ -68,7 +68,7 @@ PEOPLE_ACTIVITIES_URL = PEOPLE_DETAIL_URL + '/activities'
 
 # answer - GET - 详情
 
-ANSWER_DETAIL_URL = ZHIHU_API_ROOT + '/answers/{0}'
+ANSWER_DETAIL_URL = ZHIHU_API_ROOT + '/answers/{}'
 
 # answer.collections - GET - 所在收藏夹
 
@@ -79,15 +79,23 @@ ANSWER_COLLECTIONS_URL = ANSWER_DETAIL_URL + '/collections'
 ANSWER_COMMENTS_URL = ANSWER_DETAIL_URL + '/comments'
 
 # answer.voters - GET - 点赞用户
-# me.voteup - POST - 给答案投票
+# me.vote - POST - 给答案投票
 
 ANSWER_VOTERS_URL = ANSWER_DETAIL_URL + '/voters'
+
+# me.thanks - POST - 给答案点感谢
+
+ANSWER_THANKS_URL = ANSWER_DETAIL_URL + '/thankers'
+
+# me.thanks - DELETE - 取消感谢
+
+ANSWER_CANCEL_THANKS_URL = ANSWER_THANKS_URL + '/{}'
 
 # ----- 问题相关 -----
 
 # question - GET - 详情
 
-QUESTION_DETAIL_URL = ZHIHU_API_ROOT + '/questions/{0}'
+QUESTION_DETAIL_URL = ZHIHU_API_ROOT + '/questions/{}'
 
 # question.answers - GET - 回答
 
@@ -109,7 +117,7 @@ QUESTION_TOPICS_URL = QUESTION_DETAIL_URL + '/topics'
 
 # topic - GET - 详情
 
-TOPIC_DETAIL_URL = ZHIHU_API_ROOT + '/topics/{0}'
+TOPIC_DETAIL_URL = ZHIHU_API_ROOT + '/topics/{}'
 
 # topic.activities - GET - 动态
 
@@ -139,7 +147,7 @@ TOPIC_UNANSWERED_QUESTION = TOPIC_DETAIL_URL + '/unanswered_questions'
 
 # collection - GET - 详情
 
-COLLECTION_DETAIL_URL = ZHIHU_API_ROOT + '/collections/{0}'
+COLLECTION_DETAIL_URL = ZHIHU_API_ROOT + '/collections/{}'
 
 # collection.answers - GET - 答案
 
@@ -157,7 +165,7 @@ COLLECTION_FOLLOWERS_URL = COLLECTION_DETAIL_URL + '/followers'
 
 # column - GET - 详情
 
-COLUMN_DETAIL_URL = ZHIHU_API_ROOT + '/columns/{0}'
+COLUMN_DETAIL_URL = ZHIHU_API_ROOT + '/columns/{}'
 
 # column.articles - GET - 文章
 
@@ -171,7 +179,7 @@ COLUMN_FOLLOWERS_URL = COLUMN_DETAIL_URL + '/followers'
 
 # article - GET - 详情
 
-ARTICLE_DETAIL_URL = ZHIHU_API_ROOT + '/articles/{0}'
+ARTICLE_DETAIL_URL = ZHIHU_API_ROOT + '/articles/{}'
 
 # article.vote - GET:  - 获取点赞用户（无效）
 # me.vote - POST - 点赞
@@ -186,7 +194,7 @@ ARTICLE_COMMENTS_URL = ARTICLE_DETAIL_URL + '/comments'
 
 # 没有下面这个 API 的，只是为了方便其他 API 引用
 
-COMMENT_DETAIL_URL = ZHIHU_API_ROOT + '/comments/{0}'
+COMMENT_DETAIL_URL = ZHIHU_API_ROOT + '/comments/{}'
 
 # comment.replies - GET - 评论的回复
 

@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 
 import os
 
+from ..exception import MyJSONDecodeError, UnexpectedResponseException
+
 try:
     # Py3
     # noinspection PyCompatibility
@@ -130,3 +132,15 @@ class SimpleEnum(set):
         if item in self:
             return item
         raise AttributeError("No {0} in this enum class.".format(item))
+
+
+def get_result_or_error(url, res):
+    try:
+        json_dict = res.json()
+        if 'error' not in json_dict:
+            return True, ''
+        else:
+            return False, json_dict['error']['message']
+    except (KeyError, MyJSONDecodeError):
+        raise UnexpectedResponseException(
+            url, res, 'a json contains voting result or error message')
