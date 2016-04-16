@@ -40,13 +40,14 @@ class Me(People):
 
         是 :any:`People` 的子类，表示当前登录的用户。
         设想中准备将用户操作（点赞，评论，收藏，私信等）放在这个类
-        里实现，:red:`但是现在还没写！`
+        里实现，:red:`但是现在还没写完所有操作！`
 
         ..  inheritance-diagram:: Me
 
         ..  seealso:: :class:`People`
 
         """
+        # TODO: me 类各种操作实现后记得更新 docstring
         super(Me, self).__init__(pid, cache, session)
 
     def _build_url(self):
