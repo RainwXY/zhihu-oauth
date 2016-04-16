@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from .people import People
 from .urls import (
     ANSWER_VOTERS_URL,
+    ARTICLE_VOTE_URL,
     SELF_DETAIL_URL,
 )
 from ..exception import MyJSONDecodeError, UnexpectedResponseException
@@ -38,32 +39,40 @@ class Me(People):
 
     def vote(self, what, op='up'):
         """
-        投票操作。也就是赞同，反对，或者清空（取消赞同和反对）。
+        投票操作。也就是赞同，反对，或者清除（取消赞同和反对）。
 
         操作对象可以是答案和文章。
 
         :param what: 要点赞的对象，可以是 :any:`Answer` 或 :any:`Article` 对象。
-        :param str op: 取值 'up', 'down', 'cancel'。分别表示赞同、反对和取消。
+        :param str op: 对于答案可取值 'up', 'down', 'clear'，
+          分别表示赞同、反对和清除。
+          对于文章，只能取 'up' 和 'clear'。
         :return: 表示结果的二元组，第一项表示是否成功，第二项表示原因。
         :rtype: (bool, str)
         :raise: :any:`UnexpectedResponseException`
-        当服务器回复和语气不符，不知道是否成功时
+          当服务器回复和预期不符，不知道是否成功时。
         """
         from .answer import Answer
-        if op not in {'up', 'down', 'cancel'}:
-            raise ValueError('Operate must be up, down or cancel.')
+        from .article import Article
         if isinstance(what, Answer):
-            return self._vote_answer(what, op)
+            if op not in {'up', 'down', 'cancel'}:
+                raise ValueError(
+                    'Operate must be up, down or clear for Answer.')
+            return self._vote(ANSWER_VOTERS_URL, what, op)
+        if isinstance(what, Article):
+            if op not in {'up', 'cancel'}:
+                raise ValueError('Operate must be up or clear for Article')
+            return self._vote(ARTICLE_VOTE_URL, what, op)
         else:
             raise TypeError(
                 'Unable to voteup a {0}.'.format(what.__class__.__name__))
 
-    def _vote_answer(self, answer, op):
+    def _vote(self, url, what, op):
         data = {
             'voteup_count': 0,
-            'voting': {'up': 1, 'down': -1, 'cancel': 0}[op],
+            'voting': {'up': 1, 'down': -1, 'clear': 0}[op],
         }
-        url = ANSWER_VOTERS_URL.format(answer.id)
+        url = url.format(what.id)
         res = self._session.post(url, data=data)
         try:
             json_dict = res.json()

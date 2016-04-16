@@ -173,7 +173,8 @@ COLUMN_FOLLOWERS_URL = COLUMN_DETAIL_URL + '/followers'
 
 ARTICLE_DETAIL_URL = ZHIHU_API_ROOT + '/articles/{0}'
 
-# article.vote - GET: 点赞用户, POST: 点赞 - 暂时无用
+# article.vote - GET:  - 获取点赞用户（无效）
+# me.vote - POST - 点赞
 
 ARTICLE_VOTE_URL = ARTICLE_DETAIL_URL + '/voters'
 
