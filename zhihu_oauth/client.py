@@ -29,6 +29,13 @@ try:
 except NameError:
     pass
 
+try:
+    bs64decode = base64.decodebytes
+except AttributeError:
+    # for python 2
+    # noinspection PyDeprecation
+    bs64decode = base64.decodestring
+
 
 class ZhihuClient:
     def __init__(self, client_id=None, secret=None):
@@ -82,7 +89,7 @@ class ZhihuClient:
             res = self._session.put(CAPTCHA_URL, auth=self._login_auth)
             try:
                 j = res.json()
-                return base64.decodestring(j['img_base64'].encode('utf-8'))
+                return bs64decode(j['img_base64'].encode('utf-8'))
             except (MyJSONDecodeError, ValueError, KeyError):
                 raise UnexpectedResponseException(
                     CAPTCHA_URL,
