@@ -137,10 +137,15 @@ class SimpleEnum(set):
 def get_result_or_error(url, res):
     try:
         json_dict = res.json()
-        if 'error' not in json_dict:
-            return True, ''
-        else:
+        if 'error' in json_dict:
             return False, json_dict['error']['message']
+        elif 'success' in json_dict:
+            if json_dict['success']:
+                return True, ''
+            else:
+                return False, 'Unknown error'
+        else:
+            return True, ''
     except (KeyError, MyJSONDecodeError):
         raise UnexpectedResponseException(
             url, res, 'a json contains voting result or error message')

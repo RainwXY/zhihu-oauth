@@ -72,6 +72,7 @@ PEOPLE_ACTIVITIES_URL = PEOPLE_DETAIL_URL + '/activities'
 # ----- 答案相关 -----
 
 # answer - GET - 详情
+# me.delete - DELETE - 删除答案
 
 ANSWER_DETAIL_URL = ZHIHU_API_ROOT + '/answers/{}'
 
@@ -176,6 +177,7 @@ TOPIC_CANCEL_FOLLOW_URL = TOPIC_FOLLOWERS_URL + '/{}'
 # ----- 收藏夹相关 -----
 
 # collection - GET - 详情
+# me.delete - DELETE - 删除收藏夹
 
 COLLECTION_DETAIL_URL = ZHIHU_API_ROOT + '/collections/{}'
 
@@ -218,6 +220,7 @@ COLUMN_CANCEL_FOLLOW_URL = COLUMN_FOLLOWERS_URL + '/{}'
 # ----- 文章相关 -----
 
 # article - GET - 详情
+# me.delete - DELETE - 删除文章
 
 ARTICLE_DETAIL_URL = ZHIHU_API_ROOT + '/articles/{}'
 
@@ -232,7 +235,7 @@ ARTICLE_COMMENTS_URL = ARTICLE_DETAIL_URL + '/comments'
 
 # ----- 评论相关 -----
 
-# 没有下面这个 API 的，只是为了方便其他 API 引用
+# me.delete - DELETE - 删除评论
 
 COMMENT_DETAIL_URL = ZHIHU_API_ROOT + '/comments/{}'
 

@@ -7,18 +7,22 @@ from .urls import (
     ANSWER_CANCEL_THANKS_URL,
     ANSWER_CANCEL_UNHELPFUL_URL,
     ANSWER_COLLECT_URL,
+    ANSWER_DETAIL_URL,
     ANSWER_THANKS_URL,
     ANSWER_UNHELPFUL_URL,
     ANSWER_VOTERS_URL,
+    ARTICLE_DETAIL_URL,
     ARTICLE_VOTE_URL,
     BLOCK_PEOPLE_URL,
     CANCEL_BLOCK_PEOPLE_URL,
     COLLECTION_CANCEL_FOLLOW_URL,
+    COLLECTION_DETAIL_URL,
     COLLECTION_FOLLOWERS_URL,
     COLUMN_CANCEL_FOLLOW_URL,
     COLUMN_FOLLOWERS_URL,
-    COMMENT_VOTE_URL,
     COMMENT_CANCEL_VOTE_URL,
+    COMMENT_DETAIL_URL,
+    COMMENT_VOTE_URL,
     PEOPLE_CANCEL_FOLLOWERS_URL,
     PEOPLE_FOLLOWERS_URL,
     QUESTION_CANCEL_FOLLOWERS_URL,
@@ -272,6 +276,37 @@ class Me(People):
         res = self._session.post(SEND_COMMENT_URL, data=data)
         print(res.text)
         return get_result_or_error(SEND_COMMENT_URL, res)
+
+    def delete(self, what):
+        """
+        删除……一些东西，目前可以删除答案，评论，收藏夹，文章。
+
+        ..  seealso::
+
+            返回值和可能的异常同 :any:`vote` 方法
+
+        ..  warning::
+
+            请注意，本方法没有经过完整的测试，加上删除操作不可撤销，
+            所以使用时请谨慎。
+
+        :param what: 要删除的对象，可以是 :any:`Answer`, :any:`Comment`,
+          :any:`Collection`, :any:`Article`
+        """
+        from . import Answer, Comment, Collection, Article
+        if isinstance(what, Answer):
+            url = ANSWER_DETAIL_URL.format(what.id)
+        elif isinstance(what, Comment):
+            url = COMMENT_DETAIL_URL.format(what.id)
+        elif isinstance(what, Collection):
+            url = COLLECTION_DETAIL_URL.format(what.id)
+        elif isinstance(what, Article):
+            url = ARTICLE_DETAIL_URL.format(what.id)
+        else:
+            raise TypeError(
+                'Can\'t delete a {0}.'.format(what.__class__.__name__))
+        res = self._session.delete(url)
+        return get_result_or_error(url, res)
 
     def _common_click(self, what, cancel, click_url, cancel_url):
         if cancel:
