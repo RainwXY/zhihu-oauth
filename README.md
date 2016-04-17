@@ -19,9 +19,11 @@
 
 **这个库是 Py2 和 Py3 通用的！** 但是 Py3 的优先级比 Py2 高，也就是说，我会优先保证在 Py3 下的稳定性和正确性。毕竟在我学的时候选了 Py3，所以对 2 与 3 的差异了解不是很清楚，Py2 只能尽力而为了，
 
-目前的计划是这样的：
+目前版本是 0.0.5，没更新的快更新一下，更新说明在[这里][changelog]。
 
-- 0.0.1 - 0.0.9 这个阶段是 alpha 期，主要做的是补齐功能的工作。基本上 TODO 里的功能都会在这个时期实现。
+后期的计划是这样的：
+
+- 0.0.1 - 0.0.9 这个阶段是 alpha 期，主要做的是补齐功能的工作。基本上 TODO 里的功能都会在这个时期实现。其中 0.0.5 版本计划完成和 zhihu-py3 同样多的功能（**已完成**）。 
 - 0.1.0 - 0.1.9 这个阶段是 beta 期，主要做完善测试，修复 bug，提升性能，改善架构之类的工作吧。以上两个阶段变化很大，有可能出现不兼容老版本的更新。使用需要注意……
 - 0.2.0 以后就是 stable 期，只要 API 不变，基本上代码结构就不会变了，可能也会修 bug，但是接口都不会变了，可能会加，但是不会减也不会变。
 
@@ -113,7 +115,7 @@ following column count 11
 - [x] 内部实现文档（其实就是注释）
 - [x] 提供统一的 from_url 用于构建对象
 - [x] people.activities 用户动态
-- [ ] Me 类的各种操作，比如评论，点赞，私信……etc
+- [x] Me 类的各种操作，比如评论，点赞，私信……etc
     + [x] 点赞/[反对]/清除
         - [x] 答案
         - [x] 文章
@@ -140,7 +142,6 @@ following column count 11
         - [x] 评论
         - [x] 收藏夹
         - [x] 文章
-    + [ ] 用户设置
 - [ ] 获取用户消息。新关注者，新评论，关注的回答有新问题，有私信等。
 - [ ] 规范的测试
 - [ ] 保证对 Python 2 和 3 的兼容性
@@ -154,6 +155,7 @@ MIT
 
 [zhihu-py3-github]: https://github.com/7sDream/zhihu-py3
 [speed-compare]: https://github.com/7sDream/zhihu-oauth/blob/master/compare.md
+[changelog]: https://github.com/7sDream/zhihu-oauth/blob/master/changelog.md
 
 [rtds-home]: http://zhihu-oauth.readthedocs.org/zh_CN/latest
 [rtds-install]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/install.html
