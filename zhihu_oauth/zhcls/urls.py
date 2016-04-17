@@ -244,6 +244,14 @@ COMMENT_REPLIES_URL = COMMENT_DETAIL_URL + '/replies'
 
 COMMENT_CONVERSION_URL = COMMENT_DETAIL_URL + '/conversation'
 
+# me.vote - POST - 给评论点赞
+
+COMMENT_VOTE_URL = COMMENT_DETAIL_URL + '/voters'
+
+# me.vote - DELETE - 取消点赞
+
+COMMENT_CANCEL_VOTE_URL = COMMENT_VOTE_URL + '/{}'
+
 # ----- 其他操作 -----
 
 # me.block - POST - 屏蔽用户

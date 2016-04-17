@@ -17,6 +17,8 @@ from .urls import (
     COLLECTION_FOLLOWERS_URL,
     COLUMN_CANCEL_FOLLOW_URL,
     COLUMN_FOLLOWERS_URL,
+    COMMENT_VOTE_URL,
+    COMMENT_CANCEL_VOTE_URL,
     PEOPLE_CANCEL_FOLLOWERS_URL,
     PEOPLE_FOLLOWERS_URL,
     QUESTION_CANCEL_FOLLOWERS_URL,
@@ -61,19 +63,19 @@ class Me(People):
         """
         投票操作。也就是赞同，反对，或者清除（取消赞同和反对）。
 
-        操作对象可以是答案和文章。
+        操作对象可以是答案，文章和评论。
 
-        :param what: 要点赞的对象，可以是 :any:`Answer` 或 :any:`Article` 对象。
+        :param what: 要点赞的对象，可以是 :any:`Answer` 或 :any:`Article`
+          或 :any:`Comment` 对象。
         :param str op: 对于答案可取值 'up', 'down', 'clear'，
           分别表示赞同、反对和清除。
-          对于文章，只能取 'up' 和 'clear'。默认值是 'up'。
+          对于文章和文章，只能取 'up' 和 'clear'。默认值是 'up'。
         :return: 表示结果的二元组，第一项表示是否成功，第二项表示原因。
         :rtype: (bool, str)
         :raise: :any:`UnexpectedResponseException`
           当服务器回复和预期不符，不知道是否成功时。
         """
-        from .answer import Answer
-        from .article import Article
+        from . import Answer, Article, Comment
         if isinstance(what, Answer):
             if op not in {'up', 'down', 'clear'}:
                 raise ValueError(
@@ -83,6 +85,11 @@ class Me(People):
             if op not in {'up', 'clear'}:
                 raise ValueError('Operate must be up or clear for Article')
             return self._common_vote(ARTICLE_VOTE_URL, what, op)
+        elif isinstance(what, Comment):
+            if op not in {'up', 'clear'}:
+                raise ValueError('Operate must be up or clear for Comment')
+            return self._common_click(what, op == 'clear', COMMENT_VOTE_URL,
+                                      COMMENT_CANCEL_VOTE_URL)
         else:
             raise TypeError(
                 'Unable to voteup a {0}.'.format(what.__class__.__name__))
