@@ -319,12 +319,11 @@ class ZhihuClient:
         获取当前登录的用户，需要 Client 是登录状态。
 
         ..  note::
-            :class:`Me` 类继承于 :class:`People`，是一个不同于其他用户的类。设想中
-            这个类用于提供各种操作，比如点赞，评论，私信等。但是现在还没有写完所有操作。
+            :class:`Me` 类继承于 :class:`People`，是一个不同于其他用户的类。
+            这个类用于提供各种操作，比如点赞，评论，私信等。
 
         :rtype: :class:`Me`
         """
-        # TODO: me 类各种操作实现后记得更新 docstring
 
         from .zhcls import Me
         return Me(self._token.user_id, None, self._session)

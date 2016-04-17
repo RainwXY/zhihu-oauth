@@ -41,27 +41,19 @@ __all__ = ['Me']
 class Me(People):
     def __init__(self, pid, cache, session):
         """
-        ..  role:: red
-        ..  raw:: html
-
-            <style> .red {color:red} </style>
-
         是 :any:`People` 的子类，表示当前登录的用户。
-        设想中准备将用户操作（点赞，评论，收藏，私信等）放在这个类
-        里实现，:red:`但是现在还没写完所有操作！`
+        除了提供用户的基本信息外，还提供各种用户操作
+        （点赞，评论，收藏，私信、删除等）。
 
         ..  inheritance-diagram:: Me
 
         ..  seealso:: :class:`People`
 
         """
-        # TODO: me 类各种操作实现后记得更新 docstring
         super(Me, self).__init__(pid, cache, session)
 
     def _build_url(self):
         return SELF_DETAIL_URL
-
-        # TODO: 好多好多用户操作，比如点赞，评论，私信，之类的……
 
     def vote(self, what, op='up'):
         """
@@ -248,11 +240,13 @@ class Me(People):
 
             返回值和可能的异常同 :any:`vote` 方法
 
-        ..  warning::
+        ..  warning:: 奇怪
 
             让我很诧异的是，就算「想要回复的评论」不属于「想要评论的主体」，
             知乎的 API 也会返回执行成功。而且经过测试，这条回复真的有效，
             会出现在评论主体的评论列表里。暂时不知道被评论用户的会不会收到消息。
+
+            另外，莫名其妙的还可以回复自己的评论……
 
         :param what: 向哪里发送评论，可以是 :any:`Answer`, :any:`Article`
           :any:`Question`, :any:`Collection`
