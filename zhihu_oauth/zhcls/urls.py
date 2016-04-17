@@ -257,3 +257,7 @@ CANCEL_BLOCK_PEOPLE_URL = BLOCK_PEOPLE_URL + '/{}'
 # me.message - POST - 发送私信
 
 SEND_MESSAGE_URL = ZHIHU_API_ROOT + '/messages'
+
+# me.comment - POST - 发表评论
+
+SEND_COMMENT_URL = ZHIHU_API_ROOT + '/comments'

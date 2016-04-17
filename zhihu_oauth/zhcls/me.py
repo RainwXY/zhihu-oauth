@@ -22,6 +22,7 @@ from .urls import (
     QUESTION_CANCEL_FOLLOWERS_URL,
     QUESTION_FOLLOWERS_URL,
     SELF_DETAIL_URL,
+    SEND_COMMENT_URL,
     SEND_MESSAGE_URL,
     TOPIC_CANCEL_FOLLOW_URL,
     TOPIC_FOLLOWERS_URL,
@@ -227,6 +228,24 @@ class Me(People):
         }
         res = self._session.post(SEND_MESSAGE_URL, data=data)
         return get_result_or_error(SEND_MESSAGE_URL, res)
+
+    def comment(self, what, content):
+        """
+        向答案发送评论
+
+        ..  seealso::
+
+            返回值和可能的异常同 :any:`vote` 方法
+
+        :param what: 向哪里发送评论
+        :param str content: 评论内容
+        """
+        from . import Answer
+        data = {'content': content}
+        if isinstance(what, Answer):
+            data.update({'type': 'answer', 'resource_id': what.id})
+        res = self._session.post(SEND_COMMENT_URL, data=data)
+        return get_result_or_error(SEND_COMMENT_URL, res)
 
     def _common_click(self, what, cancel, click_url, cancel_url):
         if cancel:
