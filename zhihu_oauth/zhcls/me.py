@@ -229,7 +229,7 @@ class Me(People):
         res = self._session.post(SEND_MESSAGE_URL, data=data)
         return get_result_or_error(SEND_MESSAGE_URL, res)
 
-    def comment(self, what, content):
+    def comment(self, what, content, parent=None):
         """
         向答案发送评论
 
@@ -237,15 +237,33 @@ class Me(People):
 
             返回值和可能的异常同 :any:`vote` 方法
 
-        :param what: 向哪里发送评论
+        ..  warning::
+
+            让我很诧异的是，就算「想要回复的评论」不属于「想要评论的主体」，
+            知乎的 API 也会返回执行成功。而且经过测试，这条回复真的有效，
+            会出现在评论主体的评论列表里。暂时不知道被评论用户的会不会收到消息。
+
+        :param what: 向哪里发送评论，可以是 :any:`Answer`, :any:`Article`
+          :any:`Question`, :any:`Collection`
         :param str content: 评论内容
+        :param Comment parent: 想要回复的评论，默认值为 None，则为正常的添加评论
         """
-        from . import Answer, Article, Question
+        from . import Answer, Article, Question, Collection, Comment
         data = {'content': content}
-        if isinstance(what, (Answer, Article, Question)):
+        if parent is not None:
+            if not isinstance(parent, Comment):
+                raise TypeError(
+                    'parent comment must be Comment object, {0} given.'.format(
+                        parent.__class__.__name__))
+            data.update(comment_id=parent.id)
+        if isinstance(what, (Answer, Article, Collection, Question)):
             data.update({'type': what.__class__.__name__.lower(),
                          'resource_id': what.id})
+        else:
+            raise TypeError('Can\'t add comment to a {0}.'.format(
+                what.__class__.__name__))
         res = self._session.post(SEND_COMMENT_URL, data=data)
+        print(res.text)
         return get_result_or_error(SEND_COMMENT_URL, res)
 
     def _common_click(self, what, cancel, click_url, cancel_url):
