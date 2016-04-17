@@ -166,8 +166,8 @@ class Answer(Base):
         """
         保存答案到当前文件夹。
 
-        :param str path: 目录名，可选。不提供的话会保存到当前目录。
-        :param str filename: 文件名，可选。
+        :param str|unicode path: 目录名，可选。不提供的话会保存到当前目录。
+        :param str|unicode filename: 文件名，可选。
             不提供的话会使用答主名。注意不要带后缀名
         :param list[char] invalid_char: 非法字符传列表。
             目录名和文件名都会使用这个列表过滤一遍。

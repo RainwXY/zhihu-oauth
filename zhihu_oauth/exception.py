@@ -28,9 +28,9 @@ class UnexpectedResponseException(Exception):
         """
         服务器回复了和预期格式不符的数据
 
-        :param str url: 当前尝试访问的网址
+        :param str|unicode url: 当前尝试访问的网址
         :param request.Response res: 服务器的回复
-        :param str expect: 一个用来说明期望服务器回复的数据格式的字符串
+        :param str|unicode expect: 一个用来说明期望服务器回复的数据格式的字符串
         """
         self.url = url
         self.res = res
@@ -51,7 +51,7 @@ class UnimplementedException(Exception):
 
         ..  note:: 一般用户不用管这个异常
 
-        :param str what: 用来描述当前遇到的情况
+        :param str|unicode what: 用来描述当前遇到的情况
         """
         self.what = what
 
@@ -105,7 +105,7 @@ class NeedLoginException(Exception):
         """
         使用某方法需要登录而当前客户端未登录
 
-        :param str what: 当前试图调用的方法名
+        :param str|unicode what: 当前试图调用的方法名
         """
         self.what = what
 

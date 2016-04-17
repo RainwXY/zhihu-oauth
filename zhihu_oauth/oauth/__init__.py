@@ -6,5 +6,5 @@ from .zhihu_oauth import ZhihuOAuth
 from .token import ZhihuToken
 from .utils import login_signature
 
-__all__ = ['ImZhihuAndroidClient', 'BeforeLoginAuth', 'ZhihuOAuth', 'ZhihuToken',
-           'login_signature']
+__all__ = ['ImZhihuAndroidClient', 'BeforeLoginAuth', 'ZhihuOAuth',
+           'ZhihuToken', 'login_signature']

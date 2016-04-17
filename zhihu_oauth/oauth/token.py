@@ -26,15 +26,15 @@ class ZhihuToken:
 
             本类仅在 :class:`.ZhihuClient` 类内使用，一般用户不需要了解。
 
-        :param str user_id: 用户 ID
+        :param str|unicode user_id: 用户 ID
         :param int uid: 某个数字型用户 ID，貌似没啥用
-        :param str access_token: 最重要的访问令牌
+        :param str|unicode access_token: 最重要的访问令牌
         :param int lock_in: 不知道用处
         :param int expires_in: 过期时间
-        :param str token_type: 令牌类型
-        :param str unlock_ticket: 不知道用处
-        :param str refresh_token: 刷新令牌
-        :param str cookie: 登录成功后需要加上这段 Cookies
+        :param str|unicode token_type: 令牌类型
+        :param str|unicode unlock_ticket: 不知道用处
+        :param str|unicode refresh_token: 刷新令牌
+        :param str|unicode cookie: 登录成功后需要加上这段 Cookies
         """
         self._create_at = time.time()
         self._user_id = uid
@@ -53,7 +53,7 @@ class ZhihuToken:
         """
         从字符串读取 token。
 
-        :param str json_str: 一个合法的代表知乎 Token 的 JSON 字符串
+        :param str|unicode json_str: 一个合法的代表知乎 Token 的 JSON 字符串
         :rtype: :class:`ZhihuToken`
         :raise ValueError: 提供的参数不合法时
         """
@@ -87,7 +87,7 @@ class ZhihuToken:
         """
         从文件读取 token。
 
-        :param str filename: 文件名
+        :param str|unicode filename: 文件名
         :rtype: :class:`ZhihuToken`
         """
         with open(filename, 'rb') as f:
@@ -97,7 +97,7 @@ class ZhihuToken:
         """
         将 token 保存成文件。
 
-        :param str filename: 文件名
+        :param str|unicode filename: 文件名
         :return: 无返回值
         """
         with open(filename, 'wb') as f:

@@ -63,7 +63,7 @@ class Me(People):
 
         :param what: 要点赞的对象，可以是 :any:`Answer` 或 :any:`Article`
           或 :any:`Comment` 对象。
-        :param str op: 对于答案可取值 'up', 'down', 'clear'，
+        :param str|unicode op: 对于答案可取值 'up', 'down', 'clear'，
           分别表示赞同、反对和清除。
           对于文章和文章，只能取 'up' 和 'clear'。默认值是 'up'。
         :return: 表示结果的二元组，第一项表示是否成功，第二项表示原因。
@@ -218,7 +218,7 @@ class Me(People):
             返回值和可能的异常同 :any:`vote` 方法
 
         :param  People who: 接收者
-        :param str content: 私信内容
+        :param str|unicode content: 私信内容
         """
         from . import People
         if not isinstance(who, People):
@@ -250,7 +250,7 @@ class Me(People):
 
         :param what: 向哪里发送评论，可以是 :any:`Answer`, :any:`Article`
           :any:`Question`, :any:`Collection`
-        :param str content: 评论内容
+        :param str|unicode content: 评论内容
         :param Comment parent: 想要回复的评论，默认值为 None，则为正常的添加评论
         """
         from . import Answer, Article, Question, Collection, Comment

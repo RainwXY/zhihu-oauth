@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 import functools
 import sys
 import time
-import importlib
 import abc
 
 from ..exception import UnexpectedResponseException, MyJSONDecodeError
@@ -183,7 +182,7 @@ class BaseGenerator(object):
 
         其实就是个 :any:`add_params` 的封装……
 
-        :param str what: 按什么排序……
+        :param str|unicode what: 按什么排序……
         """
         return self.add_params(order_by=what)
 

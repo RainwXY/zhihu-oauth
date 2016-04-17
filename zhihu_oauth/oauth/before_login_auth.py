@@ -17,15 +17,15 @@ class BeforeLoginAuth(ImZhihuAndroidClient):
         这个 Auth 在 :class:`.ImZhihuAndroidClient`
         的基础上加上了发送 ``client_id`` 的功能。表示登录之前的基础验证。
 
-        :param str client_id: 客户端 ID
+        :param str|unicode client_id: 客户端 ID
 
         ..  seealso::
             以下参数的文档参见 :meth:`.ImZhihuAndroidClient.__init__`
 
-        :param str api_version:
-        :param str app_version:
-        :param str app_build:
-        :param str app_za:
+        :param str|unicode api_version:
+        :param str|unicode app_version:
+        :param str|unicode app_build:
+        :param str|unicode app_za:
         """
         super(BeforeLoginAuth, self).__init__(
             api_version, app_version, app_build, app_za)

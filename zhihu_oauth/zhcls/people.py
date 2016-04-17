@@ -37,10 +37,10 @@ class _Anonymous(object):
 
 ANONYMOUS = _Anonymous()
 """
-.. role:: pycode(code)
+.. role:: py_code(code)
    :language: python
 
-统一的匿名用户对象，可以使用 :pycode:`if people is ANONYMOUS:` 判断是否是匿名用户
+统一的匿名用户对象，可以使用 :py_code:`if people is ANONYMOUS:` 判断是否是匿名用户
 """
 
 

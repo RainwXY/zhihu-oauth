@@ -2,8 +2,8 @@
 
 from .client import ZhihuClient
 from .zhcls import (
-    Activity, ActType, Answer, Article, Comment, Column, Collection, People, Question, Topic,
-    ANONYMOUS
+    Activity, ActType, Answer, Article, Comment, Column, Collection, People,
+    Question, Topic, ANONYMOUS
 )
 from .exception import NeedCaptchaException, UnexpectedResponseException
 

@@ -17,10 +17,10 @@ class ImZhihuAndroidClient(AuthBase):
 
         这个 Auth 类用于模拟一些 Android 上的知乎官方客户端的特殊参数
 
-        :param str api_version: 所用 API 版本
-        :param str app_version: 客户端(APK) 版本
-        :param str app_build: APP 类型？
-        :param str app_za: APP 杂项，是一个 urlencoded 的 params dict
+        :param str|unicode api_version: 所用 API 版本
+        :param str|unicode app_version: 客户端(APK) 版本
+        :param str|unicode app_build: APP 类型？
+        :param str|unicode app_za: APP 杂项，是一个 urlencoded 的 params dict
         """
         self._api_version = api_version or API_VERSION
         self._app_version = app_version or APP_VERSION

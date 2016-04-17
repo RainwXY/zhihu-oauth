@@ -35,8 +35,8 @@ class ZhihuClient:
         """
         知乎客户端，这是获取所有类的入口。
 
-        :param str client_id: 客户端 ID。
-        :param str secret: 客户端 ID 对应的 SECRET KEY。
+        :param str|unicode client_id: 客户端 ID。
+        :param str|unicode secret: 客户端 ID 对应的 SECRET KEY。
         :rtype: :class:`.ZhihuClient`
         """
         self._session = requests.session()
@@ -66,6 +66,7 @@ class ZhihuClient:
             j = res.json()
             return j['show_captcha']
         except (MyJSONDecodeError, KeyError):
+            # noinspection PyTypeChecker
             raise UnexpectedResponseException(
                 CAPTCHA_URL, res,
                 'a json data with show_captcha item'
@@ -81,7 +82,6 @@ class ZhihuClient:
             res = self._session.put(CAPTCHA_URL, auth=self._login_auth)
             try:
                 j = res.json()
-                # noinspection PyDeprecation
                 return base64.decodestring(j['img_base64'].encode('utf-8'))
             except (MyJSONDecodeError, ValueError, KeyError):
                 raise UnexpectedResponseException(
@@ -95,9 +95,9 @@ class ZhihuClient:
         """
         登录知乎的主要方法。
 
-        :param str email: 邮箱。
-        :param str password: 密码。
-        :param str captcha: 验证码，可以为空。
+        :param str|unicode email: 邮箱。
+        :param str|unicode password: 密码。
+        :param str|unicode captcha: 验证码，可以为空。
 
         :return: 二元元组，第一个元素表示是否成功，第二个元素表示失败原因。
         :rtype: tuple(bool, str)
@@ -149,8 +149,8 @@ class ZhihuClient:
 
         ..  note:: 此方法会自动处理验证码需要验证码情况。
 
-        :param str email: 邮箱，可能手机号也可以吧，我没测试。
-        :param str password: 密码咯。
+        :param str|unicode email: 邮箱，可能手机号也可以吧，我没测试。
+        :param str|unicode password: 密码咯。
         :return: .. seealso:: :meth:`.login`
         """
         print('----- Zhihu OAuth Login -----')
@@ -182,9 +182,9 @@ class ZhihuClient:
 
         如果成功则将 token 储存文件中。
 
-        :param str filename: token 保存的文件名
-        :param str email: 邮箱，手机不知道可不可以
-        :param str password: 密码
+        :param str|unicode filename: token 保存的文件名
+        :param str|unicode email: 邮箱，手机不知道可不可以
+        :param str|unicode password: 密码
         :return: .. seealso:: :meth:`.login`
         """
         success, reason = self.login_in_terminal(email, password)
@@ -201,7 +201,7 @@ class ZhihuClient:
 
         ..  seealso:: :meth:`.save_token`
 
-        :param str filename: token 文件名。
+        :param str|unicode filename: token 文件名。
         :return: 无返回值，也就是说其实不知道是否登录成功。
         """
         self._token = ZhihuToken.from_file(filename)
@@ -214,7 +214,7 @@ class ZhihuClient:
 
         ..  seealso:: :meth:`.load_token`
 
-        :param str filename: 将 token 储存为文件。
+        :param str|unicode filename: 将 token 储存为文件。
         :return: 无返回值。
         """
         self._token.save(filename)
@@ -231,8 +231,8 @@ class ZhihuClient:
         """
         开发时用的测试某个 API 返回的 JSON 用的便捷接口。
 
-        :param str method: HTTP 方式， GET or POST or OPTION, etc。
-        :param str url: API 地址。
+        :param str|unicode method: HTTP 方式， GET or POST or OPTION, etc。
+        :param str|unicode url: API 地址。
         :param dict params: GET 参数。
         :param dict data: POST 参数。
         :return: 访问结果。
@@ -247,7 +247,7 @@ class ZhihuClient:
         session，所以设置代理后，对所有由当前对象生成的知乎对象均会
         使用设置的代理。
 
-        :param str proxy: 形如 '10.10.1.10:3128'，传入 None
+        :param str|unicode proxy: 形如 '10.10.1.10:3128'，传入 None
           表示清除代理设置。
         :return: None
         """
@@ -306,7 +306,7 @@ class ZhihuClient:
         """
         获取专栏对象，需要 Client 是登录状态。
 
-        :param str cid: 专栏 ID，注意，类型是字符串。
+        :param str|unicode cid: 专栏 ID，注意，类型是字符串。
         :举例: https://zhuanlan.zhihu.com/abcdefg 的专栏 ID 是 abcdefg。
         :rtype: :class:`Column`
         """
@@ -333,7 +333,7 @@ class ZhihuClient:
         """
         获取用户对象，需要 Client 是登录状态。
 
-        :param str pid: 用户 ID，注意，类型是字符串。
+        :param str|unicode pid: 用户 ID，注意，类型是字符串。
         :举例: https://www.zhihu.com/people/abcdefg 的用户 ID 是 abcdefg。
         :rtype: :class:`Column`
         """
@@ -378,7 +378,7 @@ class ZhihuClient:
 
             本方法也支持省略了开头的 ``https://``，或者结尾有多余的 ``/`` 的 URL。
 
-        :param str url: 知乎对象的网址
+        :param str|unicode url: 知乎对象的网址
         :return: 对应的知乎对象
         """
         for re, val in RE_FUNC_MAP.items():
