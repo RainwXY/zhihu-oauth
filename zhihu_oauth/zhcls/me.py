@@ -240,10 +240,11 @@ class Me(People):
         :param what: 向哪里发送评论
         :param str content: 评论内容
         """
-        from . import Answer
+        from . import Answer, Article
         data = {'content': content}
-        if isinstance(what, Answer):
-            data.update({'type': 'answer', 'resource_id': what.id})
+        if isinstance(what, (Answer, Article)):
+            data.update({'type': what.__class__.__name__.lower(),
+                         'resource_id': what.id})
         res = self._session.post(SEND_COMMENT_URL, data=data)
         return get_result_or_error(SEND_COMMENT_URL, res)
 
