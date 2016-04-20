@@ -24,7 +24,7 @@ class Collection(Base):
     # ---- simple info -----
 
     @property
-    @other_obj()
+    @normal_attr()
     def answer_count(self):
         return None
 

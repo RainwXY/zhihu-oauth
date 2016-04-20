@@ -25,6 +25,7 @@ from .urls import (
     COMMENT_VOTE_URL,
     PEOPLE_CANCEL_FOLLOWERS_URL,
     PEOPLE_FOLLOWERS_URL,
+    PEOPLE_FOLLOWING_COLLECTIONS_URL,
     QUESTION_CANCEL_FOLLOWERS_URL,
     QUESTION_FOLLOWERS_URL,
     SELF_DETAIL_URL,
@@ -33,6 +34,7 @@ from .urls import (
     TOPIC_CANCEL_FOLLOW_URL,
     TOPIC_FOLLOWERS_URL,
 )
+from .generator import generator_of
 from .utils import get_result_or_error
 
 __all__ = ['Me']
@@ -54,6 +56,21 @@ class Me(People):
 
     def _build_url(self):
         return SELF_DETAIL_URL
+
+    # ----- generators -----
+
+    @property
+    @generator_of(PEOPLE_FOLLOWING_COLLECTIONS_URL, 'collection')
+    def following_collections(self):
+        """
+        ..  warning:: 注意
+
+            这一方法是 :any:`Me` 类独有的，其父类 :any:`People` 类没有此方法。
+
+            根本原因是知乎并不允许获取除自己（登录用户）以外用户关注的专栏，
+            至于为什么，我哪知道呀QAQ
+        """
+        return None
 
     def vote(self, what, op='up'):
         """

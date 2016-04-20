@@ -440,11 +440,6 @@ class People(Base):
         return None
 
     @property
-    @generator_of(PEOPLE_FOLLOWING_COLLECTIONS_URL, 'collection')
-    def following_collections(self):
-        return None
-
-    @property
     @generator_of(PEOPLE_FOLLOWING_COLUMNS_URL, 'column')
     def following_columns(self):
         return None

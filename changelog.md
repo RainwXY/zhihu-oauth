@@ -2,6 +2,11 @@
 
 ## 实验阶段
 
+### WIP
+
+- [fix] 修复了 `Collection` 类的 `answer_count` 属性无法使用的 bug
+- [change] 由于发现知乎 API 无法获取除自己以外用户关注的收藏夹，将 `following_collections` 由 `People` 类 移动至 `Me` 类中
+
 ### 0.0.5 - 2016.04.18
 
 - [add] `Topic` 类增加了 `followers` 属性，可获取话题关注者

@@ -41,7 +41,7 @@ PEOPLE_FOLLOWERS_URL = PEOPLE_DETAIL_URL + '/followers'
 
 PEOPLE_CANCEL_FOLLOWERS_URL = PEOPLE_FOLLOWERS_URL + '/{}'
 
-# people.following_collections - GET - 关注的收藏夹
+# me.following_collections - GET - 关注的收藏夹
 
 PEOPLE_FOLLOWING_COLLECTIONS_URL = PEOPLE_DETAIL_URL + '/following_collections'
 
