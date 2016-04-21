@@ -9,9 +9,10 @@ import abc
 
 from ..exception import UnexpectedResponseException, MyJSONDecodeError
 
-__all__ = ['BaseGenerator', 'AnswerGenerator', 'ArticleGenerator',
-           'CollectionGenerator', 'ColumnGenerator', 'CommentGenerator',
-           'PeopleGenerator', 'QuestionGenerator', 'TopicGenerator']
+__all__ = ['BaseGenerator', 'ActivityGenerator', 'AnswerGenerator',
+           'ArticleGenerator', 'CollectionGenerator', 'ColumnGenerator',
+           'CommentGenerator', 'PeopleGenerator', 'QuestionGenerator',
+           'TopicGenerator']
 
 
 MAX_WAIT_TIME = 8
