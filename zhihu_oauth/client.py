@@ -260,10 +260,8 @@ class ZhihuClient:
         """
         if proxy is None:
             self._session.proxies.clear()
-            self._session.verify = True
         else:
             self._session.proxies.update({'http': proxy, 'https': proxy})
-            self._session.verify = False
 
     # ----- get zhihu classes from ids -----
 
