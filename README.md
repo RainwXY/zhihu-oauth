@@ -148,6 +148,13 @@ following column count 11
 - [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
 - [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
 
+## 协助开发
+
+1. Fork
+2. 从 dev 分支新建一个分支
+3. 编写代码，更新 Changelog 和 sphinx 文档，如果可能的话加上测试
+4. PR 到原 dev 分支
+
 ## LICENSE
 
 MIT
