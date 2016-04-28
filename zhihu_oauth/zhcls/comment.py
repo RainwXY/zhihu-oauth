@@ -106,6 +106,29 @@ class Comment(Base):
         return None
 
     @property
+    def reply_to(self):
+        """
+        获取这条评论的父评论的作者，如果并没有回复谁则返回 None
+
+        :rtype: People
+        """
+        from .people import People
+        if self._cache and 'reply_to_author' in self._cache:
+            cache = self._cache['reply_to_author']
+        else:
+            self._get_data()
+            if self._data and 'reply_to_author' in self._data:
+                cache = self._data['reply_to_author']
+            else:
+                cache = None
+        if cache:
+            if 'member' in cache:
+                cache = cache['member']
+            return People(cache['id'], cache, self._session)
+        else:
+            return None
+
+    @property
     @normal_attr()
     def resource_type(self):
         """
