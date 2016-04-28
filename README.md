@@ -164,10 +164,10 @@ MIT
 [speed-compare]: https://github.com/7sDream/zhihu-oauth/blob/master/compare.md
 [changelog]: https://github.com/7sDream/zhihu-oauth/blob/master/changelog.md
 
-[rtds-home]: http://zhihu-oauth.readthedocs.org/zh_CN/latest
-[rtds-install]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/install.html
-[rtds-login]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/login.html
-[rtds-usage]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/use.html
+[rtds-home]: http://zhihu-oauth.readthedocs.io/zh_CN/latest
+[rtds-install]: http://zhihu-oauth.readthedocs.io/zh_CN/latest/guide/install.html
+[rtds-login]: http://zhihu-oauth.readthedocs.io/zh_CN/latest/guide/login.html
+[rtds-usage]: http://zhihu-oauth.readthedocs.io/zh_CN/latest/guide/use.html
 
 [badge-author]: https://img.shields.io/badge/Author-7sDream-blue.svg
 [badge-docs]: https://readthedocs.org/projects/zhihu-oauth/badge/?version=latest
