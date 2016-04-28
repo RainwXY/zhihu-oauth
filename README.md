@@ -98,9 +98,9 @@ following column count 11
 
 ## 文档
 
-完整的文档可以在[这里][rtds-home]。
+完整的文档可以在[这里][rtds-home] 找到。我写的文档好吧，可详细了……有啥问题先去找文档。我写的那么累你们看都不看我好不服啊！
 
-貌似 ReadTheDocs 在伟大的国家访问速度有点慢，建议自备手段。
+（貌似 ReadTheDocs 在伟大的国家访问速度有点慢，建议自备手段。）
 
 ## TODO
 
@@ -115,38 +115,28 @@ following column count 11
 - [x] 内部实现文档（其实就是注释）
 - [x] 提供统一的 from_url 用于构建对象
 - [x] people.activities 用户动态
-- [x] Me 类的各种操作，比如评论，点赞，私信……etc
-    + [x] 点赞/[反对]/清除
-        - [x] 答案
-        - [x] 文章
-        - [x] 评论
-    + [x] 感谢/清除
-    + [x] 没有帮助
-    + [x] 关注/取消关注
-        - [x] 问题
-        - [x] 话题
-        - [x] 用户
-        - [x] 专栏
-        - [x] 收藏夹
-    + [x] 屏蔽/取消屏蔽用户
-    + [x] 收藏答案
-    + [x] 私信
-    + [x] 评论
-        - [x] 答案
-        - [x] 文章
-        - [x] 问题
-        - [x] 收藏夹
-        - [x] 回复评论
-    + [x] 删除
-        - [x] 答案
-        - [x] 评论
-        - [x] 收藏夹
-        - [x] 文章
-- [ ] 获取用户消息。新关注者，新评论，关注的回答有新问题，有私信等。
+- [x] Me 类的各种操作
+    + [x] 对 「答案/文章/评论」 的 「点赞/[反对/]清除」 操作
+    + [x] 对 「答案」 的 「感谢/清除」 操作
+    + [x] 对 「答案」 的 「没有帮助/取消没有帮助」 操作
+    + [x] 对 「问题/话题/用户/专栏/收藏夹」 的 「关注/取消关注」 操作
+    + [x] 对 「用户」 的 「屏蔽/取消屏蔽」 操作
+    + [x] 对 「答案」 的 「收藏/取消收藏」 操作
+    + [x] 对 「用户」 的 「发送私信」 操作
+    + [x] 对 「答案/文章/问题/收藏夹」 的 「评论」 操作，支持回复评论
+    + [x] 对 「答案/文章/收藏夹/评论」 的 「删除」 操作，当然得是自己的
+- [x] 保证对 Python 2 和 3 的兼容性
 - [ ] 规范的测试
-- [ ] 保证对 Python 2 和 3 的兼容性
+- [ ] 获取用户消息。新关注者，新评论，关注的回答有新问题，有私信等。
 - [ ] article.voters 文章点赞者，貌似 OAuth2 没有这个 API
 - [ ] collection.followers 这个 API 不稳定，没法返回所有关注者
+
+## 协助开发
+
+1. Fork
+2. 从 dev 分支新建一个分支
+3. 编写代码，更新 Changelog 和 sphinx 文档，如果可能的话加上测试
+4. PR 到原 dev 分支
 
 ## LICENSE
 
@@ -157,10 +147,10 @@ MIT
 [speed-compare]: https://github.com/7sDream/zhihu-oauth/blob/master/compare.md
 [changelog]: https://github.com/7sDream/zhihu-oauth/blob/master/changelog.md
 
-[rtds-home]: http://zhihu-oauth.readthedocs.org/zh_CN/latest
-[rtds-install]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/install.html
-[rtds-login]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/login.html
-[rtds-usage]: http://zhihu-oauth.readthedocs.org/zh_CN/latest/guide/use.html
+[rtds-home]: http://zhihu-oauth.readthedocs.io/zh_CN/latest
+[rtds-install]: http://zhihu-oauth.readthedocs.io/zh_CN/latest/guide/install.html
+[rtds-login]: http://zhihu-oauth.readthedocs.io/zh_CN/latest/guide/login.html
+[rtds-usage]: http://zhihu-oauth.readthedocs.io/zh_CN/latest/guide/use.html
 
 [badge-author]: https://img.shields.io/badge/Author-7sDream-blue.svg
 [badge-docs]: https://readthedocs.org/projects/zhihu-oauth/badge/?version=latest

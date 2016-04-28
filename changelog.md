@@ -2,6 +2,11 @@
 
 ## 实验阶段
 
+### WIP
+
+- [fix] 修复了设置代理后因为关闭了 SSL 而造成的报 Warning 的问题
+- [add] `Comment` 类增加了获取父评论作者的 `reply_to` 属性
+
 ### 0.0.6 - 2016.04.21
 
 - [fix] 修复了 `Collection` 类的 `answer_count` 属性无法使用的 bug
