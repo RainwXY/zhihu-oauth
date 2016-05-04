@@ -2,9 +2,9 @@
 
 ## 实验阶段
 
-### WIP
+### 0.0.8 - 2016.05.04
 
-- [fix] 修复了 `Topic.best_answerers` 因返回的 JSON 与常规返回不符造成的 Bugui
+- [fix] 修复了 `Topic.best_answerers` 因返回的 JSON 与常规返回不符造成的 Bug
 
 ### 0.0.7 - 2016.04.28
 
