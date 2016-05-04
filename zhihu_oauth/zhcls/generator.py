@@ -278,6 +278,11 @@ class PeopleGenerator(BaseGenerator):
 
     def _build_obj(self, data):
         from .people import People
+
+        # hack for topic.best_answerers
+        if data['type'] == 'best_answerers':
+            data = data['member']
+
         return People(data['id'], data, self._session)
 
 
