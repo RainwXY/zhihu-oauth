@@ -2,6 +2,10 @@
 
 ## 实验阶段
 
+### WIP
+
+- [fix] 修复了 `Topic.best_answerers` 因返回的 JSON 与常规返回不符造成的 Bugui
+
 ### 0.0.7 - 2016.04.28
 
 - [fix] 修复了设置代理后因为关闭了 SSL 而造成的报 Warning 的问题
