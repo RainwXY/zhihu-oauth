@@ -3,6 +3,12 @@
 from __future__ import unicode_literals
 
 import re
+import requests.adapters
+
+DEFAULT_RETRY = requests.adapters.Retry(
+    total=10,
+    status_forcelist=[400, 403, 404, 408, 500, 502]
+)
 
 CAPTCHA_FILE = 'captcha.gif'
 """

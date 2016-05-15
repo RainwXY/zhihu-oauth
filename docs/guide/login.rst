@@ -7,6 +7,16 @@ zhihu_oauth 中对用户来说最重要的类就是 :any:`ZhihuClient` 了。
 
 以下是几种常用的登录方法。
 
+..  warning:: 关于手机号登录
+
+    使用手机号登录需要在手机号前加 ``+86`` 前缀。
+
+    使用手机号登录需要在手机号前加 ``+86`` 前缀。
+
+    使用手机号登录需要在手机号前加 ``+86`` 前缀。
+
+    说三遍。
+
 
 use login - 使用 login
 --------------------------
@@ -27,13 +37,13 @@ use login - 使用 login
     client = ZhihuClient()
 
     try:
-        client.login('email', 'password')
+        client.login('email_or_phone', 'password')
     except NeedCaptchaException:
         # 保存验证码并提示输入，重新登录
         with open('a.gif', 'wb') as f:
             f.write(client.get_captcha())
         captcha = input('please input captcha:')
-        client.login('email', 'password', captcha)
+        client.login('email_or_phone', 'password', captcha)
 
 
 use login_in_terminal - 使用 login_in_terminal
