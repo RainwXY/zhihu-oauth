@@ -101,11 +101,15 @@ class ZhihuClient:
                 )
         return None
 
-    def login(self, email, password, captcha=None):
+    def login(self, username, password, captcha=None):
         """
         登录知乎的主要方法。
 
-        :param str|unicode email: 邮箱。
+        ..  warning:: 关于手机号登录
+
+            手机号登录时请在手机号前加上 ``+86``
+
+        :param str|unicode username: 邮箱或手机号。
         :param str|unicode password: 密码。
         :param str|unicode captcha: 验证码，可以为空。
 
@@ -134,7 +138,7 @@ class ZhihuClient:
                 return False, str(e)
 
         data = dict(LOGIN_DATA)
-        data['username'] = email
+        data['username'] = username
         data['password'] = password
         data['client_id'] = self._client_id
 
@@ -151,24 +155,24 @@ class ZhihuClient:
         except (MyJSONDecodeError, ValueError, KeyError) as e:
             return False, str(e)
 
-    def login_in_terminal(self, email=None, password=None):
+    def login_in_terminal(self, username=None, password=None):
         """
         为在命令行模式下使用本库的用户提供的快捷登录方法。
 
-        在未提供 email 或 password 参数时会在终端中请求输入。
+        在未提供 username 或 password 参数时会在终端中请求输入。
 
         ..  note:: 此方法会自动处理验证码需要验证码情况。
 
-        :param str|unicode email: 邮箱，可能手机号也可以吧，我没测试。
-        :param str|unicode password: 密码咯。
+        :param str|unicode username: 邮箱或手机号。
+        :param str|unicode password: 密码。
         :return: .. seealso:: :meth:`.login`
         """
         print('----- Zhihu OAuth Login -----')
-        email = email or input('email: ')
+        username = username or input('email: ')
         password = password or getpass.getpass('password: ')
 
         try:
-            success, reason = self.login(email, password)
+            success, reason = self.login(username, password)
         except NeedCaptchaException:
             print('Need for a captcha, getting it......')
             captcha_image = self.get_captcha()
@@ -178,7 +182,7 @@ class ZhihuClient:
                 os.path.abspath(CAPTCHA_FILE)))
             captcha = input('captcha: ')
             os.remove(os.path.abspath(CAPTCHA_FILE))
-            success, reason = self.login(email, password, captcha)
+            success, reason = self.login(username, password, captcha)
         if success:
             print('Login success.')
         else:
@@ -186,18 +190,18 @@ class ZhihuClient:
 
         return success, reason
 
-    def create_token(self, filename, email=None, password=None):
+    def create_token(self, filename, username=None, password=None):
         """
         另一个快捷方法，作用为调用 :meth:`.login_in_terminal`
 
         如果成功则将 token 储存文件中。
 
         :param str|unicode filename: token 保存的文件名
-        :param str|unicode email: 邮箱，手机不知道可不可以
+        :param str|unicode username: 邮箱或手机号
         :param str|unicode password: 密码
         :return: .. seealso:: :meth:`.login`
         """
-        success, reason = self.login_in_terminal(email, password)
+        success, reason = self.login_in_terminal(username, password)
         if success:
             self.save_token(filename)
             print('Token file created success.')
