@@ -12,9 +12,8 @@ __all__ = ['ZhihuToken']
 
 
 class ZhihuToken:
-    def __init__(self, user_id, uid, access_token, lock_in,
-                 expires_in, token_type, unlock_ticket,
-                 refresh_token, cookie):
+    def __init__(self, user_id, uid, access_token, expires_in, token_type,
+                 refresh_token, cookie, lock_in=None, unlock_ticket=None):
         """
         知乎令牌。
 
@@ -29,24 +28,26 @@ class ZhihuToken:
         :param str|unicode user_id: 用户 ID
         :param int uid: 某个数字型用户 ID，貌似没啥用
         :param str|unicode access_token: 最重要的访问令牌
-        :param int lock_in: 不知道用处
         :param int expires_in: 过期时间
         :param str|unicode token_type: 令牌类型
-        :param str|unicode unlock_ticket: 不知道用处
         :param str|unicode refresh_token: 刷新令牌
         :param str|unicode cookie: 登录成功后需要加上这段 Cookies
+        :param int lock_in: 不知道用处
+        :param str|unicode unlock_ticket: 不知道用处
         """
         self._create_at = time.time()
         self._user_id = uid
         self._uid = user_id
         self._access_token = access_token
-        self._lock_in = lock_in
         self._expires_in = expires_in
         self._expires_at = self._create_at + self._expires_in
         self._token_type = token_type
-        self._unlock_ticket = unlock_ticket
         self._refresh_token = refresh_token
         self._cookie = cookie
+
+        # 以下两个属性暂时不知道用处
+        self._lock_in = lock_in
+        self._unlock_ticket = unlock_ticket
 
     @staticmethod
     def from_str(json_str):

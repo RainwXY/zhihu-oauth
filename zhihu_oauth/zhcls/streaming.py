@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 import functools
+import copy
 
 __all__ = ['StreamingJSON', 'streaming']
 
@@ -14,7 +15,18 @@ class StreamingJSON:
         """
         if not isinstance(json_data, (dict, list)):
             raise ValueError('Need dict or list to build StreamingJSON object.')
-        self._json = json_data
+        self._json = copy.deepcopy(json_data)
+
+    def raw_data(self):
+        """
+        有可能某些用户不喜欢使用 ``.`` 操作符而偏爱用 ``[]`` 来取字典内的数据，
+        所以提供此方法返回未处理的数据 **的副本**，
+        修改此副本对此对象内部数据无影响。
+
+        :return: 内部封装数据的副本
+        :rtype: dict|list
+        """
+        return copy.deepcopy(self._json)
 
     def __getattr__(self, item):
         """
