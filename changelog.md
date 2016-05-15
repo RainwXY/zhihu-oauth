@@ -2,6 +2,10 @@
 
 ## 实验阶段
 
+### WIP
+
+- [change] 修改了 `ZhihuClient.login` 方法中某些失败信息，使其能更明确的说明失败原因
+
 ### 0.0.8 - 2016.05.04
 
 - [fix] 修复了 `Topic.best_answerers` 因返回的 JSON 与常规返回不符造成的 Bug

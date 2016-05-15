@@ -115,8 +115,8 @@ class ZhihuClient:
             try:
                 if self.need_captcha():
                     raise NeedCaptchaException
-            except UnexpectedResponseException:
-                return False, 'UnexpectedResponse'
+            except UnexpectedResponseException as e:
+                return False, str(e)
         else:
             res = self._session.post(
                 CAPTCHA_URL,
@@ -127,8 +127,8 @@ class ZhihuClient:
                 json_dict = res.json()
                 if 'error' in json_dict:
                     return False, json_dict['error']['message']
-            except (MyJSONDecodeError, ValueError, KeyError):
-                return False, 'UnexpectedResponse'
+            except (MyJSONDecodeError, ValueError, KeyError) as e:
+                return False, str(e)
 
         data = dict(LOGIN_DATA)
         data['username'] = email
@@ -145,8 +145,8 @@ class ZhihuClient:
                 self._token = ZhihuToken.from_dict(json_dict)
                 self._session.auth = ZhihuOAuth(self._token)
                 return True, ''
-        except (MyJSONDecodeError, ValueError, KeyError):
-            return False, 'UnexpectedResponse'
+        except (MyJSONDecodeError, ValueError, KeyError) as e:
+            return False, str(e)
 
     def login_in_terminal(self, email=None, password=None):
         """
