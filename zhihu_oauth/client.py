@@ -15,7 +15,7 @@ from .oauth.setting import (
     CAPTCHA_URL, LOGIN_URL, LOGIN_DATA, CLIENT_ID, APP_SECRET
 )
 from .oauth.utils import login_signature
-from .setting import CAPTCHA_FILE, RE_FUNC_MAP, DEFAULT_RETRY
+from .setting import CAPTCHA_FILE, RE_FUNC_MAP, ADAPTER_WITH_RETRY
 from .utils import need_login, int_id
 from .exception import (
     UnexpectedResponseException, NeedCaptchaException, MyJSONDecodeError
@@ -47,7 +47,10 @@ class ZhihuClient:
         :rtype: :class:`.ZhihuClient`
         """
         self._session = requests.session()
-        self._session.max_redirects = DEFAULT_RETRY
+
+        # Add auto retry for session
+        self._session.mount('http://', ADAPTER_WITH_RETRY)
+        self._session.mount('https://', ADAPTER_WITH_RETRY)
 
         # client_id and secret shouldn't have default value
         # after zhihu open api
