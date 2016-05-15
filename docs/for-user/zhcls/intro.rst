@@ -91,6 +91,9 @@ Streaming JSON attr - 流式 JSON 属性
 
     如果某个属性和 Python 的关键字冲突，请在属性名后面加上下划线 ``_`` 即可。
 
+对了，如果你不喜欢用 ``.`` 操作符，而偏爱标准dict和list的操作模式，你可以使用
+:any:`raw_data` 方法获取到内部数据。
+
 .. _intro_generator_attr:
 
 Generator attr - 生成器属性
