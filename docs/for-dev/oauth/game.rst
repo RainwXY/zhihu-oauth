@@ -3,6 +3,11 @@ Game walkthrough - 游戏攻略
 
 本来想的是写一篇博客的，但是果然还是不要太张扬，写在文档里算了。
 
+..  warning:: 关于准备工作
+
+    貌似知乎不知道怎么更改了 SSL 的加密方法，使用 Packet Capture 会影响到知乎 APP 的正常运作，现在推荐
+    使用 Fiddler 代替 Packet Capture，并设置 SSL 解密方法为 `<client>,ssl3,tls1.2`。
+
 Instruction  - 教学关
 ----------------------
 
