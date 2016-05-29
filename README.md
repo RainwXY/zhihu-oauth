@@ -2,6 +2,8 @@
 
 [![author][badge-author]][my-zhihu] [![docs][badge-docs]][rtds-home] [![version][badge-version]][pypi] [![py-version][badge-py-version]][pypi] [![state][badge-state]][pypi] [![license][badge-license]][license]
 
+**尼玛嗨！谁能告诉我为啥知乎 API 限制获取用户粉丝只能获取到前 5020 个呢！**
+
 ## 简介
 
 最近在尝试解析出知乎官方未开放的 OAuth2 接口，顺便提供优雅的使用方式，作为 [zhihu-py3][zhihu-py3-github] 项目的继任者。
@@ -19,7 +21,7 @@
 
 **这个库是 Py2 和 Py3 通用的！** 但是 Py3 的优先级比 Py2 高，也就是说，我会优先保证在 Py3 下的稳定性和正确性。毕竟在我学的时候选了 Py3，所以对 2 与 3 的差异了解不是很清楚，Py2 只能尽力而为了，
 
-目前版本是 0.0.9，没更新的快更新一下，更新说明在[这里][changelog]。
+目前版本是 0.0.11，没更新的快更新一下，更新说明在[这里][changelog]。
 
 后期的计划是这样的：
 
