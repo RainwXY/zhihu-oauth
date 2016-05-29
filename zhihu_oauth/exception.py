@@ -129,3 +129,23 @@ class IdMustBeIntException(Exception):
                "to use function: {self.func}".format(self=self)
 
     __str__ = __repr__
+
+
+class IgnoreErrorDataWarning(UserWarning):
+    def __init__(self, message, *args, **kwargs):
+        self._message = message
+        super(IgnoreErrorDataWarning, self).__init__(*args, **kwargs)
+
+    def __str__(self):
+        return str(self._message)
+
+    __repr__ = __str__
+
+
+GetEmptyResponseWhenFetchData = IgnoreErrorDataWarning(
+    "试图获取下一项时，服务器返回了空数据。"
+    "如果您是在获取某用户的粉丝，那么您可能遇到了知乎 5020 限制。"
+    "虽然不知道为什么，但是好像知乎限制 API 只能访问前 5020 个粉丝，"
+    "我也很为难，但是这是知乎做的限制，突破不了呀。"
+    "目前在遇到这个问题时只能当作获取完处理了。"
+)

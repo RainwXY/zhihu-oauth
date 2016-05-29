@@ -437,6 +437,9 @@ class People(Base):
     @property
     @generator_of(PEOPLE_FOLLOWERS_URL, 'people')
     def followers(self):
+        """
+        貌似知乎 API 有个限制，只允许获取前 5020 个粉丝，这好烦阿……
+        """
         return None
 
     @property

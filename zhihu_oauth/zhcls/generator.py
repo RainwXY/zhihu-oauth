@@ -6,8 +6,10 @@ import functools
 import sys
 import time
 import abc
+import warnings
 
-from ..exception import UnexpectedResponseException, MyJSONDecodeError
+from ..exception import UnexpectedResponseException, MyJSONDecodeError, \
+    GetEmptyResponseWhenFetchData
 
 __all__ = ['BaseGenerator', 'ActivityGenerator', 'AnswerGenerator',
            'ArticleGenerator', 'CollectionGenerator', 'ColumnGenerator',
@@ -63,11 +65,19 @@ class BaseGenerator(object):
         res = self._session.get(self._next_url, params=params)
         try:
             json_dict = res.json()
+
+            # Empty data({}, []) as end
+            if not json_dict:
+                warnings.warn(GetEmptyResponseWhenFetchData)
+                self._next_url = None
+                return
+
+            # Server knows error happened, retry
             if 'error' in json_dict:
 
                 error = json_dict['error']
 
-                # comment conversion hack
+                # comment conversion hack, as end
                 if 'name' in error:
                     if error['name'] == 'ERR_CONVERSATION_NOT_FOUND':
                         self._next_url = None
@@ -80,7 +90,6 @@ class BaseGenerator(object):
                     self._next_url = None
                 else:
                     time.sleep(self._need_sleep)
-
                 return
 
             self._need_sleep = 0.5
