@@ -152,11 +152,14 @@ def get_result_or_error(url, res):
 
 
 def common_save(path, filename, content, default_filename, invalid_chars):
-    if filename is None:
-        filename = remove_invalid_char(default_filename, invalid_chars)
-        filename = filename or 'untitled'
+    filename = filename or default_filename
+    filename = remove_invalid_char(filename, invalid_chars)
+    filename = filename or 'untitled'
+
+    path = path or '.'
     path = remove_invalid_char(path, invalid_chars)
     path = path or '.'
+
     if not os.path.isdir(path):
         os.makedirs(path)
     full_path = os.path.join(path, filename)
