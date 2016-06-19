@@ -2,14 +2,12 @@
 
 from __future__ import unicode_literals
 
-import os
-
 from .base import Base
 from .generator import generator_of
 from .other import other_obj
 from .normal import normal_attr
 from .streaming import streaming
-from .utils import remove_invalid_char, add_serial_number, SimpleHtmlFormatter
+from .utils import common_save
 from .urls import (
     ANSWER_DETAIL_URL,
     ANSWER_COLLECTIONS_URL,
@@ -162,14 +160,14 @@ class Answer(Base):
 
     # ----- other operate -----
 
-    def save(self, path='', filename=None, invalid_char=None):
+    def save(self, path='.', filename=None, invalid_chars=None):
         """
         保存答案到当前文件夹。
 
         :param str|unicode path: 目录名，可选。不提供的话会保存到当前目录。
         :param str|unicode filename: 文件名，可选。
             不提供的话会使用答主名。注意不要带后缀名
-        :param list[char] invalid_char: 非法字符传列表。
+        :param list[char] invalid_chars: 非法字符传列表。
             目录名和文件名都会使用这个列表过滤一遍。
             如果不提供则会使用内置的列表。
         :return: 无返回值
@@ -183,7 +181,7 @@ class Answer(Base):
                 # 对于保存问题的所有答案
                 for answer in question.answers:
                     print(answer.author.name)
-                    answer.save(xxx.title)
+                    answer.save(question.title)
 
                 # 对于保存收藏夹的所有答案
                 for answer in collection.answers:
@@ -203,14 +201,5 @@ class Answer(Base):
         """
         if self._cache is None:
             self._get_data()
-        if filename is None:
-            filename = remove_invalid_char(self.author.name, invalid_char)
-        path = remove_invalid_char(path, invalid_char)
-        if not os.path.isdir(path):
-            os.makedirs(path)
-        full_path = os.path.join(path, filename)
-        full_path = add_serial_number(full_path, '.html')
-        formatter = SimpleHtmlFormatter()
-        formatter.feed(self.content)
-        with open(full_path, 'wb') as f:
-            f.write(formatter.prettify().encode('utf-8'))
+        common_save(path, filename, self.content,
+                    self.author.name, invalid_chars)

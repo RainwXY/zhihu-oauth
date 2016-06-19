@@ -2,14 +2,12 @@
 
 from __future__ import unicode_literals
 
-import os
-
 from .base import Base
 from .generator import generator_of
 from .other import other_obj
 from .normal import normal_attr
 from .streaming import streaming
-from .utils import remove_invalid_char, add_serial_number, SimpleHtmlFormatter
+from .utils import common_save
 from .urls import (
     ARTICLE_DETAIL_URL,
     ARTICLE_COMMENTS_URL,
@@ -112,7 +110,7 @@ class Article(Base):
 
     # ----- other operate -----
 
-    def save(self, path='.', filename=None, invalid_char=None):
+    def save(self, path='.', filename=None, invalid_chars=None):
         """
         除了默认文件名是文章标题外，和 :any:`Answer.save` 完全一致。
 
@@ -131,15 +129,4 @@ class Article(Base):
         """
         if self._cache is None:
             self._get_data()
-        if filename is None:
-            filename = remove_invalid_char(self.title, invalid_char)
-            filename = filename or '没有标题'
-        path = remove_invalid_char(path, invalid_char)
-        if not os.path.isdir(path):
-            os.makedirs(path)
-        full_path = os.path.join(path, filename)
-        full_path = add_serial_number(full_path, 'html')
-        formatter = SimpleHtmlFormatter()
-        formatter.feed(self.content)
-        with open(full_path, 'wb') as f:
-            f.write(formatter.prettify().encode('utf-8'))
+        common_save(path, filename, self.content, self.title, invalid_chars)

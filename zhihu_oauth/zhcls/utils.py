@@ -36,7 +36,7 @@ def remove_invalid_char(dirty, invalid_chars=None):
 
 
 def add_serial_number(file_path, postfix):
-    full_path = file_path + '.' + postfix
+    full_path = file_path + postfix
     if not os.path.isfile(full_path):
         return full_path
     serial = 1
@@ -149,3 +149,22 @@ def get_result_or_error(url, res):
     except (KeyError, MyJSONDecodeError):
         raise UnexpectedResponseException(
             url, res, 'a json contains voting result or error message')
+
+
+def common_save(path, filename, content, default_filename, invalid_chars):
+    filename = filename or default_filename
+    filename = remove_invalid_char(filename, invalid_chars)
+    filename = filename or 'untitled'
+
+    path = path or '.'
+    path = remove_invalid_char(path, invalid_chars)
+    path = path or '.'
+
+    if not os.path.isdir(path):
+        os.makedirs(path)
+    full_path = os.path.join(path, filename)
+    full_path = add_serial_number(full_path, '.html')
+    formatter = SimpleHtmlFormatter()
+    formatter.feed(content)
+    with open(full_path, 'wb') as f:
+        f.write(formatter.prettify().encode('utf-8'))
