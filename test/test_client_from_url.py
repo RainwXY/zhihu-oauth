@@ -1,12 +1,12 @@
 from __future__ import unicode_literals
 
-from zhihu_oauth import (Answer, Article, Collection, Column, People, Question, Topic)
+from zhihu_oauth import (Answer, Article, Collection, Column, People, Question,
+                         Topic)
 
 from .client_test_base import ZhihuClientClassTest
 
 
 class TestZhihuClientFromURL(ZhihuClientClassTest):
-
     def test_correct_answer_url(self):
         url_list = [
             # normal url
