@@ -7,6 +7,7 @@ import getpass
 import os
 
 import requests
+import requests.packages.urllib3 as urllib3
 
 from .oauth.before_login_auth import BeforeLoginAuth
 from .oauth.zhihu_oauth import ZhihuOAuth
@@ -30,6 +31,7 @@ except NameError:
     pass
 
 try:
+    # noinspection PyUnresolvedReferences
     bs64decode = base64.decodebytes
 except AttributeError:
     # for python 2
@@ -50,6 +52,7 @@ class ZhihuClient:
 
         # remove SSL Verify
         self._session.verify = False
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
         # Add auto retry for session
         self._session.mount('http://', ADAPTER_WITH_RETRY)
