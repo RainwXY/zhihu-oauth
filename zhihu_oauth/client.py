@@ -5,6 +5,7 @@ from __future__ import print_function, unicode_literals
 import base64
 import getpass
 import os
+import warnings
 
 import requests
 import requests.packages.urllib3 as urllib3
@@ -178,7 +179,10 @@ class ZhihuClient:
         """
         print('----- Zhihu OAuth Login -----')
         username = username or input('email: ')
-        password = password or getpass.getpass('password: ')
+
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore', getpass.GetPassWarning)
+            password = password or getpass.getpass('password: ')
 
         try:
             success, reason = self.login(username, password)
