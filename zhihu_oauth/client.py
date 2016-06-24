@@ -5,8 +5,10 @@ from __future__ import print_function, unicode_literals
 import base64
 import getpass
 import os
+import warnings
 
 import requests
+import requests.packages.urllib3 as urllib3
 
 from .oauth.before_login_auth import BeforeLoginAuth
 from .oauth.zhihu_oauth import ZhihuOAuth
@@ -30,6 +32,7 @@ except NameError:
     pass
 
 try:
+    # noinspection PyUnresolvedReferences
     bs64decode = base64.decodebytes
 except AttributeError:
     # for python 2
@@ -47,6 +50,10 @@ class ZhihuClient:
         :rtype: :class:`.ZhihuClient`
         """
         self._session = requests.session()
+
+        # remove SSL Verify
+        self._session.verify = False
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
         # Add auto retry for session
         self._session.mount('http://', ADAPTER_WITH_RETRY)
@@ -172,7 +179,10 @@ class ZhihuClient:
         """
         print('----- Zhihu OAuth Login -----')
         username = username or input('email: ')
-        password = password or getpass.getpass('password: ')
+
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore', getpass.GetPassWarning)
+            password = password or getpass.getpass('password: ')
 
         try:
             success, reason = self.login(username, password)
