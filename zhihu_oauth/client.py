@@ -48,6 +48,9 @@ class ZhihuClient:
         """
         self._session = requests.session()
 
+        # remove SSL Verify
+        self._session.verify = False
+
         # Add auto retry for session
         self._session.mount('http://', ADAPTER_WITH_RETRY)
         self._session.mount('https://', ADAPTER_WITH_RETRY)

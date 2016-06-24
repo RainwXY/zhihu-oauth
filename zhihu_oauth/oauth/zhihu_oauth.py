@@ -47,5 +47,5 @@ class ZhihuOAuth(ImZhihuAndroidClient):
         """
         r = super(ZhihuOAuth, self).__call__(r)
         r.headers['Authorization'] = '{type} {token}'.format(
-            type=self._token.type, token=self._token.token)
+            type=self._token.type.capitalize(), token=self._token.token)
         return r

@@ -9,7 +9,7 @@ __all__ = ['BeforeLoginAuth']
 
 class BeforeLoginAuth(ImZhihuAndroidClient):
     def __init__(self, client_id, api_version=None, app_version=None,
-                 app_build=None, app_za=None):
+                 app_build=None, app_za=None, uuid=None, ua=None):
         """
         ..  inheritance-diagram:: BeforeLoginAuth
             :parts: 1
@@ -26,9 +26,11 @@ class BeforeLoginAuth(ImZhihuAndroidClient):
         :param str|unicode app_version:
         :param str|unicode app_build:
         :param str|unicode app_za:
+        :param str|unicode uuid:
+        :param str|unicode ua:
         """
         super(BeforeLoginAuth, self).__init__(
-            api_version, app_version, app_build, app_za)
+            api_version, app_version, app_build, app_za, uuid, ua)
         self._client_id = client_id
 
     def __call__(self, r):
