@@ -23,11 +23,9 @@ def can_get_from(name, data):
     return name in data and not isinstance(data[name], (dict, list))
 
 
-INVALID_CHARS = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
-
-
 def remove_invalid_char(dirty, invalid_chars=None):
-    invalid_chars = invalid_chars or INVALID_CHARS
+    default_invalid_chars = {'/', '\\', ':', '*', '?', '"', '<', '>', '|'}
+    invalid_chars = invalid_chars or default_invalid_chars
     clean = []
     for c in dirty:
         if c not in invalid_chars:
