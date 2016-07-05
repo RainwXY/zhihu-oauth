@@ -221,9 +221,9 @@ class People(Base):
         ..  code-block:: python
 
             for employment in people.employments:
-                if 'company' in education:
+                if 'company' in employment:
                     data += employment.company.name
-                if 'job' in education:
+                if 'job' in employment:
                     data += employment.job.name'
         """
         return []
