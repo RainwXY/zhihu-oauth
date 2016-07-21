@@ -54,7 +54,11 @@ def other_obj(class_name=None, name_in_json=None):
                     cache = self._data[name_in_j]
                 else:
                     cache = func(self, *args, **kwargs)
-            return cls(cache['id'], cache, self._session)
+
+            if cache is not None and 'id' in cache:
+                return cls(cache['id'], cache, self._session)
+            else:
+                return None
 
         return wrapper
 
