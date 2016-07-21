@@ -41,6 +41,11 @@ class Article(Base):
     @property
     @other_obj()
     def column(self):
+        """
+        文章所属专栏。
+
+        .. warning:: 当文章不属于任何专栏时值为 None，使用其属性前应先做检查。
+        """
         return None
 
     @property

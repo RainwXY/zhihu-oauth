@@ -72,6 +72,8 @@ class Me(People):
         """
         return None
 
+    # ----- operations -----
+
     def vote(self, what, op='up'):
         """
         投票操作。也就是赞同，反对，或者清除（取消赞同和反对）。

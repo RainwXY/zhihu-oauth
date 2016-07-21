@@ -30,7 +30,7 @@ class _Anonymous(object):
         self.name = '匿名用户'
 
     def __getattr__(self, _):
-        # 匿名用户除了姓名以外所有属性均为 None
+        # 匿名用户除了姓名和 ID 以外所有属性均为 None
         return None
 
 
@@ -221,9 +221,9 @@ class People(Base):
         ..  code-block:: python
 
             for employment in people.employments:
-                if 'company' in education:
+                if 'company' in employment:
                     data += employment.company.name
-                if 'job' in education:
+                if 'job' in employment:
                     data += employment.job.name'
         """
         return []
@@ -282,6 +282,7 @@ class People(Base):
         =======  ==========
         0        女
         1        男
+        -1       未填
         =======  ==========
 
         我该如何吐槽……

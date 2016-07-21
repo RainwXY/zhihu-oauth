@@ -65,7 +65,7 @@ print('headline', me.headline)
 print('description', me.description)
 
 print('following topic count', me.following_topic_count)
-print('following people count', me.following_topic_count)
+print('following people count', me.following_count)
 print('followers count', me.follower_count)
 
 print('voteup count', me.voteup_count)
