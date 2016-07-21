@@ -11,4 +11,4 @@ __all__ = ['ZhihuClient', 'ANONYMOUS', 'Activity', 'ActType', 'Article',
            'Answer', 'Collection', 'Column', 'Comment', 'People', 'Question',
            'Topic', 'NeedCaptchaException', 'UnexpectedResponseException']
 
-__version__ = '0.0.14'
+__version__ = '0.0.15'
