@@ -68,10 +68,11 @@ def user_bestanswers():
             tx.run(cypher)
             relationShip = "match(u:User{id: '"+str(author.id)+"'}) MERGE (u)-[:AUTHOR]->(b:Best_Answer{excerpt: '"+excerpt+"'," \
                             "thanks_count: "+thanks_count+",voteup_count: "+voteup_count+"," \
-                            "comment_count: "+comment_count+",question: '"+answer.question.title+"'})"
+                            "comment_count: "+comment_count+",question: '"+answer.question.title+"'}) SET b.id="+str(answer.id)+""
             tx.run(relationShip)
             if i == 0:
                 database.graph.data("CREATE CONSTRAINT ON (u:User) ASSERT u.id IS UNIQUE")
+                database.graph.data("CREATE CONSTRAINT ON (b:Best_Answer) ASSERT b.id IS UNIQUE")
             i += 1
             if len(answers._data) % 20 == 0:
                 if i % 20 == 0:
