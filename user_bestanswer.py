@@ -88,9 +88,9 @@ def user_bestanswers():
                 print("抓取了"+str(i)+"个用户")
                 tx = database.graph.begin()
         except Exception, e:
-            print(e)
+            print(e.message)
             failure = database.graph.begin()
-            failure.run("create(f:UserFailure{id:'"+str(author.id)+"',exception:'"+e+"'})")
+            failure.run("create(f:UserFailure{id:'"+str(author.id)+"',exception:'"+e.message+"'})")
             failure.commit()
             continue
     print("it is over")
