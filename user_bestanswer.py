@@ -2,9 +2,9 @@
 from zhihu_oauth import ZhihuClient
 from neo4j import Database
 
-
 client = ZhihuClient()
 client.load_token('token.pkl')
+
 
 # me = client.me()
 # people = client.people("excited-vczh")
@@ -12,29 +12,31 @@ client.load_token('token.pkl')
 def user_bestanswers():
     database = Database()
     tx = database.graph.begin()
-    client = ZhihuClient()
     topic = client.topic(19554298)
     answers = topic.best_answers
     i = 0
     for answer in answers:
+        print(111)
         # 作者信息
         author = answer.author
         author_name = author.name
-        author_weibo = author.sina_weibo_url
+        author_weibo = author.sina_weibo_url if author.sina_weibo_url else ''
         temp_location = ''
-        for location in author.locations:
-                    temp_location += location.name
+        if author.locations:
+            for location in author.locations:
+                temp_location += location.name
         author_location = temp_location
         author_headline = author.headline
         author_gender = "male" if author.gender ==1 else "female" if author.gender ==2 else "未填"
         author_business = author.business.name if author.business else ""
 
         temp_education = ''
-        for education in author.educations:
-                    if 'school' in education:
-                        temp_education += education.school.name
-                    if 'major' in education:
-                        temp_education += education.major.name
+        if author.educations:
+            for education in author.educations:
+                if 'school' in education:
+                    temp_education += education.school.name
+                if 'major' in education:
+                    temp_education += education.major.name
         author_education = temp_education
 
         temp_employment = ''
