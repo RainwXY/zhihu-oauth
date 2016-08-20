@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import json
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
@@ -32,7 +33,6 @@ def user_bestanswers():
                 for location in author.locations:
                     temp_location += location.name
             author_location = temp_location
-            author_headline = author.headline if author.headline else ''
             author_gender = "male" if author.gender ==1 else "female" if author.gender ==2 else "未填"
             author_business = author.business.name if author.business else ""
 
@@ -43,7 +43,7 @@ def user_bestanswers():
                         temp_education += education.school.name
                     if 'major' in education:
                         temp_education += education.major.name
-            author_education = temp_education
+            author_education = json.dumps(temp_education)
 
             temp_employment = ''
             if author.employments:
@@ -52,24 +52,30 @@ def user_bestanswers():
                         temp_employment += employment.company.name
                     if 'job' in employment:
                         temp_employment += employment.job.name
-            author_employment = temp_employment
+            author_employment = json.dumps(temp_employment)
 
             # 答案信息
             thanks_count = str(answer.thanks_count)
             voteup_count = str(answer.voteup_count)
             comment_count = str(answer.comment_count)
+            excerpt = json.dumps(answer.excerpt.replace("\\", "").replace("'", ""))
+            # print(answer.excerpt.replace("\\", "").replace("'", ""))
 
-            cypher = "create(u:User{name: '"+author_name+"',email: '"+author_email+"',gender: '"+author_gender+"', " \
-                    "weibo: '"+author_weibo+"', loation: '"+author_location+"',headline: '"+\
-                     author_headline+"',business: '"+author_business+"',education: '"+\
-                     author_education+"',employment: '"+author_employment+"'})-[:AUTHOR]->(" \
-                    "b:Best_Answer{excerpt: '"+answer.excerpt+"',thanks_count: "+thanks_count+"," \
-                    "voteup_count: "+voteup_count+",comment_count: "+comment_count+"," \
-                    "question: '"+answer.question.title+"'})"
+            cypher = "merge(u:User{id:'"+str(author.id)+"',email: '"+author_email+"',gender: '"+author_gender+"'," \
+                    "weibo: '"+author_weibo+"', loation: '"+author_location+"'," \
+                    "business: '"+author_business+"',education: '"+author_education+"'," \
+                    "employment: '"+author_employment+"'}) SET u.name = '"+author_name+"'"
             tx.run(cypher)
+            relationShip = "match(u:User{id: '"+str(author.id)+"'}) MERGE (u)-[:AUTHOR]->(b:Best_Answer{excerpt: '"+excerpt+"'," \
+                            "thanks_count: "+thanks_count+",voteup_count: "+voteup_count+"," \
+                            "comment_count: "+comment_count+",question: '"+answer.question.title+"'})"
+            tx.run(relationShip)
+            if i == 0:
+                database.graph.data("CREATE CONSTRAINT ON (u:User) ASSERT u.id IS UNIQUE")
             i += 1
             if len(answers._data) % 20 == 0:
                 if i % 20 == 0:
+                    print("开始提交")
                     tx.commit()
                     print("此时answers长度为"+str(len(answers._data)))
                     print("抓取了"+str(i)+"个用户")
@@ -79,7 +85,7 @@ def user_bestanswers():
                 print("此处answers长度不为20，应该分页到最后了不足20页了")
                 print("抓取了"+str(i)+"个用户")
                 tx = database.graph.begin()
-        except Exception, e:
+        except Exception,e:
             print(e)
             failure = database.graph.begin()
             failure.run("create(f:UserFailure{id:'"+str(author.id)+"'})")
