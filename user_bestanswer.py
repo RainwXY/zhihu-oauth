@@ -76,7 +76,7 @@ def user_bestanswers():
                     tx = database.graph.begin()
             else:
                 tx.commit()
-                print("此处answers长度不为20，应该分页到最后了不足20页")
+                print("此处answers长度不为20，应该分页到最后了不足20页了")
                 print("抓取了"+str(i)+"个用户")
                 tx = database.graph.begin()
         except Exception, e:
