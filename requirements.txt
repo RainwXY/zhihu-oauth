@@ -1,0 +1,8 @@
+requests
+beautifulsoup4
+html2text
+termcolor
+lxml
+urllib3
+xlsxwriter
+py2neo
