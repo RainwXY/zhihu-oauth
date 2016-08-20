@@ -82,13 +82,14 @@ def user_bestanswers():
                     tx = database.graph.begin()
             else:
                 tx.commit()
-                print("此处answers长度不为20，应该分页到最后了不足20页了")
+                print("此时answers长度为"+str(len(answers._data)))
+                print("此处answers单次返回长度不为20")
                 print("抓取了"+str(i)+"个用户")
                 tx = database.graph.begin()
-        except Exception,e:
+        except Exception, e:
             print(e)
             failure = database.graph.begin()
-            failure.run("create(f:UserFailure{id:'"+str(author.id)+"'})")
+            failure.run("create(f:UserFailure{id:'"+str(author.id)+"',exception:'"+e+"'})")
             failure.commit()
             continue
     print("it is over")
