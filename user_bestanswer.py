@@ -13,7 +13,6 @@ client.load_token('token.pkl')
 
 
 # me = client.me()
-# people = client.people("excited-vczh")
 
 def user_bestanswers():
     database = Database()
@@ -69,13 +68,21 @@ def user_bestanswers():
                     "question: '"+answer.question.title+"'})"
             tx.run(cypher)
             i += 1
-            if i == 20:
+            if len(answers._data) % 20 == 0:
+                if i % 20 == 0:
+                    tx.commit()
+                    print("此时answers长度为"+str(len(answers._data)))
+                    print("抓取了"+str(i)+"个用户")
+                    tx = database.graph.begin()
+            else:
                 tx.commit()
+                print("此处answers长度不为20，应该分页到最后了不足20页")
+                print("抓取了"+str(i)+"个用户")
                 tx = database.graph.begin()
         except Exception, e:
             print(e)
             failure = database.graph.begin()
-            failure.run("create(f:UserFailure{id:"+str(author.id)+"})")
+            failure.run("create(f:UserFailure{id:'"+str(author.id)+"'})")
             failure.commit()
             continue
     print("it is over")
