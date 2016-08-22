@@ -18,7 +18,8 @@ client.load_token('token.pkl')
 def user_bestanswers():
     database = Database()
     tx = database.graph.begin()
-    topic = client.topic(19554298)
+    topicId = 19556664
+    topic = client.topic(topicId)
     answers = topic.best_answers
     i = 0
     for answer in answers:
@@ -43,7 +44,7 @@ def user_bestanswers():
                         temp_education += education.school.name
                     if 'major' in education:
                         temp_education += education.major.name
-            author_education = json.dumps(temp_education)
+            author_education = json.dumps(temp_education.replace("\\", "").replace("'", ""))
 
             temp_employment = ''
             if author.employments:
@@ -52,7 +53,7 @@ def user_bestanswers():
                         temp_employment += employment.company.name
                     if 'job' in employment:
                         temp_employment += employment.job.name
-            author_employment = json.dumps(temp_employment)
+            author_employment = json.dumps(temp_employment.replace("\\", "").replace("'", ""))
 
             # 答案信息
             thanks_count = str(answer.thanks_count)
@@ -61,18 +62,18 @@ def user_bestanswers():
             excerpt = json.dumps(answer.excerpt.replace("\\", "").replace("'", ""))
             # print(answer.excerpt.replace("\\", "").replace("'", ""))
 
-            cypher = "merge(u:User{id:'"+str(author.id)+"',email: '"+author_email+"',gender: '"+author_gender+"'," \
-                    "weibo: '"+author_weibo+"', loation: '"+author_location+"'," \
-                    "business: '"+author_business+"',education: '"+author_education+"'," \
-                    "employment: '"+author_employment+"'}) SET u.name = '"+author_name+"'"
+            cypher = "merge(u:User{userId: '"+str(author.id)+"'}) on create set u.name='"+author_name+"',u.email='"+author_email+"',u.gender='"+author_gender+"'," \
+                    "u.weibo='"+author_weibo+"', u.loation='"+author_location+"'," \
+                    "u.business='"+author_business+"',u.education='"+author_education+"'," \
+                    "u.employment='"+author_employment+"',u.topicID='"+str(topicId)+"'"
             tx.run(cypher)
-            relationShip = "match(u:User{id: '"+str(author.id)+"'}) MERGE (u)-[:AUTHOR]->(b:Answer{excerpt: '"+excerpt+"'," \
-                            "thanks_count: "+thanks_count+",voteup_count: "+voteup_count+"," \
-                            "comment_count: "+comment_count+",question: '"+answer.question.title+"'}) SET b.id="+str(answer.id)+""
+            relationShip = "match(u:User{userId: '"+str(author.id)+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+str(answer.id)+"'}) on create set a.excerpt='"+excerpt+"'," \
+                            "a.thanks_count="+thanks_count+",a.voteup_count="+voteup_count+"," \
+                            "a.comment_count="+comment_count+",a.question='"+answer.question.title+"'"
             tx.run(relationShip)
-            if i == 0:
-                database.graph.data("CREATE CONSTRAINT ON (u:User) ASSERT u.id IS UNIQUE")
-                database.graph.data("CREATE CONSTRAINT ON (b:Answer) ASSERT b.id IS UNIQUE")
+            # if i == 0:
+            #     database.graph.data("CREATE CONSTRAINT ON (u:User) ASSERT u.id IS UNIQUE")
+                # database.graph.data("CREATE CONSTRAINT ON (b:Answer) ASSERT b.id IS UNIQUE")
             i += 1
             if len(answers._data) % 20 == 0:
                 if i % 20 == 0:
