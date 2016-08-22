@@ -76,7 +76,7 @@ def user_bestanswers():
             i += 1
             if len(answers._data) % 20 == 0:
                 if i % 20 == 0:
-                    print("开始提交")
+                    print("开始提交!")
                     tx.commit()
                     print("此时answers长度为"+str(len(answers._data)))
                     print("抓取了"+str(i)+"个用户")
