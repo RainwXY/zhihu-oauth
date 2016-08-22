@@ -66,13 +66,13 @@ def user_bestanswers():
                     "business: '"+author_business+"',education: '"+author_education+"'," \
                     "employment: '"+author_employment+"'}) SET u.name = '"+author_name+"'"
             tx.run(cypher)
-            relationShip = "match(u:User{id: '"+str(author.id)+"'}) MERGE (u)-[:AUTHOR]->(b:Best_Answer{excerpt: '"+excerpt+"'," \
+            relationShip = "match(u:User{id: '"+str(author.id)+"'}) MERGE (u)-[:AUTHOR]->(b:Answer{excerpt: '"+excerpt+"'," \
                             "thanks_count: "+thanks_count+",voteup_count: "+voteup_count+"," \
                             "comment_count: "+comment_count+",question: '"+answer.question.title+"'}) SET b.id="+str(answer.id)+""
             tx.run(relationShip)
             if i == 0:
                 database.graph.data("CREATE CONSTRAINT ON (u:User) ASSERT u.id IS UNIQUE")
-                database.graph.data("CREATE CONSTRAINT ON (b:Best_Answer) ASSERT b.id IS UNIQUE")
+                database.graph.data("CREATE CONSTRAINT ON (b:Answer) ASSERT b.id IS UNIQUE")
             i += 1
             if len(answers._data) % 20 == 0:
                 if i % 20 == 0:
@@ -90,7 +90,7 @@ def user_bestanswers():
         except Exception, e:
             print(e.message)
             failure = database.graph.begin()
-            failure.run("create(f:UserFailure{id:'"+str(author.id)+"',exception:'"+e.message+"'})")
+            failure.run("create(f:UserFailure{id:'"+str(author.id)+"',exception:'"+str(e.message)+"'})")
             failure.commit()
             continue
     print("it is over")
