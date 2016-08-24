@@ -18,11 +18,13 @@ client.load_token('token.pkl')
 def user_bestanswers():
     database = Database()
     tx = database.graph.begin()
-    topic = client.topic(19554298)
+    topicId = 19554298
+    topic = client.topic(topicId)
     answers = topic.best_answers
     i = 0
     for answer in answers:
         # 作者信息
+        try:
             author = answer.author
             author_name = author.name
             author_weibo = author.sina_weibo_url if author.sina_weibo_url else ''
@@ -58,33 +60,42 @@ def user_bestanswers():
             voteup_count = str(answer.voteup_count)
             comment_count = str(answer.comment_count)
             excerpt = json.dumps(answer.excerpt.replace("\\", "").replace("'", ""))
-            print(answer.excerpt.replace("\\", "").replace("'", ""))
+            # print(answer.excerpt.replace("\\", "").replace("'", ""))
 
-            cypher = "merge(u:User{id:'"+str(author.id)+"',email: '"+author_email+"',gender: '"+author_gender+"'," \
+            cypher1 = "merge(u:User{name:'"+author_name+"',email: '"+author_email+"',gender: '"+author_gender+"'," \
                     "weibo: '"+author_weibo+"', loation: '"+author_location+"'," \
                     "business: '"+author_business+"',education: '"+author_education+"'," \
-                    "employment: '"+author_employment+"'}) SET u.name = '"+author_name+"'"
-            tx.run(cypher)
-            relationShip = "match(u:User{id: '"+str(author.id)+"'}) MERGE (u)-[:AUTHOR]->(b:Best_Answer{excerpt: '"+excerpt+"'," \
+                    "employment: '"+author_employment+"',topicID: '"+str(topicId)+"'}) SET u.id = '"+str(author.id)+"'"
+            tx.run(cypher1)
+            cypher2 = "merge(a:Answer{excerpt: '"+excerpt+"'," \
                             "thanks_count: "+thanks_count+",voteup_count: "+voteup_count+"," \
-                            "comment_count: "+comment_count+",question: '"+answer.question.title+"'})"
-            tx.run(relationShip)
+                            "comment_count: "+comment_count+",question: '"+answer.question.title+"'}) SET a.id="+str(answer.id)+""
+            tx.run(cypher2)
+            relationShip1 = "match(u:User{id: '"+str(author.id)+"'}) merge (a:Answer{id:'"+str(answer.id)+"'})  MERGE (u)-[:AUTHOR]->(a)"
+            tx.run(relationShip1)
             if i == 0:
                 database.graph.data("CREATE CONSTRAINT ON (u:User) ASSERT u.id IS UNIQUE")
+                # database.graph.data("CREATE CONSTRAINT ON (a:Answer) ASSERT a.id IS UNIQUE")
             i += 1
             if len(answers._data) % 20 == 0:
                 if i % 20 == 0:
-                    print("开始提交")
+                    print("开始提交!")
                     tx.commit()
                     print("此时answers长度为"+str(len(answers._data)))
                     print("抓取了"+str(i)+"个用户")
                     tx = database.graph.begin()
             else:
                 tx.commit()
-                print("此处answers长度不为20，应该分页到最后了不足20页了")
+                print("此时answers长度为"+str(len(answers._data)))
+                print("此处answers单次返回长度不为20")
                 print("抓取了"+str(i)+"个用户")
                 tx = database.graph.begin()
-
+        except Exception, e:
+            print(e.message)
+            failure = database.graph.begin()
+            failure.run("create(f:UserFailure{id:'"+str(author.id)+"',exception:'"+str(e.message)+"'})")
+            failure.commit()
+            continue
     print("it is over")
 
 def main():
