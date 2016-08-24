@@ -17,14 +17,14 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) return u.userId as userId ")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' return u.userId as userId ")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
             for follower in people.followings:
                 try:
                     insertNeo4j(follower, people.id)
-                    print("一度关系成功")
+                    print("一度关系成功####"+str(follower.id))
                 except Exception, e:
                     print(e)
                     failure = database.graph.begin()
@@ -34,7 +34,7 @@ def user_bestanswers():
                 for thirdFollow in follower.followings:
                     try:
                         insertNeo4j(thirdFollow, follower.id)
-                        print("二度关系成功")
+                        print("二度关系成功********************"+str(thirdFollow.id))
                     except Exception, e:
                         print(e)
                         failure = database.graph.begin()
