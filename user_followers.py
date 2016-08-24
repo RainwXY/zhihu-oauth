@@ -17,7 +17,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' return u.userId as userId ")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' return u.userId as userId order by id(u) desc skip 0  limit 350")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -58,6 +58,7 @@ def insertNeo4j(follower, userId):
     userRelations = "match(u:User{userId :'"+str(userId)+"'}) with u " \
                     "match(au:User{userId:'"+author["author_id"]+"'}) merge(u)-[:FOLLOWING]->(au)"
     tx.run(userRelations)
+    print("用户关系对应成功"+str(userId)+"->"+str(author["author_id"]))
                 # 回答相关
     follower_answers = follower.answers
     for answer in follower_answers:
@@ -66,6 +67,7 @@ def insertNeo4j(follower, userId):
                             "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
                             "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
         tx.run(relationShip)
+    print("用户回答对于完毕"+str(author["author_id"])+"->"+"回答")
     tx.commit()
 
 
