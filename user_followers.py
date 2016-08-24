@@ -17,7 +17,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' return u.userId as userId order by id(u) desc skip 0  limit 350")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' return u.userId as userId order by id(u) desc skip 350  limit 400")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
