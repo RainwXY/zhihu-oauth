@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import json
+import threading
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
@@ -17,13 +18,16 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19551469'}) where u.name<>'匿名用户' return u.userId as userId order by id(u) desc")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 300")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
             for follower in people.followings:
                 try:
-                    insertNeo4j(follower, people.id)
+                    t1 = threading.Thread(target=insertNeo4j, args=(follower, people.id))
+                    print("启动新线程t1")
+                    t1.start()
+                    # insertNeo4j(follower, people.id)
                     print("first关系成功####"+str(follower.id))
                 except Exception, e:
                     print(e)
@@ -33,7 +37,10 @@ def user_bestanswers():
                     continue
                 for thirdFollow in follower.followings:
                     try:
-                        insertNeo4j(thirdFollow, follower.id)
+                        t2 = threading.Thread(target=insertNeo4j, args=(thirdFollow, follower.id))
+                        print("启动新线程t2")
+                        t2.start()
+                        # insertNeo4j(thirdFollow, follower.id)
                         print("second关系成功********************"+str(thirdFollow.id))
                     except Exception, e:
                         print(e)
@@ -41,6 +48,7 @@ def user_bestanswers():
                         failure.run("create(f:UserFailure{id:'"+str(thirdFollow.id)+"'})")
                         failure.commit()
                         continue
+            database.graph.data("match(u:User{topicID:'"+people.id+"'}) set u.grab=true")
         except Exception, e:
             print(e.message)
             continue
@@ -60,14 +68,15 @@ def insertNeo4j(follower, userId):
     tx.run(userRelations)
     print("用户关系对应成功"+str(userId)+"->"+str(author["author_id"]))
                 # 回答相关
-    # follower_answers = follower.answers
-    # for answer in follower_answers:
-    #     myanswer = user_answer(answer)
-    #     relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
-    #                         "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
-    #                         "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
-    #     tx.run(relationShip)
-    # print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
+    follower_answers = follower.answers
+    for answer in follower_answers:
+        myanswer = user_answer(answer)
+        relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
+                            "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
+                            "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
+        tx.run(relationShip)
+
+    print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
     tx.commit()
 
 
@@ -113,6 +122,17 @@ def user_answer(answer):
     answerInfo["answer_id"] = str(answer.id)
     answerInfo["title"] = json.dumps(answer.question.title)
     return answerInfo
+
+
+# def answr_topic(topics):
+#     topicList = []
+#     for  mytopic in topics:
+#         topicInfo = {}
+#         topicInfo["id"] = mytopic.id
+#         topicInfo["name"] = mytopic.name
+#         topicList.append(topicInfo)
+#     return topicList
+
 
 def main():
     user_bestanswers()
