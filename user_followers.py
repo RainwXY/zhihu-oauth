@@ -17,14 +17,14 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' return u.userId as userId order by id(u) desc skip 350  limit 400")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' return u.userId as userId order by id(u) desc skip 0  limit 300")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
             for follower in people.followings:
                 try:
                     insertNeo4j(follower, people.id)
-                    print("一度关系成功####"+str(follower.id))
+                    print("first关系成功####"+str(follower.id))
                 except Exception, e:
                     print(e)
                     failure = database.graph.begin()
@@ -34,7 +34,7 @@ def user_bestanswers():
                 for thirdFollow in follower.followings:
                     try:
                         insertNeo4j(thirdFollow, follower.id)
-                        print("二度关系成功********************"+str(thirdFollow.id))
+                        print("second关系成功********************"+str(thirdFollow.id))
                     except Exception, e:
                         print(e)
                         failure = database.graph.begin()
@@ -67,7 +67,7 @@ def insertNeo4j(follower, userId):
                             "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
                             "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
         tx.run(relationShip)
-    print("用户回答对于完毕"+str(author["author_id"])+"->"+"回答")
+    print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
     tx.commit()
 
 
