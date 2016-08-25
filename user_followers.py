@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 600 limit 300")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 250")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -69,12 +69,17 @@ def insertNeo4j(follower, userId):
     print("用户关系对应成功"+str(userId)+"->"+str(author["author_id"]))
                 # 回答相关
     follower_answers = follower.answers
+    i = 0
+    # 抓取10个回答
     for answer in follower_answers:
         myanswer = user_answer(answer)
         relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
                             "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
                             "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
         tx.run(relationShip)
+        i += 1
+        if i > 10:
+            break
 
     print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
     tx.commit()
