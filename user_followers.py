@@ -18,16 +18,16 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 500 limit 250")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 250")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
             for follower in people.followings:
                 try:
-                    t1 = threading.Thread(target=insertNeo4j, args=(follower, people.id))
-                    print("启动新线程t1")
-                    t1.start()
-                    # insertNeo4j(follower, people.id)
+                    # t1 = threading.Thread(target=insertNeo4j, args=(follower, people.id))
+                    # print("启动新线程t1")
+                    # t1.start()
+                    insertNeo4j(follower, people.id)
                     print("first关系成功####"+str(follower.id))
                 except Exception, e:
                     print(e)
@@ -37,10 +37,10 @@ def user_bestanswers():
                     continue
                 for thirdFollow in follower.followings:
                     try:
-                        t2 = threading.Thread(target=insertNeo4j, args=(thirdFollow, follower.id))
-                        print("启动新线程t2")
-                        t2.start()
-                        # insertNeo4j(thirdFollow, follower.id)
+                        # t2 = threading.Thread(target=insertNeo4j, args=(thirdFollow, follower.id))
+                        # print("启动新线程t2")
+                        # t2.start()
+                        insertNeo4j(thirdFollow, follower.id)
                         print("second关系成功********************"+str(thirdFollow.id))
                     except Exception, e:
                         print(e)
