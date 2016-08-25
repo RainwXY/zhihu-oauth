@@ -17,7 +17,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' return u.userId as userId order by id(u) desc skip 600  limit 300")
+    userIDs = database.graph.data("match(u:User{topicID:'19551469'}) where u.name<>'匿名用户' return u.userId as userId order by id(u) desc")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -60,14 +60,14 @@ def insertNeo4j(follower, userId):
     tx.run(userRelations)
     print("用户关系对应成功"+str(userId)+"->"+str(author["author_id"]))
                 # 回答相关
-    follower_answers = follower.answers
-    for answer in follower_answers:
-        myanswer = user_answer(answer)
-        relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
-                            "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
-                            "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
-        tx.run(relationShip)
-    print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
+    # follower_answers = follower.answers
+    # for answer in follower_answers:
+    #     myanswer = user_answer(answer)
+    #     relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
+    #                         "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
+    #                         "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
+    #     tx.run(relationShip)
+    # print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
     tx.commit()
 
 
