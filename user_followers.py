@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) desc")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 400")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -78,7 +78,7 @@ def insertNeo4j(follower, userId):
                             "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
         tx.run(relationShip)
         i += 1
-        if i > 10:
+        if i > 5:
             break
         print("本次已经抓取了"+str(i)+"条回答")
     tx.commit()
