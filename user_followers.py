@@ -66,6 +66,7 @@ def insertNeo4j(follower, userId):
     userRelations = "match(u:User{userId :'"+str(userId)+"'}) with u " \
                     "match(au:User{userId:'"+author["author_id"]+"'}) merge(u)-[:FOLLOWING]->(au)"
     tx.run(userRelations)
+    tx.commit()
     print("用户关系对应成功"+str(userId)+"->"+str(author["author_id"]))
                 # 回答相关
     follower_answers = follower.answers
@@ -73,13 +74,14 @@ def insertNeo4j(follower, userId):
     # 抓取10个回答
     for answer in follower_answers:
         myanswer = user_answer(answer)
+        tx1 = database.graph.begin()
         relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
                             "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
                             "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
         tx.run(relationShip)
+        tx1.commit()
         i += 1
-        if i > 10:
-            break
+        print("本次已经抓取了"+str(i)+"条回答")
 
     print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
     tx.commit()
