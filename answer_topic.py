@@ -16,7 +16,7 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 790
+    i = 205180
     j = 0
     while True:
         answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) return a.answerId as answerId skip "+ str(i) +" limit 100")
