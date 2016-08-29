@@ -27,9 +27,7 @@ def user_bestanswers():
                 tx = database.graph.begin()
                 k = 0
                 for topic in topics:
-                    topic_cypher = "merge(t:Topic{name:'"+topic.name+"'})  set t.topicId='"+str(topic.id)+"'"
-                    tx.run(topic_cypher)
-                    cypher = "merge(a:AnswerX{answerId: '"+answerID["answerId"]+"'}) with a  match(t:Topic{topicId:'"+str(topic.id)+"'}) merge (a)-[:BELONGED]->(t)"
+                    cypher = "merge(a:AnswerX{answerId: '"+answerID["answerId"]+"'}) with a  merge(t:Topic{name:'"+topic.name+"'})  set t.topicId='"+str(topic.id)+"'  merge (a)-[:BELONGED]->(t)"
                     tx.run(cypher)
                     j += 1
                     print("对应了"+str(j)+"answer->topic")
