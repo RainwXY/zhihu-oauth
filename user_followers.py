@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 400")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 35")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -27,6 +27,10 @@ def user_bestanswers():
                     # t1 = threading.Thread(target=insertNeo4j, args=(follower, people.id))
                     # print("启动新线程t1")
                     # t1.start()
+                    flag = grab_or_not(follower)
+                    if flag is 1:
+                        print("此用户已经抓过,跳过"+str(follower.id))
+                        continue
                     insertNeo4j(follower, people.id)
                     print("first关系成功####"+str(follower.id))
                 except Exception, e:
@@ -48,12 +52,20 @@ def user_bestanswers():
                         failure.run("create(f:UserFailure{id:'"+str(thirdFollow.id)+"'})")
                         failure.commit()
                         continue
-            database.graph.data("match(u:User{topicID:'"+people.id+"'}) set u.grab=true")
+                database.graph.data("match(u:User{userId:'" + follower.id + "'}) set u.allgrab=true")
+            database.graph.data("match(u:User{userId:'"+people.id+"'}) set u.grab=true")
         except Exception, e:
             print(e.message)
             continue
     print("it is over")
 
+
+def grab_or_not(follower):
+    flag = database.graph.data("match(u:User{userId:'" + follower.id + "'}) where u.allgrab=true return count(u) as num")
+    if flag[0]["num"] >= 1:
+        return 1
+    else:
+        return 2
 
 def insertNeo4j(follower, userId):
     tx = database.graph.begin()
@@ -61,27 +73,30 @@ def insertNeo4j(follower, userId):
     cypher = "merge(u:User{userId: '"+author["author_id"]+"'}) on create set u.name='"+author["author_name"]+"',u.email='"+author["author_email"]+"',u.gender='"+author["author_gender"]+"'," \
                     "u.weibo='"+author["author_weibo"]+"', u.loation='"+author["author_location"]+"'," \
                     "u.business='"+author["author_business"]+"',u.education="+author["author_education"]+"," \
-                    "u.employment="+author["author_employment"]+""
+                    "u.employment="+author["author_employment"]+" with u match(au:User{userId :'"+str(userId)+"'}) merge(au)-[:FOLLOWING]->(u)"
     tx.run(cypher)
-    userRelations = "match(u:User{userId :'"+str(userId)+"'}) with u " \
-                    "match(au:User{userId:'"+author["author_id"]+"'}) merge(u)-[:FOLLOWING]->(au)"
-    tx.run(userRelations)
+    # userRelations = "match(u:User{userId :'"+str(userId)+"'}) with u " \
+    #                 "match(au:User{userId:'"+author["author_id"]+"'}) merge(u)-[:FOLLOWING]->(au)"
+    # tx.run(userRelations)
     print("用户关系对应成功"+str(userId)+"->"+str(author["author_id"]))
-                # 回答相关
+    tx.commit()
+
+    # 回答相关
     follower_answers = follower.answers
     i = 0
     # 抓取10个回答
     for answer in follower_answers:
+        tx1 = database.graph.begin()
         myanswer = user_answer(answer)
         relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
                             "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
                             "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
-        tx.run(relationShip)
+        tx1.run(relationShip)
+        tx1.commit()
         i += 1
-        if i > 5:
-            break
+        # if i > 5:
+        #     break
         print("本次已经抓取了"+str(i)+"条回答")
-    tx.commit()
     print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
 
 
