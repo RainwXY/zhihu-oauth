@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-import json
-import threading
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
@@ -19,9 +17,9 @@ database = Database()
 def user_bestanswers():
 
     i = 0
+    j = 0
     while True:
-        j = 0
-        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) return a.answerId as answerId order by id(a) asc skip "+ str(i) +" limit 100")
+        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) return a.answerId as answerId skip "+ str(i) +" limit 100")
         for answerID in answerIDs:
             try:
                 answer = client.answer(int(answerID["answerId"]))
@@ -31,8 +29,10 @@ def user_bestanswers():
                 for topic in topics:
                     topic_cypher = "merge(t:Topic{name:'"+topic.name+"'})  set t.topicId='"+str(topic.id)+"'"
                     tx.run(topic_cypher)
-                    cypher = "match(a:Answer{answerId: '"+answerID["answerId"]+"'}) match(t:Topic{topicId:'"+str(topic.id)+"'}) merge (a)-[:BELONGED]->(t)"
+                    cypher = "merge(a:AnswerX{answerId: '"+answerID["answerId"]+"'}) with a  match(t:Topic{topicId:'"+str(topic.id)+"'}) merge (a)-[:BELONGED]->(t)"
                     tx.run(cypher)
+                    j += 1
+                    print("对应了"+str(j)+"answer->topic")
                     k += 1
                     if k > 5:
                         break
@@ -40,11 +40,10 @@ def user_bestanswers():
             except Exception, e:
                 print(e)
                 continue
-            j += 1
-        if j < 100:
+        if i > 200000:
             break
         i += 100
-        print("抓去了"+str(i)+"answer->topic")
+        print("抓取了"+str(i)+"answer->topic")
     print("it is over")
 
 
