@@ -38,7 +38,7 @@ def user_bestanswers():
             except Exception, e:
                 print(e)
                 continue
-        if i > 200000:
+        if i > 400000:
             break
         i += 100
         print("抓取了"+str(i)+"answer->topic")
