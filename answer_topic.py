@@ -16,7 +16,7 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 800
+    i = 457832
     j = 0
     while True:
         answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) return a.answerId as answerId skip "+ str(i) +" limit 100")
@@ -40,7 +40,7 @@ def user_bestanswers():
             except Exception, e:
                 print(e)
                 continue
-        if i > 200000:
+        if i > 600000:
             break
         i += 100
         print("抓取了"+str(i)+"answer->topic")
