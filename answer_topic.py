@@ -24,17 +24,19 @@ def user_bestanswers():
             try:
                 answer = client.answer(int(answerID["answerId"]))
                 topics = answer.question.topics
-                tx = database.graph.begin()
+                # tx = database.graph.begin()
                 k = 0
                 for topic in topics:
                     cypher = "create(a:AnswerX{answerId: '"+answerID["answerId"]+"'}) with a  merge(t:Topic{name:'"+topic.name+"'})  set t.topicId='"+str(topic.id)+"'  merge (a)-[:BELONGED]->(t)"
-                    tx.run(cypher)
+                    # tx.run(cypher)
+                    print(cypher)
+                    database.graph.data(cypher)
                     j += 1
                     print("对应了"+str(j)+"answer->topic")
                     k += 1
                     if k > 5:
                         break
-                tx.commit()
+                # tx.commit()
             except Exception, e:
                 print(e)
                 continue
