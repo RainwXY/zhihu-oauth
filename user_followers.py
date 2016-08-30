@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 665 limit 35")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 40")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -44,6 +44,10 @@ def user_bestanswers():
                         # t2 = threading.Thread(target=insertNeo4j, args=(thirdFollow, follower.id))
                         # print("启动新线程t2")
                         # t2.start()
+                        second_flag = second_grab_or_not(thirdFollow)
+                        if second_flag is 2:
+                            print("已抓过"+str(thirdFollow.id))
+                            continue
                         insertNeo4j(thirdFollow, follower.id)
                         print("second关系成功********************"+str(thirdFollow.id))
                     except Exception, e:
@@ -60,6 +64,15 @@ def user_bestanswers():
     print("it is over")
 
 
+# 二度
+def second_grab_or_not(thirdFollow):
+    flag = database.graph.data("match(u:User{userId:'" + thirdFollow.id + "'}) return u.userId as userId ")
+    if len(flag) == 0:
+        return 1
+    else:
+        return 2
+
+# 一度
 def grab_or_not(follower):
     flag = database.graph.data("match(u:User{userId:'" + follower.id + "'}) where u.allgrab=true return count(u) as num")
     if flag[0]["num"] >= 1:
@@ -86,6 +99,9 @@ def insertNeo4j(follower, userId):
     i = 0
     # 抓取10个回答
     for answer in follower_answers:
+        if answer.voteup_count < 100 and answer.comment_count < 100:
+            print("此答案效率不高啊")
+            continue
         tx1 = database.graph.begin()
         myanswer = user_answer(answer)
         relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
