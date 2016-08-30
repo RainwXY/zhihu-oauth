@@ -16,10 +16,10 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 226714
+    i = 620701
     j = 0
     while True:
-        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) return a.answerId as answerId skip "+ str(i) +" limit 100")
+        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) return a.answerId as answerId skip " + str(i) + " limit 100")
         for answerID in answerIDs:
             try:
                 answer = client.answer(int(answerID["answerId"]))
@@ -29,7 +29,6 @@ def user_bestanswers():
                 for topic in topics:
                     cypher = "create(a:AnswerX{answerId: '"+answerID["answerId"]+"'}) with a  merge(t:Topic{name:'"+topic.name+"'})  set t.topicId='"+str(topic.id)+"'  merge (a)-[:BELONGED]->(t)"
                     # tx.run(cypher)
-                    print(cypher)
                     database.graph.data(cypher)
                     j += 1
                     print("对应了"+str(j)+"answer->topic")
@@ -40,7 +39,7 @@ def user_bestanswers():
             except Exception, e:
                 print(e)
                 continue
-        if i > 400000:
+        if i > 800000:
             break
         i += 100
         print("抓取了"+str(i)+"answer->topic")
