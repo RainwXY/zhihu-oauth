@@ -16,7 +16,7 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 0
+    i = 200000
     j = 0
     while True:
         answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) where a.answer_topic_corresponded is null return a.answerId as answerId  order by id(a) asc skip " + str(i) + " limit 100")
@@ -43,7 +43,7 @@ def user_bestanswers():
             except Exception, e:
                 print(e)
                 continue
-        if i > 200000:
+        if i > 400000:
             break
         i += 100
     print("it is over")
