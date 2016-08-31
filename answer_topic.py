@@ -16,36 +16,45 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 133984
+    i = 0
     j = 0
     while True:
-        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) return a.answerId as answerId skip " + str(i) + " limit 100")
+        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) where a.answer_topic_corresponded is null return a.answerId as answerId  order by id(a) asc skip " + str(i) + " limit 1000")
         for answerID in answerIDs:
             try:
+                # flag = is_coresspoded(answerID)
+                # if flag is 1:
+                #     print("抓过了"+str(answerID))
+                #     continue
                 answer = client.answer(int(answerID["answerId"]))
                 topics = answer.question.topics
                 # tx = database.graph.begin()
                 k = 0
                 for topic in topics:
-                    cypher = "create(a:AnswerX{answerId: '"+answerID["answerId"]+"'}) with a  merge(t:Topic{name:'"+topic.name+"'})  set t.topicId='"+str(topic.id)+"'  merge (a)-[:BELONGED]->(t)"
+                    cypher = "merge(a:Answer{answerId: '"+str(answerID["answerId"])+"'}) set a.xxx = 1  with a  merge(t:Topic{name:'"+topic.name+"'})  set t.topicId='"+str(topic.id)+"'  merge (a)-[:BELONGED]->(t)"
                     # tx.run(cypher)
                     database.graph.data(cypher)
-                    j += 1
-                    print("对应了"+str(j)+"answer->topic")
                     k += 1
                     if k > 5:
                         break
                 # tx.commit()
+                j += 1
+                print("对应了"+str(j)+"answer->topic")
             except Exception, e:
                 print(e)
                 continue
         if i > 200000:
             break
-        i += 100
-        print("抓取了"+str(i)+"answer->topic")
+        i += 1000
     print("it is over")
 
 
+def is_coresspoded(answerID):
+    flag = database.graph.data("match(a:Answer{answerId: '"+str(answerID["answerId"])+"'}) where a.xxx = 1 return count(a) as num ")
+    if flag[0]["num"] == 1:
+        return 1
+    else:
+        return 2
 
 def main():
     user_bestanswers()
