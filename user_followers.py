@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 30 limit 30")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 30")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -93,7 +93,7 @@ def insertNeo4j(follower, userId):
     i = 0
     # 抓取10个回答
     for answer in follower_answers:
-        if answer.voteup_count < 100 and answer.comment_count < 100:
+        if answer.voteup_count < 100 and answer.comment_count < 10:
             print("此答案效率不高啊")
             continue
         # tx1 = database.graph.begin()
