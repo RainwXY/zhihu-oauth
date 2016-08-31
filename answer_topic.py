@@ -19,7 +19,7 @@ def user_bestanswers():
     i = 0
     j = 0
     while True:
-        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) where a.answer_topic_corresponded is null return a.answerId as answerId  order by id(a) asc skip " + str(i) + " limit 1000")
+        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) where a.answer_topic_corresponded is null return a.answerId as answerId  order by id(a) asc skip " + str(i) + " limit 100")
         for answerID in answerIDs:
             try:
                 # flag = is_coresspoded(answerID)
@@ -45,7 +45,7 @@ def user_bestanswers():
                 continue
         if i > 200000:
             break
-        i += 1000
+        i += 100
     print("it is over")
 
 
