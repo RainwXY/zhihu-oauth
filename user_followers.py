@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 300 limit 40")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 0 limit 30")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -41,11 +41,8 @@ def user_bestanswers():
                     continue
                 for thirdFollow in follower.followings:
                     try:
-                        # t2 = threading.Thread(target=insertNeo4j, args=(thirdFollow, follower.id))
-                        # print("启动新线程t2")
-                        # t2.start()
                         second_flag = second_grab_or_not(thirdFollow)
-                        if second_flag is 2:
+                        if second_flag is 1:
                             print("已抓过"+str(thirdFollow.id))
                             continue
                         insertNeo4j(thirdFollow, follower.id)
@@ -66,8 +63,8 @@ def user_bestanswers():
 
 # 二度
 def second_grab_or_not(thirdFollow):
-    flag = database.graph.data("match(u:User{userId:'" + thirdFollow.id + "'}) return u.userId as userId ")
-    if len(flag) == 0:
+    flag = database.graph.data("match(u:User{userId:'" + thirdFollow.id + "'})-[:AUTHOR]->(a:Answer) return count(a) as num ")
+    if flag[0]["num"] < 5:
         return 1
     else:
         return 2
@@ -88,9 +85,6 @@ def insertNeo4j(follower, userId):
                     "u.business='"+author["author_business"]+"',u.education="+author["author_education"]+"," \
                     "u.employment="+author["author_employment"]+" with u match(au:User{userId :'"+str(userId)+"'}) merge(au)-[:FOLLOWING]->(u)"
     tx.run(cypher)
-    # userRelations = "match(u:User{userId :'"+str(userId)+"'}) with u " \
-    #                 "match(au:User{userId:'"+author["author_id"]+"'}) merge(u)-[:FOLLOWING]->(au)"
-    # tx.run(userRelations)
     print("用户关系对应成功"+str(userId)+"->"+str(author["author_id"]))
     tx.commit()
 
@@ -102,16 +96,15 @@ def insertNeo4j(follower, userId):
         if answer.voteup_count < 100 and answer.comment_count < 100:
             print("此答案效率不高啊")
             continue
-        tx1 = database.graph.begin()
+        # tx1 = database.graph.begin()
         myanswer = user_answer(answer)
         relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
                             "a.thanks_count="+myanswer["thanks_count"]+",a.voteup_count="+myanswer["voteup_count"]+"," \
                             "a.comment_count="+myanswer["comment_count"]+",a.question="+myanswer["title"]+""
-        tx1.run(relationShip)
-        tx1.commit()
+        database.graph.data(relationShip)
+        # tx1.run(relationShip)
+        # tx1.commit()
         i += 1
-        # if i > 5:
-        #     break
         print("本次已经抓取了"+str(i)+"条回答")
     print("用户回答对应完毕"+str(author["author_id"])+"->"+"回答")
 
