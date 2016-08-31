@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) asc skip 350 limit 50")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) desc skip 0 limit 50")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -43,7 +43,7 @@ def user_bestanswers():
                     try:
                         second_flag = second_grab_or_not(thirdFollow)
                         if second_flag is 1:
-                            print("已抓过"+str(thirdFollow.id))
+                            print("此用户已抓过"+str(thirdFollow.id))
                             continue
                         insertNeo4j(thirdFollow, follower.id)
                         print("second关系成功********************"+str(thirdFollow.id))
