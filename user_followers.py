@@ -64,7 +64,7 @@ def user_bestanswers():
 # 二度
 def second_grab_or_not(thirdFollow):
     flag = database.graph.data("match(u:User{userId:'" + thirdFollow.id + "'})-[:AUTHOR]->(a:Answer) return count(a) as num ")
-    if flag[0]["num"] < 5:
+    if flag[0]["num"] > 5:
         return 1
     else:
         return 2
