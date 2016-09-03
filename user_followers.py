@@ -93,7 +93,7 @@ def insertNeo4j(follower, userId):
     i = 0
     # 抓取10个回答
     for answer in follower_answers:
-        if answer.voteup_count < 100 or answer.comment_count < 10:
+        if answer.voteup_count == 0 and answer.comment_count == 0:
             print("此答案效率不高啊")
             continue
         # tx1 = database.graph.begin()
