@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
 import json
-import threading
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
