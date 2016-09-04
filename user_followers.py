@@ -17,7 +17,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) desc skip 350 limit 50")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) desc skip 0 limit 50")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -118,7 +118,14 @@ def userinfo(author):
         for location in author.locations:
             temp_location += location.name
     peopleInfo["author_location"] = temp_location
-    peopleInfo["author_gender"] = "male" if author.gender == 1 else "female" if author.gender == 2 else "未填"
+    # peopleInfo["author_gender"] = "male" if author.gender == 1 else "female" if author.gender == 2 else "未填"
+    if author.gender == 1:
+        peopleInfo["author_gender"] = "male"
+    elif author.gender == 2:
+        peopleInfo["author_gender"] = "female"
+    else:
+        peopleInfo["author_gender"] = "未填"
+
     peopleInfo["author_business"] = author.business.name if author.business else ""
 
     temp_education = ''
