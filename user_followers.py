@@ -17,7 +17,7 @@ database = Database()
 
 def user_bestanswers():
 
-    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) desc skip 450 limit 50")
+    userIDs = database.graph.data("match(u:User{topicID:'19554298'}) where u.name<>'匿名用户' and u.grab is null return u.userId as userId order by id(u) desc skip 0 limit 50")
     for userId in userIDs:
         people = client.people(userId["userId"])
         try:
@@ -45,6 +45,7 @@ def user_bestanswers():
                             print("此用户已抓过"+str(thirdFollow.id))
                             continue
                         insertNeo4j(thirdFollow, follower.id)
+                        database.graph.data("match(u:User{userId:'" + thirdFollow.id + "'}) set u.answer_end=true")
                         print("second关系成功********************"+str(thirdFollow.id))
                     except Exception, e:
                         print(e)
@@ -92,9 +93,9 @@ def insertNeo4j(follower, userId):
     i = 0
     # 抓取10个回答
     for answer in follower_answers:
-        if answer.voteup_count == 0 and answer.comment_count == 0:
-            print("此答案效率不高啊")
-            continue
+        # if answer.voteup_count == 0 and answer.comment_count == 0:
+        #     print("此答案效率不高啊")
+        #     continue
         # tx1 = database.graph.begin()
         myanswer = user_answer(answer)
         relationShip = "match(u:User{userId: '"+author["author_id"]+"'}) MERGE (u)-[:AUTHOR]->(a:Answer{answerId:'"+myanswer["answer_id"]+"'}) on create set a.excerpt="+myanswer["excerpt"]+"," \
