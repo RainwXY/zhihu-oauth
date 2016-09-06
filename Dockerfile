@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt -i http://pypi.tuna.tsinghua.edu.cn/simple -
 
 EXPOSE 3000
 
-CMD [ "python","user_followers.py"]
+CMD [ "python","kr.py"]
