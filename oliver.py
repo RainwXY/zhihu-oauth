@@ -34,7 +34,7 @@ request.mount('https://', ADAPTER_WITH_RETRY)
 
 def user_git():
     i = 0
-    init_url = "https://api.github.com/users?since"
+    init_url = "https://api.github.com/users?since=91"
     f = file("url.txt", "a+")
     while True:
         users = request.get(init_url)
@@ -120,10 +120,10 @@ def analysis_user(user):
     # user_info = {}
     # user_info["id"] = user["id"]
     # user_info["login"] = user["login"]
-    user["name"] = json.dumps(user["name"]) if user["name"] else ""
-    user["company"] = json.dumps(user["company"]) if user["company"] else ""
-    user["blog"] = json.dumps(user["blog"]) if user["blog"] else ""
-    user["location"] = json.dumps(user["location"]) if user["location"] else ""
+    user["name"] = json.dumps(user["name"]) if user["name"] else "''"
+    user["company"] = json.dumps(user["company"]) if user["company"] else "''"
+    user["blog"] = json.dumps(user["blog"]) if user["blog"] else "''"
+    user["location"] = json.dumps(user["location"]) if user["location"] else "''"
     user["email"] = user["email"] if user["email"] else ""
 
     return user
