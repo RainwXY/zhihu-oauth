@@ -38,6 +38,7 @@ def user_git():
         users = request.get(init_url)
         users_30 = users.json()
         for user in users_30:
+            time.sleep(0.5)
             # print("时间"+time.strftime(ISOTIMEFORMAT, time.localtime()))
             flag = is_not_grab(user)
             if flag == 1:
