@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
+import json
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
@@ -34,11 +35,11 @@ request.mount('https://', ADAPTER_WITH_RETRY)
 def user_git():
     i = 0
     init_url = "https://api.github.com/users?since"
+    f = file("url.txt", "a+")
     while True:
         users = request.get(init_url)
         users_30 = users.json()
         for user in users_30:
-            time.sleep(0.5)
             # print("时间"+time.strftime(ISOTIMEFORMAT, time.localtime()))
             flag = is_not_grab(user)
             if flag == 1:
@@ -48,8 +49,8 @@ def user_git():
             user_info = request.get(user["url"]).json()
             user_info = analysis_user(user_info)
             user_cypher = "merge(u:User {id:"+str(user_info["id"])+"}) set u.login='"+user_info["login"]+"'" \
-                            ", u.name='"+user_info["name"]+"', u.comapany ='"+user_info["company"]+"', u.blog='"+user_info["blog"]+"'" \
-                            ", u.location='"+user_info["location"]+"', u.email='"+user_info["email"]+"', u.public_repos="+str(user_info["public_repos"])+"" \
+                            ", u.name="+user_info["name"]+", u.comapany ="+user_info["company"]+", u.blog="+user_info["blog"]+"" \
+                            ", u.location="+user_info["location"]+", u.email='"+user_info["email"]+"', u.public_repos="+str(user_info["public_repos"])+"" \
                             ", u.public_gists="+str(user_info["public_gists"])+", u.followers="+str(user_info["followers"])+", u.following="+str(user_info["following"])+""
             tx.run(user_cypher)
             print("user已抓取"+str(user_info["id"]))
@@ -75,6 +76,7 @@ def user_git():
 
             #repos
             repos_url = user["repos_url"]
+            time.sleep(1)
             repos_info = request.get(repos_url)
             repos = repos_info.json()
             while "next" in repos_info.links:
@@ -98,11 +100,13 @@ def user_git():
             i += 1
             print("此用户分支对应成功 "+str(user_info["id"]))
             print("终于抓取了"+str(i)+"个用户,累死宝宝了")
-        if next in users.links:
+        if "next" in users.links:
             init_url = users.links["next"]["url"]
         else:
             break
-        print("下一个url"+init_url)
+        f.write(init_url + "\n")
+        f.flush()
+    f.close()
 
 
 def is_not_grab(user):
@@ -116,10 +120,10 @@ def analysis_user(user):
     # user_info = {}
     # user_info["id"] = user["id"]
     # user_info["login"] = user["login"]
-    user["name"] = user["name"] if user["name"] else ""
-    user["company"] = user["company"] if user["company"] else ""
-    user["blog"] = user["blog"] if user["blog"] else ""
-    user["location"] = user["location"] if user["location"] else ""
+    user["name"] = json.dumps(user["name"]) if user["name"] else ""
+    user["company"] = json.dumps(user["company"]) if user["company"] else ""
+    user["blog"] = json.dumps(user["blog"]) if user["blog"] else ""
+    user["location"] = json.dumps(user["location"]) if user["location"] else ""
     user["email"] = user["email"] if user["email"] else ""
 
     return user
