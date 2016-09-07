@@ -31,6 +31,9 @@ for user in users:
     KR = 0
     answers = graph.data('match (u:User) -[:AUTHOR]-> (a:Answer) where id(u) = ' + str(user) + ' return u, a ')
     userId = answers[0]["u"]["userId"]
+    if userId == 0:
+        print("匿名用户，跳过")
+        continue
     f1.write(userId+"\n")
     for answer in answers:
         answer = answer["a"]
@@ -50,5 +53,6 @@ for user in users:
             f1.write("voteup_count 3*"+str(answer["voteup_count"])+" thanks_count 3*"+str(answer["thanks_count"])+" comment_count 2*"+str(answer["comment_count"])+" textlength "+str(x4) +" 常数 "+str(c)+"\n")
     print(userId+"-KR->"+str(KR))
     f.write(userId+"-KR->"+str(KR)+"\n")
+    f.flush()
 f.close()
 f1.close()
