@@ -85,7 +85,7 @@ def user_git():
                 repos.extend(repos_info.json())
                 # repos = dict(repos, **repos_info.json())
 
-            tx1 = database.graph.begin()
+            # tx1 = database.graph.begin()
             print("开始repos对应")
             for repo in repos:
                 #处理language为null的情况
@@ -94,8 +94,9 @@ def user_git():
                 repos_cypher = "match(iu:User{id:"+str(user_info["id"])+"}) with iu merge(re:Repo{id:"+str(repo["id"])+"}) on create set re.name ='"+repo["name"]+"',re.stargazers_count="+str(repo["stargazers_count"])+"," \
                                 "re.watchers_count="+str(repo["watchers_count"])+",re.language='"+repo["language"]+"',re.has_issues="+str(repo["has_issues"])+",re.has_wiki="+str(repo["has_wiki"])+"" \
                                 ",re.forks_count="+str(repo["forks_count"])+",re.watchers="+str(repo["watchers"])+",re.default_branch='"+repo["default_branch"]+"' merge(iu)-[:AUTHOR]->(re)"
-                tx1.run(repos_cypher)
-            tx1.commit()
+                database.graph.data(repos_cypher)
+                # tx1.run(repos_cypher)
+            # tx1.commit()
             database.graph.data("merge(u:User {id:"+str(user_info["id"])+"}) set u.grab=true")
             i += 1
             print("此用户分支对应成功 "+str(user_info["id"]))
