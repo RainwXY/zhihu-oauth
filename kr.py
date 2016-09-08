@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import json
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
@@ -50,7 +51,7 @@ for user in users:
                 x4 = 4
 
             KR += x1*answer["voteup_count"]+x2*answer["thanks_count"]+x3*answer["comment_count"]+x4+c
-            f1.write("voteup_count 3*"+str(answer["voteup_count"])+" thanks_count 3*"+str(answer["thanks_count"])+" comment_count 2*"+str(answer["comment_count"])+" textlength "+str(x4) +" 常数 "+str(c)+"\n")
+            f1.write("voteup_count "+str(answer["voteup_count"])+" thanks_count "+str(answer["thanks_count"])+" comment_count "+str(answer["comment_count"])+" textlength "+str(x4) +" 常数 "+str(c)+" 简介 "+json.dumps(answer["excerpt"])+"\n")
     print(userId+"-KR->"+str(KR))
     f.write(userId+"-KR->"+str(KR)+"\n")
     f.flush()
