@@ -34,8 +34,7 @@ request.mount('https://', ADAPTER_WITH_RETRY)
 
 def user_git():
     i = 0
-    init_url = "https://api.github.com/users?since=1017"
-    f = file("url.txt", "a+")
+    init_url = "https://api.github.com/users?since=1047"
     while True:
         users = request.get(init_url)
         users_30 = users.json()
@@ -92,6 +91,7 @@ def user_git():
             for repo in repos:
                 #处理language为null的情况
                 repo["language"] = repo["language"] if repo["language"] else ""
+                repo["default_branch"] = json.dumps(repo["default_branch"])
 
                 repos_cypher = "match(iu:User{id:"+str(user_info["id"])+"}) with iu merge(re:Repo{id:"+str(repo["id"])+"}) on create set re.name ='"+repo["name"]+"',re.stargazers_count="+str(repo["stargazers_count"])+"," \
                                 "re.watchers_count="+str(repo["watchers_count"])+",re.language='"+repo["language"]+"',re.has_issues="+str(repo["has_issues"])+",re.has_wiki="+str(repo["has_wiki"])+"" \
@@ -105,12 +105,11 @@ def user_git():
             print("终于抓取了"+str(i)+"个用户,累死宝宝了")
         if "next" in users.links:
             init_url = users.links["next"]["url"]
+            print(init_url)
         else:
             break
-        f.write(init_url + "\n")
-        f.flush()
-    f.close()
 
+    print("it is over")
 
 def is_not_grab(user):
     flag = database.graph.data("match(u:User{id:"+str(user["id"])+"}) where u.grab=true return count(u) as num")
