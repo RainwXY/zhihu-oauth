@@ -25,14 +25,14 @@ users = graph.data('match (u:User {answer_topic_corresponded:true}) return colle
 users = users[0]['ids']
 print("总数为"+str(len(users)))
 
-f = file("kr.txt", "a+")
-f1 = file("kr-details.txt", "a+")
+f = file("kr1.txt", "a+")
+f1 = file("kr-details1.txt", "a+")
 ## answers of each user
 for user in users:
     KR = 0
     answers = graph.data('match (u:User) -[:AUTHOR]-> (a:Answer) where id(u) = ' + str(user) + ' return u, a ')
     userId = answers[0]["u"]["userId"]
-    if userId == 0:
+    if userId == "0":
         print("匿名用户，跳过")
         continue
     f1.write(userId+"\n")
@@ -50,8 +50,9 @@ for user in users:
             else:
                 x4 = 4
 
-            KR += x1*answer["voteup_count"]+x2*answer["thanks_count"]+x3*answer["comment_count"]+x4+c
-            f1.write("voteup_count "+str(answer["voteup_count"])+" thanks_count "+str(answer["thanks_count"])+" comment_count "+str(answer["comment_count"])+" textlength "+str(x4) +" 常数 "+str(c)+" 简介 "+json.dumps(answer["excerpt"])+"\n")
+            thisKR = x1*answer["voteup_count"]+x2*answer["thanks_count"]+x3*answer["comment_count"]+x4+c
+            KR += thisKR
+            f1.write("KR "+str(thisKR)+" voteup_count "+str(answer["voteup_count"])+" thanks_count "+str(answer["thanks_count"])+" comment_count "+str(answer["comment_count"])+" textlength "+str(x4) +" 常数 "+str(c)+" 简介 "+answer["excerpt"]+" 问题 "+answer["question"]+"\n")
     print(userId+"-KR->"+str(KR))
     f.write(userId+"-KR->"+str(KR)+"\n")
     f.flush()
