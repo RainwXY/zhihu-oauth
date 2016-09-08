@@ -34,7 +34,7 @@ request.mount('https://', ADAPTER_WITH_RETRY)
 
 def user_git():
     i = 0
-    init_url = "https://api.github.com/users?since=91"
+    init_url = "https://api.github.com/users?since=1017"
     f = file("url.txt", "a+")
     while True:
         users = request.get(init_url)
@@ -53,6 +53,7 @@ def user_git():
                             ", u.location="+user_info["location"]+", u.email='"+user_info["email"]+"', u.public_repos="+str(user_info["public_repos"])+"" \
                             ", u.public_gists="+str(user_info["public_gists"])+", u.followers="+str(user_info["followers"])+", u.following="+str(user_info["following"])+""
             tx.run(user_cypher)
+            tx.commit()
             print("user已抓取"+str(user_info["id"]))
 
             #following
@@ -69,9 +70,10 @@ def user_git():
 
             for following in followings:
                 following_cypher = "match(iu:User{id:"+str(user_info["id"])+"}) with iu merge(u:User{id:"+str(following["id"])+"}) on create set u.login='"+following["login"]+"' merge(iu)-[:FOLLOWING]->(u)"
-                tx.run(following_cypher)
+                # tx.run(following_cypher)
+                database.graph.data(following_cypher)
                 print(str(user_info["id"])+"-FOLLOWING->"+str(following["id"])+"关系对应成功")
-            tx.commit()
+            # tx.commit()
             print("用户关系全部对应成功 "+str(user_info["id"]))
 
             #repos
