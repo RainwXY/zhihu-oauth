@@ -90,7 +90,7 @@ def user_git():
             print("开始repos对应")
             for repo in repos:
                 #处理language为null的情况
-                repo["language"] = json.dumps(repo["language"]) if repo["language"] else ""
+                repo["language"] = json.dumps(repo["language"]) if  repo["language"] else ""
                 repo["default_branch"] = json.dumps(repo["default_branch"])
 
                 repos_cypher = "match(iu:User{id:"+str(user_info["id"])+"}) with iu merge(re:Repo{id:"+str(repo["id"])+"}) on create set re.name ='"+repo["name"]+"',re.stargazers_count="+str(repo["stargazers_count"])+"," \
