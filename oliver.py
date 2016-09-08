@@ -49,7 +49,7 @@ def user_git():
             user_info = analysis_user(user_info)
             user_cypher = "merge(u:User {id:"+str(user_info["id"])+"}) set u.login='"+user_info["login"]+"'" \
                             ", u.name="+user_info["name"]+", u.comapany ="+user_info["company"]+", u.blog="+user_info["blog"]+"" \
-                            ", u.location="+user_info["location"]+", u.email='"+user_info["email"]+"', u.public_repos="+str(user_info["public_repos"])+"" \
+                            ", u.location="+user_info["location"]+", u.email="+user_info["email"]+", u.public_repos="+str(user_info["public_repos"])+"" \
                             ", u.public_gists="+str(user_info["public_gists"])+", u.followers="+str(user_info["followers"])+", u.following="+str(user_info["following"])+""
             tx.run(user_cypher)
             tx.commit()
