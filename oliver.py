@@ -95,7 +95,7 @@ def user_git():
 
                 repos_cypher = "match(iu:User{id:"+str(user_info["id"])+"}) with iu merge(re:Repo{id:"+str(repo["id"])+"}) on create set re.name ='"+repo["name"]+"',re.stargazers_count="+str(repo["stargazers_count"])+"," \
                                 "re.watchers_count="+str(repo["watchers_count"])+",re.language='"+repo["language"]+"',re.has_issues="+str(repo["has_issues"])+",re.has_wiki="+str(repo["has_wiki"])+"" \
-                                ",re.forks_count="+str(repo["forks_count"])+",re.watchers="+str(repo["watchers"])+",re.default_branch='"+repo["default_branch"]+"' merge(iu)-[:AUTHOR]->(re)"
+                                ",re.forks_count="+str(repo["forks_count"])+",re.watchers="+str(repo["watchers"])+",re.default_branch="+repo["default_branch"]+" merge(iu)-[:AUTHOR]->(re)"
                 database.graph.data(repos_cypher)
                 # tx1.run(repos_cypher)
             # tx1.commit()
