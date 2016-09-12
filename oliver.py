@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-import time
 import json
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
@@ -18,7 +17,7 @@ ADAPTER_WITH_RETRY = requests.adapters.HTTPAdapter(
     )
 )
 
-params = {"client_id": "197545f505833969af90", "client_secret": "22d560f4d4306eda5181d4eb1e90975d58aa44a8"}
+params = {"client_id": "c82b795ba58c99af9a99", "client_secret": "11c4268e8ee64f275a048919325c122632588c68"}
 ISOTIMEFORMAT = "%Y-%m-%d %X"
 database = Database()
 request = requests.session()
@@ -34,7 +33,7 @@ request.mount('https://', ADAPTER_WITH_RETRY)
 
 def user_git():
     i = 0
-    init_url = "https://api.github.com/users?since=100000"
+    init_url = "https://api.github.com/users?since=200000"
     while True:
         users = request.get(init_url)
         users_30 = users.json()
@@ -77,7 +76,6 @@ def user_git():
 
             #repos
             repos_url = user["repos_url"]
-            time.sleep(1)
             repos_info = request.get(repos_url)
             repos = repos_info.json()
             while "next" in repos_info.links:
