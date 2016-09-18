@@ -33,7 +33,7 @@ request.mount('https://', ADAPTER_WITH_RETRY)
 
 def user_git():
     i = 0
-    init_url = "https://api.github.com/users?since=11520"
+    init_url = "https://api.github.com/users?since=13489"
     while True:
         users = request.get(init_url)
         users_30 = users.json()
