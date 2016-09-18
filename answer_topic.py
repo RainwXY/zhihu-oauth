@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import json
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
@@ -28,9 +29,10 @@ def user_bestanswers():
                 #     continue
                 answer = client.answer(int(answerID["answerId"]))
                 topics = answer.question.topics
+                content = json.dumps(answer.content)
                 tx = database.graph.begin()
                 for topic in topics:
-                    cypher = "merge(a:Answer{answerId: '"+str(answerID["answerId"])+"'}) set a.xxx = 1  with a  merge(t:Topic{name:'"+topic.name+"'})  set t.topicId='"+str(topic.id)+"'  merge (a)-[:BELONGED]->(t)"
+                    cypher = "merge(a:Answer{answerId: '"+str(answerID["answerId"])+"'}) set a.xxx = 1, a.content = "+content+"  with a  merge(t:Topic{name:'"+topic.name+"'})  merge (a)-[:BELONGED]->(t)"
                     tx.run(cypher)
                     # database.graph.data(cypher)
                 tx.commit()
