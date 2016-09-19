@@ -17,7 +17,7 @@ ADAPTER_WITH_RETRY = requests.adapters.HTTPAdapter(
     )
 )
 
-params = {"client_id": "c82b795ba58c99af9a99", "client_secret": "11c4268e8ee64f275a048919325c122632588c68"}
+params = {"client_id": "d4f115c7d1a33aba2e67", "client_secret": "e5e2bf0ff98bc6642cf5dad6e0e7cd7c4cf5eb78"}
 ISOTIMEFORMAT = "%Y-%m-%d %X"
 database = Database()
 request = requests.session()
@@ -33,7 +33,7 @@ request.mount('https://', ADAPTER_WITH_RETRY)
 
 def user_git():
     i = 0
-    init_url = "https://api.github.com/users?since=100000"
+    init_url = "https://api.github.com/users?since=0"
 
     while True:
         users = request.get(init_url)
