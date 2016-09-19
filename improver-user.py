@@ -18,14 +18,14 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 9100
+    i = 0
     j = 0
     while True:
         userIDs = database.graph.data("match(u:User) return u.userId as userId skip " + str(i) + " limit 100")
         for userID in userIDs:
             try:
                 flag = is_coresspoded(userID)
-                if flag is 1:
+                if flag == 1:
                     print("完善过了"+str(userID))
                     continue
                 user = client.people(userID["userId"])
@@ -50,14 +50,14 @@ def user_bestanswers():
             except Exception, e:
                 print(e)
                 continue
-        if i > 200000:
+        if i > 100000:
             break
         i += 100
     print("it is over")
 
 
 def is_coresspoded(userID):
-    flag = database.graph.data("match(u:User{userId: '"+userID["userId"]+"'}) where u.create_time <> null return count(u) as num ")
+    flag = database.graph.data("match(u:User{userId: '"+userID["userId"]+"'}) where exists(u.create_time) return count(u) as num ")
     if flag[0]["num"] == 1:
         return 1
     else:
