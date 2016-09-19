@@ -19,7 +19,7 @@ def user_bestanswers():
 
     j = 0
     while True:
-        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) where a.answer_topic_corresponded is null return a.answerId as answerId  skip 600 limit 100")
+        answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) where a.answer_topic_corresponded is null return a.answerId as answerId  skip 800 limit 100")
         for answerID in answerIDs:
             try:
                 # flag = is_coresspoded(answerID)
