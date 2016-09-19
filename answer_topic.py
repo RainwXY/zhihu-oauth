@@ -17,7 +17,7 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 200000
+    i = 0
     j = 0
     while True:
         answerIDs = database.graph.data("match(u:User)-[:AUTHOR]->(a:Answer) where a.answer_topic_corresponded is null return a.answerId as answerId skip " + str(i) + " limit 100")
@@ -32,7 +32,7 @@ def user_bestanswers():
                 content = json.dumps(answer.content)
                 tx = database.graph.begin()
                 for topic in topics:
-                    cypher = "merge(a:Answer{answerId: '"+str(answerID["answerId"])+"'}) set a.xxx = 1, a.content = "+content+"  with a  merge(t:Topic{name:'"+topic.name+"'})  merge (a)-[:BELONGED]->(t)"
+                    cypher = "merge(a:Answer{answerId: '"+str(answerID["answerId"])+"'}) set a.xxx = 1, a.content = "+content+"  with a  merge(t:Topic{name:"+json.dumps(topic.name)+"})  merge (a)-[:BELONGED]->(t)"
                     tx.run(cypher)
                     # database.graph.data(cypher)
                 tx.commit()
@@ -41,7 +41,7 @@ def user_bestanswers():
             except Exception, e:
                 print(e)
                 continue
-        if i > 400000:
+        if i > 200000:
             break
         i += 100
     print("it is over")

@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt -i http://pypi.tuna.tsinghua.edu.cn/simple -
 
 EXPOSE 3000
 
-CMD [ "python","improver-user.py"]
+CMD [ "python","answer_topic.py"]
