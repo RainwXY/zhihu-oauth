@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 100000
+    i = 200000
     j = 0
     while True:
         userIDs = database.graph.data("match(u:User) return u.userId as userId skip " + str(i) + " limit 100")
@@ -50,7 +50,7 @@ def user_bestanswers():
             except Exception, e:
                 print(e)
                 continue
-        if i > 200000:
+        if i > 300000:
             break
         i += 100
     print("it is over")
