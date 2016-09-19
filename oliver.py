@@ -35,6 +35,7 @@ def user_git():
     i = 0
     init_url = "https://api.github.com/users?since=0"
 
+
     while True:
         users = request.get(init_url)
         users_30 = users.json()
