@@ -18,7 +18,7 @@ database = Database()
 
 def user_bestanswers():
 
-    i = 200000
+    i = 400000
     j = 0
     while True:
         userIDs = database.graph.data("match(u:User) return u.userId as userId skip " + str(i) + " limit 100")
@@ -41,18 +41,16 @@ def user_bestanswers():
                         "u.collected_count="+str(user.collected_count)+",u.follower_count="+str(user.follower_count)+"," \
                         "u.following_count="+str(user.following_count)+",u.thanked_count="+str(user.thanked_count)+"," \
                         "u.voteup_count="+str(user.voteup_count)+",u.gender='"+gender+"',u.create_time='"+str(time.time())+"'"
-                print(cypher)
                 database.graph.data(cypher)
                 for topic in user.following_topics:
                     cypher1 = "match(u:User{userId:'"+userID["userId"]+"'}) with u  match(t:Topic{name:"+json.dumps(topic.name)+"}) merge(u)-[:FOLLOWING]->(t)"
-                    print(cypher1)
                     database.graph.data(cypher1)
                 j += 1
                 print("完善了"+str(j)+"user")
             except Exception, e:
                 print(e)
                 continue
-        if i > 400000:
+        if i > 500000:
             break
         i += 100
     print("it is over")
