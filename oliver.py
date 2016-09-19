@@ -33,7 +33,7 @@ request.mount('https://', ADAPTER_WITH_RETRY)
 
 def user_git():
     i = 0
-    init_url = "https://api.github.com/users?since=100000"
+    init_url = "https://api.github.com/users?since=0"
 
     while True:
         users = request.get(init_url)
@@ -164,9 +164,12 @@ def user_git():
                 orgs_page_url = orgs_info.links["next"]["url"]
                 orgs_info = request.get(orgs_page_url)
                 orgs.extend(orgs_info.json())
+            print("组织对应")
+            x = 1
             for org in orgs:
-                database.graph.data("merge(u:User{id:"+str(org["id"])+"}) on create set u.login = "+org["login"]+", u.type='Organization' with u match(au:User{id:"+str(user_info["id"])+"}) merge (au)-[:BELONGED]->(u)")
-
+                database.graph.data("merge(u:User{id:"+str(org["id"])+"}) on create set u.login = '"+org["login"]+"', u.type='Organization' with u match(au:User{id:"+str(user_info["id"])+"}) merge (au)-[:BELONGED]->(u)")
+                print("组织了"+str(x)+"个")
+                x += 1
             database.graph.data("merge(u:User {id:"+str(user_info["id"])+"}) set u.allgrab=true")
             i += 1
             print("此用户分支对应成功 "+str(user_info["id"]))
